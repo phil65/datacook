@@ -100,6 +100,11 @@ class Op:
         return f"{cls.n_inputs} or more" if cls.variadic else str(cls.n_inputs)
 
     @classmethod
+    def imports_for(cls, params: Any) -> tuple[str, ...]:
+        """Import lines the generated code needs for `params` (default: `cls.imports`)."""
+        return cls.imports
+
+    @classmethod
     def available(cls) -> bool:
         import importlib.util
 

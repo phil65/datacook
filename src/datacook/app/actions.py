@@ -44,6 +44,7 @@ CATEGORY_ORDER = (
     categories.RESHAPE,
     categories.COMBINE,
     categories.STATS,
+    categories.ML,
     categories.CODE,
 )
 """Order of the category submenus of the Steps menu."""

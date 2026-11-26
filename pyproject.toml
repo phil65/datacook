@@ -126,6 +126,9 @@ mode = "datacook.engine.ops.stats:Mode"
 value_counts = "datacook.engine.ops.stats:ValueCounts"
 rank = "datacook.engine.ops.stats:Rank"
 cut = "datacook.engine.ops.stats:Bin"
+fit_transform = "datacook.engine.ops.estimators:FitTransform"
+pca = "datacook.engine.ops.estimators:PCA"
+cluster = "datacook.engine.ops.estimators:Cluster"
 custom_code = "datacook.engine.ops.code:CustomCode"
 detect_gaps = "datacook.engine.ops.timeseries:DetectGaps"
 diff = "datacook.engine.ops.timeseries:Diff"
@@ -167,6 +170,9 @@ project = "datacook.engine.formats:WriteProject"
 [project.optional-dependencies]
 excel = [
   "openpyxl>=3.1.5",
+]
+sklearn = [
+  "scikit-learn>=1.9",
 ]
 
 [dependency-groups]

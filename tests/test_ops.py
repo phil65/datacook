@@ -183,7 +183,7 @@ EMPTY_FAILS = {
     "crosstab_shares": "pandas: shares with totals of an empty table (IndexError)",
 }
 """Cases that fail on an empty frame (apply and the code alike)."""
-TRANSFORM_OPS = {op.id for op in default_ops() if op.n_inputs > 0}
+TRANSFORM_OPS = {op.id for op in default_ops() if op.n_inputs > 0 and not op.requires}
 
 
 def _inputs(op: type[Op], frame: pd.DataFrame, other: pd.DataFrame) -> list[pd.DataFrame]:

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-26 17:47+0100\n"
+"POT-Creation-Date: 2026-11-26 22:17+0100\n"
 "PO-Revision-Date: 2026-11-25 12:00+0100\n"
 "Last-Translator: Philipp Temminghoff <philipptemminghoff@gmail.com>\n"
 "Language-Team: Philipp Temminghoff <philipptemminghoff@gmail.com>\n"
@@ -17,45 +17,45 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-#: datacook/app/actions.py:150
+#: datacook/app/actions.py:151
 msgid "needs the extra {extra!r}"
 msgstr "benötigt das Extra {extra!r}"
 
-#: datacook/app/actions.py:157
+#: datacook/app/actions.py:158
 msgid "Command palette…"
 msgstr "Befehlspalette…"
 
-#: datacook/app/actions.py:158
+#: datacook/app/actions.py:159
 msgid "Edit step…"
 msgstr "Schritt bearbeiten…"
 
-#: datacook/app/actions.py:159
+#: datacook/app/actions.py:160
 msgid "Cancel preview"
 msgstr "Vorschau abbrechen"
 
-#: datacook/app/actions.py:179 datacook/app/controllers/project.py:220
+#: datacook/app/actions.py:180 datacook/app/controllers/project.py:220
 #: datacook/app/controllers/project.py:251
 msgid "{title} needs the extra {extra!r}"
 msgstr "{title} benötigt das Extra {extra!r}"
 
-#: datacook/app/actions.py:188
+#: datacook/app/actions.py:189
 msgid "Select a step first: the new step is added after it."
 msgstr "Zuerst einen Schritt auswählen: der neue Schritt wird danach angefügt."
 
-#: datacook/app/actions.py:195
+#: datacook/app/actions.py:196
 #, python-brace-format
 msgid "{title} needs a second table."
 msgstr "{title} benötigt eine zweite Tabelle."
 
-#: datacook/app/actions.py:209
+#: datacook/app/actions.py:210
 msgid "Ops with more than two inputs are not supported yet."
 msgstr "Operationen mit mehr als zwei Eingaben werden noch nicht unterstützt."
 
-#: datacook/app/actions.py:227
+#: datacook/app/actions.py:228
 msgid "Second table (right side):"
 msgstr "Zweite Tabelle (rechte Seite):"
 
-#: datacook/app/actions.py:242
+#: datacook/app/actions.py:243
 msgid "Tables to add after the current one:"
 msgstr "Tabellen, die nach der aktuellen angehängt werden:"
 
@@ -226,7 +226,7 @@ msgid "Python script…"
 msgstr "Python-Skript…"
 
 #: datacook/app/docks/code.py:156 datacook/app/docks/schema.py:63
-#: datacook/engine/categories.py:29 datacook/engine/ops/code.py:38
+#: datacook/engine/categories.py:30 datacook/engine/ops/code.py:38
 msgid "Code"
 msgstr "Code"
 
@@ -691,13 +691,13 @@ msgstr "Eine Spalte auswählen, um ihre Statistik zu sehen."
 #: datacook/app/docks/schema.py:275 datacook/engine/categories.py:17
 #: datacook/engine/ops/columns.py:30 datacook/engine/ops/columns.py:71
 #: datacook/engine/ops/columns.py:106 datacook/engine/ops/combine.py:68
-#: datacook/engine/ops/missing.py:37 datacook/engine/ops/missing.py:192
-#: datacook/engine/ops/rows.py:42 datacook/engine/ops/rows.py:92
-#: datacook/engine/ops/rows.py:118 datacook/engine/ops/series.py:241
-#: datacook/engine/ops/sources.py:67 datacook/engine/ops/sources.py:81
-#: datacook/engine/ops/sources.py:208 datacook/engine/ops/timeseries.py:615
-#: datacook/engine/ops/values.py:35 datacook/engine/ops/values.py:53
-#: datacook/engine/ops/values.py:84
+#: datacook/engine/ops/estimators.py:55 datacook/engine/ops/missing.py:37
+#: datacook/engine/ops/missing.py:192 datacook/engine/ops/rows.py:42
+#: datacook/engine/ops/rows.py:92 datacook/engine/ops/rows.py:118
+#: datacook/engine/ops/series.py:241 datacook/engine/ops/sources.py:67
+#: datacook/engine/ops/sources.py:81 datacook/engine/ops/sources.py:208
+#: datacook/engine/ops/timeseries.py:615 datacook/engine/ops/values.py:35
+#: datacook/engine/ops/values.py:53 datacook/engine/ops/values.py:84
 msgid "Columns"
 msgstr "Spalten"
 
@@ -849,14 +849,18 @@ msgid "Statistics"
 msgstr "Statistik"
 
 #: datacook/engine/categories.py:26
+msgid "Machine learning"
+msgstr "Maschinelles Lernen"
+
+#: datacook/engine/categories.py:27
 msgid "Text"
 msgstr "Text"
 
-#: datacook/engine/categories.py:27
+#: datacook/engine/categories.py:28
 msgid "Date and time"
 msgstr "Datum und Zeit"
 
-#: datacook/engine/categories.py:28
+#: datacook/engine/categories.py:29
 msgid "Time series"
 msgstr "Zeitreihen"
 
@@ -1236,7 +1240,9 @@ msgstr "Aneinanderhängen"
 msgid ""
 "Stack two or more tables: rows below each other (columns matched by name) or "
 "side by side."
-msgstr "Zwei oder mehr Tabellen aneinanderhängen: Zeilen untereinander (Spalten nach Namen zugeordnet) oder nebeneinander."
+msgstr ""
+"Zwei oder mehr Tabellen aneinanderhängen: Zeilen untereinander (Spalten nach "
+"Namen zugeordnet) oder nebeneinander."
 
 #: datacook/engine/ops/combine.py:63 datacook/engine/ops/missing.py:176
 msgid "Direction"
@@ -1250,7 +1256,9 @@ msgstr "rows: untereinander; columns: nebeneinander."
 msgid ""
 "outer: all columns (missing values where a table has none); inner: only the "
 "common ones."
-msgstr "outer: alle Spalten (fehlende Werte, wo eine Tabelle keine hat); inner: nur die gemeinsamen."
+msgstr ""
+"outer: alle Spalten (fehlende Werte, wo eine Tabelle keine hat); inner: nur "
+"die gemeinsamen."
 
 #: datacook/engine/ops/combine.py:74
 msgid "Sort the other axis"
@@ -1438,6 +1446,130 @@ msgstr "Frequenz"
 msgid "e.g. 1s, 15min, 1h, 1D"
 msgstr "z. B. 1s, 15min, 1h, 1D"
 
+#: datacook/engine/ops/estimators.py:205
+msgid "Scale / transform columns"
+msgstr "Spalten skalieren / transformieren"
+
+#: datacook/engine/ops/estimators.py:207
+msgid ""
+"Fit and apply a scikit-learn scaler or transformer on numeric columns. "
+"Missing values in the selected columns are rejected; fill or drop them first."
+msgstr ""
+"Einen scikit-learn-Skalierer oder -Transformierer auf numerische Spalten "
+"anpassen und anwenden. Fehlende Werte in den gewählten Spalten werden "
+"abgelehnt; vorher füllen oder entfernen."
+
+#: datacook/engine/ops/estimators.py:217
+msgid "Transformer"
+msgstr "Transformierer"
+
+#: datacook/engine/ops/estimators.py:220 datacook/engine/ops/series.py:245
+#: datacook/engine/ops/stats.py:279 datacook/engine/ops/stats.py:307
+#: datacook/engine/ops/strings.py:119 datacook/engine/ops/strings.py:180
+msgid "Suffix for new columns"
+msgstr "Suffix für neue Spalten"
+
+#: datacook/engine/ops/estimators.py:221 datacook/engine/ops/series.py:246
+#: datacook/engine/ops/stats.py:280 datacook/engine/ops/stats.py:308
+#: datacook/engine/ops/strings.py:120 datacook/engine/ops/strings.py:181
+msgid "Empty: replace the columns. Otherwise the results are new columns."
+msgstr "Leer: die Spalten ersetzen. Sonst werden die Ergebnisse neue Spalten."
+
+#: datacook/engine/ops/estimators.py:223
+msgid "Minimum (MinMaxScaler)"
+msgstr "Minimum (MinMaxScaler)"
+
+#: datacook/engine/ops/estimators.py:224
+msgid "Maximum (MinMaxScaler)"
+msgstr "Maximum (MinMaxScaler)"
+
+#: datacook/engine/ops/estimators.py:225
+msgid "Norm (Normalizer)"
+msgstr "Norm (Normalizer)"
+
+#: datacook/engine/ops/estimators.py:226
+msgid "Method (PowerTransformer)"
+msgstr "Methode (PowerTransformer)"
+
+#: datacook/engine/ops/estimators.py:227
+msgid "Quantiles (QuantileTransformer)"
+msgstr "Quantile (QuantileTransformer)"
+
+#: datacook/engine/ops/estimators.py:229
+msgid "Distribution (QuantileTransformer)"
+msgstr "Verteilung (QuantileTransformer)"
+
+#: datacook/engine/ops/estimators.py:231
+msgid "Random seed (QuantileTransformer)"
+msgstr "Zufalls-Startwert (QuantileTransformer)"
+
+#: datacook/engine/ops/estimators.py:355
+msgid "Principal components (PCA)"
+msgstr "Hauptkomponenten (PCA)"
+
+#: datacook/engine/ops/estimators.py:357
+msgid ""
+"Compute principal components (pc1..pcN) from numeric columns. Missing values "
+"in the selected columns are rejected; fill or drop them first."
+msgstr ""
+"Hauptkomponenten (pc1..pcN) aus numerischen Spalten berechnen. Fehlende "
+"Werte in den gewählten Spalten werden abgelehnt; vorher füllen oder "
+"entfernen."
+
+#: datacook/engine/ops/estimators.py:368
+msgid "Components"
+msgstr "Komponenten"
+
+#: datacook/engine/ops/estimators.py:369
+msgid "Whiten"
+msgstr "Whitening (Varianz normieren)"
+
+#: datacook/engine/ops/estimators.py:372
+msgid "Replace selected columns"
+msgstr "Gewählte Spalten ersetzen"
+
+#: datacook/engine/ops/estimators.py:373
+msgid "Drop the input columns and keep only the principal components."
+msgstr "Die Eingabespalten entfernen und nur die Hauptkomponenten behalten."
+
+#: datacook/engine/ops/estimators.py:450
+msgid "Cluster rows"
+msgstr "Zeilen clustern"
+
+#: datacook/engine/ops/estimators.py:452
+msgid ""
+"Cluster rows using KMeans or DBSCAN on numeric columns and add a cluster "
+"label column. Missing values in the selected columns are rejected; fill or "
+"drop them first."
+msgstr ""
+"Zeilen mit KMeans oder DBSCAN anhand numerischer Spalten clustern und eine "
+"Cluster-Spalte hinzufügen. Fehlende Werte in den gewählten Spalten werden "
+"abgelehnt; vorher füllen oder entfernen."
+
+#: datacook/engine/ops/estimators.py:462 datacook/engine/ops/rows.py:47
+msgid "Algorithm"
+msgstr "Algorithmus"
+
+#: datacook/engine/ops/estimators.py:463
+msgid "Cluster column"
+msgstr "Cluster-Spalte"
+
+#: datacook/engine/ops/estimators.py:464
+msgid "Clusters (KMeans)"
+msgstr "Cluster (KMeans)"
+
+#: datacook/engine/ops/estimators.py:465
+msgid "Random seed (KMeans)"
+msgstr "Zufalls-Startwert (KMeans)"
+
+#: datacook/engine/ops/estimators.py:466
+msgid "Neighborhood radius eps (DBSCAN)"
+msgstr "Nachbarschaftsradius eps (DBSCAN)"
+
+#: datacook/engine/ops/estimators.py:467
+msgid "Minimum samples (DBSCAN)"
+msgstr "Mindestanzahl Punkte (DBSCAN)"
+
 #: datacook/engine/ops/missing.py:33 datacook/engine/ops/stats.py:30
 msgid "Columns (empty: all)"
 msgstr "Spalten (leer: alle)"
@@ -1570,7 +1702,9 @@ msgstr "Entpivotieren (melt)"
 msgid ""
 "Turn columns into rows: one row per identifier and column, with the column "
 "name and its value (wide to long format)."
-msgstr "Spalten in Zeilen umwandeln: eine Zeile pro Bezeichner und Spalte, mit dem Spaltennamen und seinem Wert (Breit- zu Langformat)."
+msgstr ""
+"Spalten in Zeilen umwandeln: eine Zeile pro Bezeichner und Spalte, mit dem "
+"Spaltennamen und seinem Wert (Breit- zu Langformat)."
 
 #: datacook/engine/ops/reshape.py:43
 msgid "Identifier columns"
@@ -1600,7 +1734,9 @@ msgstr "Pivot-Tabelle"
 msgid ""
 "Aggregate a value column per row key and per value of another column (long "
 "to wide format), optionally with totals."
-msgstr "Eine Wertespalte pro Zeilenschlüssel und pro Wert einer anderen Spalte aggregieren (Lang- zu Breitformat), optional mit Gesamtwerten."
+msgstr ""
+"Eine Wertespalte pro Zeilenschlüssel und pro Wert einer anderen Spalte "
+"aggregieren (Lang- zu Breitformat), optional mit Gesamtwerten."
 
 #: datacook/engine/ops/reshape.py:71 datacook/engine/ops/reshape.py:103
 msgid "Row keys"
@@ -1639,7 +1775,9 @@ msgstr "Häufigkeitstabelle"
 msgid ""
 "Count the rows per combination of values (cross tabulation), optionally as "
 "shares and with totals."
-msgstr "Zeilen pro Wertekombination zählen (Kreuztabelle), optional als Anteile und mit Gesamtwerten."
+msgstr ""
+"Zeilen pro Wertekombination zählen (Kreuztabelle), optional als Anteile und "
+"mit Gesamtwerten."
 
 #: datacook/engine/ops/reshape.py:110
 msgid "Shares"
@@ -1661,7 +1799,9 @@ msgstr "Transponieren"
 msgid ""
 "Swap rows and columns. The column names become a column; the new column "
 "names are the values of a column (or the row numbers)."
-msgstr "Zeilen und Spalten tauschen. Die Spaltennamen werden zu einer Spalte; die neuen Spaltennamen sind die Werte einer Spalte (oder die Zeilennummern)."
+msgstr ""
+"Zeilen und Spalten tauschen. Die Spaltennamen werden zu einer Spalte; die "
+"neuen Spaltennamen sind die Werte einer Spalte (oder die Zeilennummern)."
 
 #: datacook/engine/ops/reshape.py:183
 msgid "Empty: the row numbers."
@@ -1691,10 +1831,6 @@ msgstr "Zeilen nach einer oder mehreren Spalten sortieren."
 #: datacook/engine/ops/rows.py:45 datacook/engine/ops/stats.py:285
 msgid "Missing values"
 msgstr "Fehlende Werte"
-
-#: datacook/engine/ops/rows.py:47
-msgid "Algorithm"
-msgstr "Algorithmus"
 
 #: datacook/engine/ops/rows.py:54
 msgid "First rows"
@@ -1824,18 +1960,6 @@ msgstr ""
 msgid "Drop the old index"
 msgstr "Alten Index entfernen"
 
-#: datacook/engine/ops/series.py:245 datacook/engine/ops/stats.py:279
-#: datacook/engine/ops/stats.py:307 datacook/engine/ops/strings.py:119
-#: datacook/engine/ops/strings.py:180
-msgid "Suffix for new columns"
-msgstr "Suffix für neue Spalten"
-
-#: datacook/engine/ops/series.py:246 datacook/engine/ops/stats.py:280
-#: datacook/engine/ops/stats.py:308 datacook/engine/ops/strings.py:120
-#: datacook/engine/ops/strings.py:181
-msgid "Empty: replace the columns. Otherwise the results are new columns."
-msgstr "Leer: die Spalten ersetzen. Sonst werden die Ergebnisse neue Spalten."
-
 #: datacook/engine/ops/sources.py:44
 msgid "Read a comma separated values file."
 msgstr "Eine CSV-Datei (kommagetrennte Werte) lesen."
@@ -1936,7 +2060,9 @@ msgstr "Deskriptive Statistik"
 msgid ""
 "Count, mean, standard deviation, minimum, quartiles and maximum of each "
 "column (text columns: count, unique values, most frequent value)."
-msgstr "Anzahl, Mittelwert, Standardabweichung, Minimum, Quartile und Maximum jeder Spalte (Textspalten: Anzahl, eindeutige Werte, häufigster Wert)."
+msgstr ""
+"Anzahl, Mittelwert, Standardabweichung, Minimum, Quartile und Maximum jeder "
+"Spalte (Textspalten: Anzahl, eindeutige Werte, häufigster Wert)."
 
 #: datacook/engine/ops/stats.py:129
 msgid "Include"
@@ -1981,7 +2107,9 @@ msgstr "Kovarianzen"
 #: datacook/engine/ops/stats.py:165
 msgid ""
 "Covariance matrix of the numeric columns (pairwise, missing values skipped)."
-msgstr "Kovarianzmatrix der numerischen Spalten (paarweise, fehlende Werte übersprungen)."
+msgstr ""
+"Kovarianzmatrix der numerischen Spalten (paarweise, fehlende Werte "
+"übersprungen)."
 
 #: datacook/engine/ops/stats.py:172 datacook/engine/ops/stats.py:193
 #: datacook/engine/ops/timeseries.py:442 datacook/engine/ops/timeseries.py:531
@@ -1995,7 +2123,8 @@ msgstr "Korrelationen"
 #: datacook/engine/ops/stats.py:184
 msgid ""
 "Correlation matrix of the numeric columns (Pearson, Spearman or Kendall)."
-msgstr "Korrelationsmatrix der numerischen Spalten (Pearson, Spearman oder Kendall)."
+msgstr ""
+"Korrelationsmatrix der numerischen Spalten (Pearson, Spearman oder Kendall)."
 
 #: datacook/engine/ops/stats.py:203
 msgid "Most frequent values"
@@ -2005,7 +2134,9 @@ msgstr "Häufigste Werte"
 msgid ""
 "The most frequent value(s) of each column (mode): one row per mode, missing "
 "values where a column has fewer modes."
-msgstr "Der/die häufigste(n) Wert(e) jeder Spalte (Modus): eine Zeile pro Modus, fehlende Werte, wo eine Spalte weniger Modi hat."
+msgstr ""
+"Der/die häufigste(n) Wert(e) jeder Spalte (Modus): eine Zeile pro Modus, "
+"fehlende Werte, wo eine Spalte weniger Modi hat."
 
 #: datacook/engine/ops/stats.py:213 datacook/engine/ops/stats.py:233
 msgid "Ignore missing values"
@@ -2019,7 +2150,9 @@ msgstr "Häufigkeiten"
 msgid ""
 "Count the rows per value (or per combination of values) of columns: a new "
 "table with the values and a count (or share) column."
-msgstr "Zeilen pro Wert (oder Wertekombination) von Spalten zählen: eine neue Tabelle mit den Werten und einer Anzahl- (oder Anteils-)Spalte."
+msgstr ""
+"Zeilen pro Wert (oder Wertekombination) von Spalten zählen: eine neue "
+"Tabelle mit den Werten und einer Anzahl- (oder Anteils-)Spalte."
 
 #: datacook/engine/ops/stats.py:230
 msgid "Shares instead of counts"
@@ -2037,7 +2170,9 @@ msgstr "Korrelation mit einer anderen Tabelle"
 msgid ""
 "Pearson correlation of each column with the column of the same name in a "
 "second table (rows matched by position)."
-msgstr "Pearson-Korrelation jeder Spalte mit der gleichnamigen Spalte einer zweiten Tabelle (Zeilen nach Position zugeordnet)."
+msgstr ""
+"Pearson-Korrelation jeder Spalte mit der gleichnamigen Spalte einer zweiten "
+"Tabelle (Zeilen nach Position zugeordnet)."
 
 #: datacook/engine/ops/stats.py:260
 msgid "Drop columns missing in one table"
@@ -2067,7 +2202,9 @@ msgstr "Werte klassieren"
 msgid ""
 "Put numbers into intervals: a number of equal-width bins, or bins between "
 "given edges (histogram classes)."
-msgstr "Zahlen in Intervalle einteilen: eine Anzahl gleich breiter Klassen oder Klassen zwischen gegebenen Grenzen (Histogrammklassen)."
+msgstr ""
+"Zahlen in Intervalle einteilen: eine Anzahl gleich breiter Klassen oder "
+"Klassen zwischen gegebenen Grenzen (Histogrammklassen)."
 
 #: datacook/engine/ops/stats.py:311
 msgid "Bins"
@@ -2075,7 +2212,8 @@ msgstr "Klassen"
 
 #: datacook/engine/ops/stats.py:312
 msgid "A number of equal-width bins, or the bin edges (ascending)."
-msgstr "Eine Anzahl gleich breiter Klassen oder die Klassengrenzen (aufsteigend)."
+msgstr ""
+"Eine Anzahl gleich breiter Klassen oder die Klassengrenzen (aufsteigend)."
 
 #: datacook/engine/ops/stats.py:314
 msgid "Bins include their right edge"
@@ -2915,9 +3053,6 @@ msgstr ""
 #~ msgid "Side with closed interval"
 #~ msgstr "Seite mit geschlossenem Intervall"
 
-#~ msgid "Maximum difference"
-#~ msgstr "Maximaler Unterschied"
-
 #~ msgid "Delete selected items."
 #~ msgstr "Auswahl entfernen"
 
@@ -3127,9 +3262,6 @@ msgstr ""
 
 #~ msgid "Extract value"
 #~ msgstr "Wert Extrahieren"
-
-#~ msgid "Deletes selected cells"
-#~ msgstr "Gewählte Zellen entfernen"
 
 #~ msgid "Delete cells"
 #~ msgstr "Zellen löschen"
@@ -3381,10 +3513,6 @@ msgstr ""
 #~ msgid "Target variable"
 #~ msgstr "Zielvariable"
 
-#, fuzzy
-#~ msgid "Machine code"
-#~ msgstr "Name im Code"
-
 #~ msgid "Melting"
 #~ msgstr "Verschmelzen"
 
@@ -3589,9 +3717,6 @@ msgstr ""
 
 #~ msgid "Apply recipe to groups"
 #~ msgstr "Rezept auf Gruppen anwenden"
-
-#~ msgid "Transform"
-#~ msgstr "Transformieren"
 
 #~ msgid "Filter by..."
 #~ msgstr "Filtern nach.."
@@ -3946,9 +4071,6 @@ msgstr ""
 #~ msgid "Bistochastic"
 #~ msgstr "Bistochastisch"
 
-#~ msgid "Clusters"
-#~ msgstr "Cluster"
-
 #~ msgid "Number of singular vectors"
 #~ msgstr "Anzahl der singulären Vektoren"
 
@@ -3963,9 +4085,6 @@ msgstr ""
 
 #~ msgid "Number of runs"
 #~ msgstr "Anzahl Durchläufe"
-
-#~ msgid "Complete"
-#~ msgstr "Komplett"
 
 #~ msgid "Single"
 #~ msgstr "Einzeln"
@@ -4002,9 +4121,6 @@ msgstr ""
 
 #~ msgid "Strategy"
 #~ msgstr "Strategie"
-
-#~ msgid "Normalize"
-#~ msgstr "Normalisieren"
 
 #~ msgid "Coefficients"
 #~ msgstr "Koeffizienten"
@@ -4116,9 +4232,6 @@ msgstr ""
 
 #~ msgid "My recipe"
 #~ msgstr "Mein Rezept"
-
-#~ msgid "Add transformer"
-#~ msgstr "Transformierer hinzufügen"
 
 #~ msgid "Epochs"
 #~ msgstr "Epochen"

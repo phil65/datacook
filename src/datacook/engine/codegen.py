@@ -83,7 +83,7 @@ def render(
     blocks: list[tuple[str, str]] = []
     for node in ordered:
         op = registry[node.record.op_id]
-        imports.update(dict.fromkeys(op.imports))
+        imports.update(dict.fromkeys(op.imports_for(node.record.params)))
         first = nodes[node.parents[0]] if node.parents else None
         if first is not None and consumers[first.id] == 1 and not first.name:
             var = variables[node.parents[0]]
