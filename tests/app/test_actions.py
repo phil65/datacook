@@ -103,6 +103,27 @@ def test_merge_asks_for_second_input(app: AppController, actions: OpActions) -> 
     assert app.state.preview is None
 
 
+def test_concat_asks_for_the_other_inputs(app: AppController, actions: OpActions) -> None:
+    nodes = [app.commands.add_node(sources.InlineData.record(data={"a": [i]})) for i in range(3)]
+    drain(app)
+    app.state.current = nodes[0]
+    asked: list[list[str]] = []
+
+    def choose(op_id: str, candidates) -> list[str]:
+        asked.append([n.id for n in candidates])
+        return [nodes[2], nodes[1]]
+
+    actions.choose_inputs = choose
+    assert actions.start("concat")
+    assert asked == [[nodes[1], nodes[2]]]
+    assert app.state.preview is not None
+    assert app.state.preview.inputs == (nodes[0], nodes[2], nodes[1])
+    app.preview.cancel()
+    actions.choose_inputs = lambda _op, _c: []  # nothing checked
+    assert not actions.start("concat")
+    assert app.state.preview is None
+
+
 def test_edit_action_opens_edit_preview(app: AppController, actions: OpActions) -> None:
     assert not actions.edit_action.isEnabled()
     root = app.commands.add_node(sources.InlineData.record(data={"a": [1]}))

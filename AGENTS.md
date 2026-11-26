@@ -16,7 +16,7 @@ demand) with a new Qt app on top (prettyqt + cutepandas). Phase status:
 | 1 | Downstream: generic Qt -> prettyqt, dataframe-in-Qt -> cutepandas | open |
 | 2 | Engine (`datacook.engine`, Qt-free), format registry for readers / writers | done (starter op set) |
 | 3 | App with all main docks (design: `DATACOOK_APP_DESIGN.md`) | done (WPs A-F, 2026-11-25); checkpoint 1 demo |
-| 4 | Op catalogue port (on pandas 3) | WP4.1 general / columns, WP4.2 missing values, WP4.5 categorical done; rest open |
+| 4 | Op catalogue port (on pandas 3) | WP4.1-4.7 done (general, missing values, text, date / time, categorical, reshape + combine, statistics); WP4.8 estimators open |
 | 5-7 | Plugins, AI, docs + release | open |
 
 `datacook [project.datacook | data file]` (GUI script, or `python -m datacook.app`) starts the
@@ -35,11 +35,13 @@ feature without a row saying where it went or which owner decision dropped it. O
 - `src/datacook/engine/` (Qt-free; `tests/test_import.py` checks that in a subprocess):
   - `ops/base.py`: `Op` (classmethods `apply(params, *frames)`, `to_code(params, inputs,
     output)`, `from_code(stmt, bound)`; metadata `id`, `title`, `description`, `category`,
-    `icon`, `n_inputs`, `imports`, `requires`/`extra`), frozen pydantic `Params`, `OpRecord`
+    `icon`, `n_inputs` (+ `variadic`: that many or more, concat), `imports`,
+    `requires`/`extra`), frozen pydantic `Params`, `OpRecord`
     (op id + params: what nodes and project files store). `CallOp` derives all three from
-    one pandas call declaration (`method` or `function`, `positional`, `always`, `fixed`),
-    so apply and generated code cannot drift. Per-column ops: `ops/series.py` (below).
-  - `ops/{sources,columns,rows,missing,values,categorical,combine,code}.py`: the built-in
+    one pandas call declaration (`method` or `function`, `positional`, `always`, `fixed`,
+    `then` = a fixed tail like `.reset_index()` with `finish()` doing it in `apply`), so
+    apply and generated code cannot drift. Per-column ops: `ops/series.py` (below).
+  - `ops/{sources,columns,rows,missing,values,categorical,combine,reshape,stats,code}.py`: the built-in
     ops; `sources` are readers (`n_inputs = 0`, `extensions`, `format_id`, default
     `dtype_backend="pyarrow"`). Missing-value policy (null vs NaN): `ops/missing.py`
     docstring.

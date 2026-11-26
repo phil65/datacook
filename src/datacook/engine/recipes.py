@@ -119,9 +119,9 @@ class Recipe:
             except KeyError as e:
                 msg = _("Step {index}: unknown operation {op!r}")
                 raise RecipeError(str(msg).format(index=i + 1, op=step.record.op_id)) from e
-            if len(step.inputs) != op.n_inputs:
+            if not op.takes(len(step.inputs)):
                 msg = _("Step {index}: {op} takes {n} input(s)")
-                raise RecipeError(str(msg).format(index=i + 1, op=op.id, n=op.n_inputs))
+                raise RecipeError(str(msg).format(index=i + 1, op=op.id, n=op.inputs_text()))
             for ref in step.inputs:
                 if ref != INPUT and not (isinstance(ref, int) and 0 <= ref < i):
                     msg = _("Step {index}: invalid input {ref!r}")

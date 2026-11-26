@@ -54,6 +54,8 @@ class Op:
     Params: ClassVar[type[Params]] = NoParams
     n_inputs: ClassVar[int] = 1
     """Number of parent frames: 0 = source (reader), 2 = merge, ..."""
+    variadic: ClassVar[bool] = False
+    """`n_inputs` or more parent frames (concat)."""
     backend: ClassVar[Backend] = "pandas"
     imports: ClassVar[tuple[str, ...]] = ("import pandas as pd",)
     """Import lines the generated code needs."""
@@ -86,6 +88,16 @@ class Op:
     @classmethod
     def record(cls, params: Params | None = None, /, **kwargs: Any) -> OpRecord:
         return OpRecord(cls.id, params if params is not None else cls.Params(**kwargs))
+
+    @classmethod
+    def takes(cls, n: int) -> bool:
+        """Whether the op takes `n` input frames."""
+        return n == cls.n_inputs or (cls.variadic and n > cls.n_inputs)
+
+    @classmethod
+    def inputs_text(cls) -> str:
+        """`"2"` or `"2 or more"` (error messages)."""
+        return f"{cls.n_inputs} or more" if cls.variadic else str(cls.n_inputs)
 
     @classmethod
     def available(cls) -> bool:
@@ -260,6 +272,18 @@ def literal_value(node: ast.expr) -> Any:
         raise ValueError(str(e)) from e
 
 
+def strip_tail(value: ast.expr, tail: str) -> ast.expr | None:
+    """`value` without the trailing code `tail` (`".reset_index()"`); None if it has none."""
+    text = ast.unparse(value)
+    tail = ast.unparse(ast.parse(f"x{tail}", mode="eval").body)[1:]
+    if not text.endswith(tail) or len(text) == len(tail):
+        return None
+    try:
+        return ast.parse(text[: -len(tail)], mode="eval").body
+    except SyntaxError:
+        return None
+
+
 def call_arguments(
     params: Params,
     positional: Sequence[str] = (),
@@ -303,6 +327,13 @@ class CallOp(Op):
     """Params passed even when they equal their default (defaults that differ from pandas)."""
     fixed: ClassVar[Mapping[str, Any]] = MappingProxyType({})
     """Keyword arguments that are not params, always passed first (e.g. `axis="columns"`)."""
+    then: ClassVar[str] = ""
+    """Code appended to the call (`".reset_index()"`); `finish()` does the same in `apply`."""
+
+    @classmethod
+    def finish(cls, params: Any, result: Any) -> Any:
+        """What `then` does, applied to the call's result."""
+        return result
 
     @classmethod
     def call_args(cls, params: Params) -> tuple[list[Any], dict[str, Any]]:
@@ -338,7 +369,7 @@ class CallOp(Op):
     def apply(cls, params: Any, *inputs: Frame) -> Frame:
         args, kwargs = cls.call_args(params)
         frame_args = inputs[1:] if cls.method is not None else inputs
-        result = cls._callable(inputs)(*frame_args, *args, **kwargs)
+        result = cls.finish(params, cls._callable(inputs)(*frame_args, *args, **kwargs))
         if not frames.is_frame(result):
             msg = f"{cls.id} returned {type(result).__name__}, not a frame"
             raise OpError(msg)
@@ -354,8 +385,9 @@ class CallOp(Op):
             assert cls.function is not None
             func = cls.function
             frame_args = list(inputs)
-        call = format_call(func, [*frame_args, *map(literal, args)], kwargs, len(output) + 3)
-        return f"{output} = {call}"
+        width = len(output) + 3 + len(cls.then)  # the tail goes on the last line
+        call = format_call(func, [*frame_args, *map(literal, args)], kwargs, width)
+        return f"{output} = {call}{cls.then}"
 
     @classmethod
     def literal_args(cls, call: ast.Call, skip: int = 0) -> tuple[list[Any], dict[str, Any]] | None:
@@ -377,6 +409,8 @@ class CallOp(Op):
         if assign is None:
             return None
         output, value = assign
+        if cls.then:
+            value = strip_tail(value, cls.then)
         if not isinstance(value, ast.Call):
             return None
         func = dotted_name(value.func)

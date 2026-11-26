@@ -3,8 +3,9 @@
 `OpActions` builds the actions from the op registry (title, category, icon, description);
 triggering one opens a params preview (`app.preview.start_add`) for a new step on the
 current node. Readers (`n_inputs == 0`) start a root; merge-like ops (`n_inputs == 2`) ask
-for the second input. The Steps menu groups the actions by category; the palette
-(`CommandPalette`, Ctrl+Shift+P) lists all of them. Both follow language changes.
+for the second input, ops taking two or more (`variadic`, concat) for the other inputs.
+The Steps menu groups the actions by category; the palette (`CommandPalette`,
+Ctrl+Shift+P) lists all of them. Both follow language changes.
 """
 
 import logging
@@ -42,6 +43,7 @@ CATEGORY_ORDER = (
     categories.TIMESERIES,
     categories.RESHAPE,
     categories.COMBINE,
+    categories.STATS,
     categories.CODE,
 )
 """Order of the category submenus of the Steps menu."""
@@ -67,6 +69,8 @@ class OpActions(QtCore.QObject):
         self.category_menus: dict[str, QtWidgets.QMenu] = {}
         self.choose_input: Callable[[str, list[Node]], str | None] = self._ask_input
         """`(op_id, candidates) -> node id or None`: the second input of a 2-input op."""
+        self.choose_inputs: Callable[[str, list[Node]], list[str] | None] = self._ask_inputs
+        """`(op_id, candidates) -> node ids or None`: the other inputs of a variadic op."""
         for op in app.session.registry:
             self.actions[op.id] = self._make_action(op)
         self.palette = custom_widgets.CommandPalette()
@@ -191,10 +195,16 @@ class OpActions(QtCore.QObject):
                     str(_("{title} needs a second table.")).format(title=op.title), "warning"
                 )
                 return False
-            other = self.choose_input(op_id, candidates)
-            if other is None:
-                return False
-            inputs.append(other)
+            if op.variadic:
+                others = self.choose_inputs(op_id, candidates)
+                if not others:
+                    return False
+                inputs.extend(others)
+            else:
+                other = self.choose_input(op_id, candidates)
+                if other is None:
+                    return False
+                inputs.append(other)
         elif op.n_inputs > 2:  # noqa: PLR2004
             app.notify(_("Ops with more than two inputs are not supported yet."), "warning")
             return False
@@ -222,6 +232,32 @@ class OpActions(QtCore.QObject):
         if not ok:
             return None
         return candidates[labels.index(label)].id
+
+    def _ask_inputs(self, op_id: str, candidates: list[Node]) -> list[str] | None:
+        """A list of the candidates to check; the checked ones in list order."""
+        op = self.app.session.registry.get(op_id)
+        dialog = QtWidgets.QDialog(self.parent_widget())
+        dialog.setWindowTitle(str(op.title))
+        layout = QtWidgets.QVBoxLayout(dialog)
+        layout.addWidget(QtWidgets.QLabel(str(_("Tables to add after the current one:"))))
+        items = QtWidgets.QListWidget(dialog)
+        for node in candidates:
+            item = QtWidgets.QListWidgetItem(f"{node_label(self.app, node)} [{node.id[:6]}]")
+            item.setFlags(item.flags() | QtCore.Qt.ItemFlag.ItemIsUserCheckable)
+            item.setCheckState(QtCore.Qt.CheckState.Unchecked)
+            items.addItem(item)
+        layout.addWidget(items)
+        buttons = QtWidgets.QDialogButtonBox(
+            QtWidgets.QDialogButtonBox.StandardButton.Ok
+            | QtWidgets.QDialogButtonBox.StandardButton.Cancel
+        )
+        buttons.accepted.connect(dialog.accept)
+        buttons.rejected.connect(dialog.reject)
+        layout.addWidget(buttons)
+        if dialog.exec() != QtWidgets.QDialog.DialogCode.Accepted:
+            return None
+        checked = QtCore.Qt.CheckState.Checked
+        return [n.id for i, n in enumerate(candidates) if items.item(i).checkState() == checked]
 
 
 def install(app: AppController, window: MainWindow) -> None:

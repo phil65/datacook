@@ -99,8 +99,90 @@ GOLDEN = {
     "groupby_aggregate_names": (
         'df = df.groupby(["s"], as_index=False, dropna=False).agg(**{"mean x": ("x", "mean")})'
     ),
+    "concat": "df = pd.concat([df, df_right], ignore_index=True)",
+    "concat_columns": 'df = pd.concat([df, df_right], axis="columns", join="inner")',
+    "unpivot": 'df = df.melt(id_vars=["k"], value_vars=["x", "i"])',
+    "unpivot_all": 'df = df.melt(var_name="column")',
+    "pivot": (
+        "df = df.pivot_table(\n"
+        '    index=["s"],\n'
+        '    columns="k",\n'
+        '    values="x",\n'
+        ").reset_index().rename(columns=str)"
+    ),
+    "pivot_totals": (
+        "df = df.pivot_table(\n"
+        '    index=["s"],\n'
+        '    columns="k",\n'
+        '    values="i",\n'
+        '    aggfunc="sum",\n'
+        "    fill_value=0.0,\n"
+        "    margins=True,\n"
+        '    margins_name="Total",\n'
+        ").reset_index().rename(columns=str)"
+    ),
+    "crosstab": 'df = pd.crosstab([df["s"]], df["k"]).reset_index().rename(columns=str)',
+    "crosstab_shares": (
+        "df = pd.crosstab(\n"
+        '    [df["s"], df["c"]],\n'
+        '    df["k"],\n'
+        '    normalize="index",\n'
+        "    margins=True,\n"
+        ").reset_index().rename(columns=str)"
+    ),
+    "transpose": 'df = df.transpose().reset_index(names="column").rename(columns=str)',
+    "transpose_header": (
+        'df = df.set_index("s").transpose().reset_index(names="field").rename(columns=str)'
+    ),
+    "describe": 'df = df.describe().reset_index(names="statistic")',
+    "describe_all": 'df = df[["x", "s"]].describe(include="all").reset_index(names="statistic")',
+    "describe_percentiles": (
+        'df = df.describe(percentiles=[0.1, 0.9]).reset_index(names="statistic")'
+    ),
+    "var": (
+        "df = df.var(\n"
+        "    ddof=0,\n"
+        "    numeric_only=True,\n"
+        ').rename_axis("column").reset_index(name="variance")'
+    ),
+    "cov": 'df = df[["x", "i"]].cov(numeric_only=True).reset_index(names="column")',
+    "corr": 'df = df.corr(numeric_only=True).reset_index(names="column")',
+    "corr_spearman": (
+        'df = df[["k", "x"]].corr(\n'
+        '    method="spearman",\n'
+        "    numeric_only=True,\n"
+        ').reset_index(names="column")'
+    ),
+    "corrwith": (
+        "df = df.corrwith(\n"
+        "    df_right,\n"
+        "    drop=True,\n"
+        "    numeric_only=True,\n"
+        ').rename_axis("column").reset_index(name="correlation")'
+    ),
+    "mode": "df = df.mode()",
+    "mode_columns": 'df = df[["k", "s"]].mode(dropna=False)',
+    "value_counts": 'df = df.value_counts(subset=["s"]).reset_index()',
+    "value_counts_shares": (
+        'df = df.value_counts(subset=["k", "s"], normalize=True, dropna=False).reset_index()'
+    ),
+    "rank": 'df = df.assign(x_rank=df["x"].rank(), i_rank=df["i"].rank())',
+    "rank_replace": 'df = df.assign(k=df["k"].rank(method="dense", ascending=False, pct=True))',
+    "cut": 'df = df.assign(x_bin=pd.cut(df["x"], 3))',
+    "cut_edges": (
+        "df = df.assign(\n"
+        '    i_bin=pd.cut(df["i"], [0.0, 25.0, 60.0], right=False, labels=["low", "high"]),\n'
+        ")"
+    ),
     "custom_code": 'df["twice"] = df["i"] * 2\ndf = df[df["twice"] > 20]',
 }
+EMPTY_FAILS = {
+    "custom_code": "the code indexes rows",
+    "sample": "n > rows",
+    "cut": "equal-width bins need a value range",
+    "crosstab_shares": "pandas: shares with totals of an empty table (IndexError)",
+}
+"""Cases that fail on an empty frame (apply and the code alike)."""
 TRANSFORM_OPS = {op.id for op in default_ops() if op.n_inputs > 0}
 
 
@@ -163,7 +245,7 @@ def test_edge_cases(case: str, variant: str, op_frame, other) -> None:
         pd.testing.assert_frame_equal(applied, executed)
     else:
         assert applied == executed
-    if variant == "empty" and op.id not in {"custom_code", "sample"}:  # sample: n > rows
+    if variant == "empty" and case not in EMPTY_FAILS:
         assert isinstance(applied, pd.DataFrame), f"{case} fails on an empty frame"
 
 

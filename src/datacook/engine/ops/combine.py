@@ -1,4 +1,4 @@
-"""Ops combining frames or rows: merge (two inputs), group-by aggregate."""
+"""Ops combining frames or rows: merge (two inputs), concat (two or more), group-by aggregate."""
 
 import ast
 from typing import TYPE_CHECKING, Any, Literal
@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, Literal
 from pydantic import Field
 
 from datacook.engine import categories
-from datacook.engine.ops import base
+from datacook.engine.ops import base, series
 from datacook.i18n import N_, _
 
 
@@ -42,6 +42,84 @@ class Merge(base.CallOp):
         )
         suffixes: tuple[str, str] = Field(("_x", "_y"), title=N_("Suffixes"))
         indicator: bool = Field(False, title=N_("Add indicator column"))
+
+
+class Concat(base.Op):
+    """`pd.concat([a, b, ...])`: rows below each other (new row numbers) or side by side."""
+
+    id = "concat"
+    title = _("Concatenate")
+    description = _(
+        "Stack two or more tables: rows below each other (columns matched by name) or side by side."
+    )
+    category = categories.COMBINE
+    icon = "mdi.table-plus"
+    n_inputs = 2
+    variadic = True
+
+    class Params(base.Params):
+        axis: Literal["rows", "columns"] = Field(
+            "rows",
+            title=N_("Direction"),
+            description=N_("rows: below each other; columns: side by side."),
+        )
+        join: Literal["outer", "inner"] = Field(
+            "outer",
+            title=N_("Columns"),
+            description=N_(
+                "outer: all columns (missing values where a table has none);"
+                " inner: only the common ones."
+            ),
+        )
+        sort: bool = Field(False, title=N_("Sort the other axis"))
+
+    @classmethod
+    def _kwargs(cls, params: Params) -> dict[str, Any]:
+        kwargs: dict[str, Any] = (
+            {"ignore_index": True} if params.axis == "rows" else {"axis": "columns"}
+        )
+        if params.join != "outer":
+            kwargs["join"] = params.join
+        if params.sort:
+            kwargs["sort"] = True
+        return kwargs
+
+    @classmethod
+    def apply(cls, params: Params, *inputs: Frame) -> Frame:
+        import pandas as pd
+
+        return pd.concat(list(inputs), **cls._kwargs(params))
+
+    @classmethod
+    def to_code(cls, params: Params, inputs: Sequence[str], output: str) -> str:
+        frames = f"[{', '.join(inputs)}]"
+        call = base.format_call("pd.concat", [frames], cls._kwargs(params), len(output) + 3)
+        return f"{output} = {call}"
+
+    @classmethod
+    def from_code(cls, stmt: ast.stmt, bound: Mapping[str, Any]) -> base.Match | None:
+        assign = base.assignment(stmt)
+        if assign is None:
+            return None
+        output, value = assign
+        if not (
+            isinstance(value, ast.Call)
+            and base.dotted_name(value.func) == "pd.concat"
+            and len(value.args) == 1
+            and isinstance(items := value.args[0], ast.List)
+            and len(items.elts) >= cls.n_inputs
+            and all(isinstance(e, ast.Name) and e.id in bound for e in items.elts)
+        ):
+            return None
+        inputs = [e.id for e in items.elts if isinstance(e, ast.Name)]
+        found = base.CallOp.literal_args(value, 1)
+        if found is None:
+            return None
+        kwargs = found[1]
+        axis = "columns" if kwargs.get("axis") == "columns" else "rows"
+        options = {k: kwargs[k] for k in ("join", "sort") if k in kwargs}
+        params = cls.Params(axis=axis, **options)
+        return series.confirm(cls, params, inputs, output, stmt)
 
 
 class Aggregation(base.Params):

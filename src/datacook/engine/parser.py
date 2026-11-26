@@ -131,8 +131,8 @@ def parse(
                     error.__cause__ = e
                 continue
             if found is not None:
-                if len(found.inputs) != op.n_inputs:
-                    raise ParseError(f"{op.id} needs {op.n_inputs} input(s)", stmt.lineno)
+                if not op.takes(len(found.inputs)):
+                    raise ParseError(f"{op.id} needs {op.inputs_text()} input(s)", stmt.lineno)
                 return op, found
         if error is not None:
             raise error

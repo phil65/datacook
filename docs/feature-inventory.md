@@ -157,19 +157,19 @@ ported, its open part is in the list below. The old op catalogue (95 method clas
 | NaN dialog: interpolate, extract NaN rows, replace value with NaN, batch drop | `gui/dialogs/nanhandlingdialog.py`, `actions/nanhandlingactions.py` | ported: "Interpolate missing values", "Rows with missing values", "Drop columns with missing values" (`ops/missing.py`), "Replace values" with an empty new value (`ops/values.py`); NaN vs missing policy: `ops/missing.py` docstring |
 | Decision trees dialog (target, model, result) | `gui/dialogs/decisiontreedialog.py` | planned (WP4.8) |
 | Clustering dialog (model, plot, adds cluster column) | `gui/dialogs/clusterdialog.py`, `gui/modelselector.py` | planned (WP4.8) |
-| Reshape > Melt | `gui/dialogs/meltdialog.py` | planned (WP4.6 unpivot) |
-| Reshape > Pivot (+ totals, live result) | `gui/dialogs/pivotdialog.py` | planned (WP4.6) |
-| Reshape > Frequency table (crosstab, normalize, totals) | `gui/dialogs/crosstabdialog.py` | planned (WP4.6) |
-| Reshape > Transpose | `gui/datasetwidget.py` | planned (WP4.6) |
-| Statistical analysis menu (describe, var, cov, rank, mode, corr) | `actions/statsactions.py` | planned (WP4.7) |
+| Reshape > Melt | `gui/dialogs/meltdialog.py` | ported: "Unpivot (melt)" (identifier columns, columns to unpivot, names of the new columns; `ops/reshape.py`) |
+| Reshape > Pivot (+ totals, live result) | `gui/dialogs/pivotdialog.py` | ported: "Pivot table" (row keys, column with the new column names, value column, function, totals + label, fill value; `ops/reshape.py`); live result = the params preview |
+| Reshape > Frequency table (crosstab, normalize, totals) | `gui/dialogs/crosstabdialog.py` | ported: "Frequency table" (`pd.crosstab`, shares of the total / per row / per column, totals; `ops/reshape.py`) |
+| Reshape > Transpose | `gui/datasetwidget.py` | ported: "Transpose" (new column names from a column or the row numbers, old names in a column; `ops/reshape.py`) |
+| Statistical analysis menu (describe, var, cov, rank, mode, corr) | `actions/statsactions.py` | ported: Statistics category (`ops/stats.py`): "Descriptive statistics", "Variances", "Covariances", "Correlations" (Pearson / Spearman / Kendall), "Most frequent values" (mode), "Rank values" (a column op, `<column>_rank`), plus "Value counts"; results are new tables with a label column (`statistic` / `column`); the old axis option is dropped (no index: transpose first) |
 | Split dataset (bool / numeric threshold, extra rows, adds split-info columns) | `gui/dialogs/splitdialog.py`, `gui/processtable.py` | planned (phase 4: pandastools `split`, §2) |
 | Rolling / expanding window ops (window type, method, center) | `actions/datasetactions.py` | ported: "Rolling window" (rows or a duration on the time column, function, min. values, center), "Cumulative (expanding window)" (`ops/timeseries.py`); scipy window types (`win_type`) not ported (scipy is no dependency) |
 | One-hot encode | `actions/datasetactions.py` | planned (phase 4; §2 `to_dummies`) |
 | Reset index | `actions/datasetactions.py` | ported: "Reset index" (`ops/rows.py`) |
 | Filter submenu: select dtypes, every n-th row, random sample, n smallest / largest | `actions/filteractions.py` | ported: "Select columns by type" (`ops/columns.py`), "Slice rows" (step), "Random sample", "Largest values" / "Smallest values" (`ops/rows.py`) |
 | Merge (two datasets) | `actions/mergeactions.py` | ported: Merge op, second input chooser (`ops/combine.py`, `app/actions.py`) |
-| Concat (Ctrl+M) | `actions/mergeactions.py` | planned (WP4.6) |
-| Correlation with another dataset (corrwith) | `actions/mergeactions.py` | planned (WP4.7) |
+| Concat (Ctrl+M) | `actions/mergeactions.py` | ported: "Concatenate" (two or more inputs, `Op.variadic`; rows below each other or side by side, outer / inner, sort; `ops/combine.py`), the other inputs are checked in a list (`app/actions.py`); MultiIndex keys dropped (no index); Ctrl+M not mapped |
+| Correlation with another dataset (corrwith) | `actions/mergeactions.py` | ported: "Correlation with another table" (`ops/stats.py`; Pearson only: pandas needs scipy for Spearman / Kendall here, no dependency; axis dropped) |
 | Estimator submenu: apply transformer, train, predict | `actions/estimatoractions.py` | planned (WP4.8) |
 
 ## 4. Datasets page: Feature list dock (columns)
@@ -185,9 +185,9 @@ ported, its open part is in the list below. The old op catalogue (95 method clas
 | Drop index levels on the list -> reset index | `models/featurelistmodel.py` | planned (§2 key columns, phase 4) |
 | Remove columns (Del) | `actions/featureactions.py` | ported: "Drop columns" |
 | Merge columns (with divider) | `actions/featureactions.py` | ported: "Combine columns" (`ops/columns.py`) |
-| Bin values (cut: equal width / intervals, edges) | `actions/featureactions.py` | planned (WP4.7 `cut`) |
+| Bin values (cut: equal width / intervals, edges) | `actions/featureactions.py` | ported: "Bin values" (`pd.cut`: a number of equal-width bins or the edges, labels, which edges are included, precision; results in `<column>_bin`; `ops/stats.py`) |
 | Duplicate columns (Ctrl+D) | `actions/featureactions.py` | ported: "Duplicate columns" (`ops/columns.py`) |
-| Descriptive stats of selected columns (Ctrl+S) | `actions/featureactions.py` | planned (WP4.7) |
+| Descriptive stats of selected columns (Ctrl+S) | `actions/featureactions.py` | ported: "Descriptive statistics" with a column subset (`ops/stats.py`); Ctrl+S not mapped |
 | Set as index | `actions/featureactions.py` | ported for time: "Use as time column" (`ops/timeseries.py`; sorts, time series steps default to it: `engine/timecol.py`); key columns planned (§2, phase 4) |
 | Downcast (smallest dtypes) | `actions/featureactions.py` | ported: "Downcast numbers" (`pd.to_numeric(downcast=...)`, keeps arrow dtypes; `ops/columns.py`) |
 | Sort by column (orientation, NA position) | `actions/featureactions.py` | ported: "Sort rows" (`ops/rows.py`) |
@@ -286,19 +286,19 @@ apply == generated code == parsed code per op (`tests/test_ops.py`).
 | `ResetIndexMethod`, `RemoveIndexMethod` | same | ported: "Reset index" (`drop` = remove; `ops/rows.py`) |
 | `SetIndexMethod`, `SortIndexMethod`, `ReorderLevelsMethod` | same | ported partly: a time index = "Use as time column" (`ops/timeseries.py`, `engine/timecol.py`); key columns planned (§2) |
 | `AsFreqMethod`, `ResampleMethod` | same | ported: "Upsample" (method asfreq / ffill / bfill / nearest / interpolate), "Resample" (`ops/timeseries.py`; time as a column, `resample(on=...)` / `pd.Grouper(key=...)`) |
-| `StackMethod`, `TransposeMethod`, `MeltMethod`, `PivotMethod`, `PivotTableMethod` | same | planned (WP4.6) |
-| `CorrMethod`, `RankMethod`, `ModeMethod`, `DescribeMethod`, `VarMethod`, `CovMethod` | same | planned (WP4.7) |
+| `StackMethod`, `TransposeMethod`, `MeltMethod`, `PivotMethod`, `PivotTableMethod` | same | ported: "Transpose", "Unpivot (melt)", "Pivot table" (`ops/reshape.py`; pivot = pivot table with `first`); stack = unpivot here (no MultiIndex columns) |
+| `CorrMethod`, `RankMethod`, `ModeMethod`, `DescribeMethod`, `VarMethod`, `CovMethod` | same | ported: `ops/stats.py` (see the statistics menu row) |
 | Category: rename, add, remove, reorder, set ordered / unordered, remove unused (7) | `methods/pandas/categorymethods.py` | ported: `ops/categorical.py` (+ "Set categories"); legacy module deleted |
 | Datetime: strftime, month name, day name (3) | `methods/pandas/datetimemethods.py` | ported: "Date / time to text", "Extract date / time parts" (parts `month_name` / `day_name`, locale) (`ops/dates.py`); new: time zones (set / convert), round, convert to date / time; legacy module deleted |
 | Estimator: set params, fit, fit-transform, transform, predict, fit-predict (6) | `methods/pandas/estimatormethods.py` | planned (WP4.8) |
 | Group-by: filter, get group, transform (3) | `methods/pandas/groupbymethods.py` | planned (WP4.6) |
 | Index: astype, rename, set names (3) | `methods/pandas/indexmethods.py` | planned (§2, phase 4) |
 | `MergeMethod` (DataFrame.merge) | `methods/pandas/mergemethods.py` | ported: "Merge" |
-| `CorrWithMethod` | same | planned (WP4.7) |
+| `CorrWithMethod` | same | ported: "Correlation with another table" (`ops/stats.py`); legacy module deleted |
 | `MergeMethod` (pd.merge) | `methods/pandas/pandasmethods.py` | ported: "Merge" |
 | `GetDummiesMethod` | same | planned (phase 4, §2 `to_dummies`) |
-| `ConcatMethod`, `PivotTableMethod`, `CrossTabMethod` | same | planned (WP4.6) |
-| `CutMethod` | same | planned (WP4.7) |
+| `ConcatMethod`, `PivotTableMethod`, `CrossTabMethod` | same | ported: "Concatenate" (`ops/combine.py`), "Pivot table", "Frequency table" (`ops/reshape.py`) |
+| `CutMethod` | same | ported: "Bin values" (`ops/stats.py`) |
 | Series filter: `IsInMethod`, `IsNaMethod` | `methods/pandas/seriesmethods.py` | ported: "Filter by values" (`ops/rows.py`), "Rows with missing values" (`ops/missing.py`); legacy module deleted |
 | Strings: upper, lower, capitalize, slice, contains, extract, match, replace, repeat, split (10) | `methods/pandas/stringmethods.py` | ported (`ops/strings.py`): "Change case" (upper / lower / capitalize / title / swapcase / casefold), "Slice text", "Test text" (contains / match / fullmatch / startswith / endswith -> bool column), "Filter rows by text", "Extract with regular expression", "Replace text", "Repeat text", "Split text into columns"; new: "Strip text", "Pad text", "Text length"; legacy module deleted |
 | pandastools: tolerance bands | `methods/pandastools/dataframept.py` | ported: "Tolerance bands" (rolling min / max + `clip`, `ops/timeseries.py`) |

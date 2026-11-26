@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DataCook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-25 15:01+0100\n"
+"POT-Creation-Date: 2026-11-26 17:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,1408 +17,1442 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: datacook/app/actions.py:148
+#: datacook/app/actions.py:150
 msgid "needs the extra {extra!r}"
 msgstr ""
 
-#: datacook/app/actions.py:155
+#: datacook/app/actions.py:157
 msgid "Command palette…"
 msgstr ""
 
-#: datacook/app/actions.py:156
+#: datacook/app/actions.py:158
 msgid "Edit step…"
 msgstr ""
 
-#: datacook/app/actions.py:157
+#: datacook/app/actions.py:159
 msgid "Cancel preview"
 msgstr ""
 
-#: datacook/app/actions.py:177 datacook/app/controllers/project.py:222
-#: datacook/app/controllers/project.py:253
+#: datacook/app/actions.py:179 datacook/app/controllers/project.py:220
+#: datacook/app/controllers/project.py:251
 msgid "{title} needs the extra {extra!r}"
 msgstr ""
 
-#: datacook/app/actions.py:186
+#: datacook/app/actions.py:188
 msgid "Select a step first: the new step is added after it."
 msgstr ""
 
-#: datacook/app/actions.py:193
+#: datacook/app/actions.py:195
 #, python-brace-format
 msgid "{title} needs a second table."
 msgstr ""
 
-#: datacook/app/actions.py:201
+#: datacook/app/actions.py:209
 msgid "Ops with more than two inputs are not supported yet."
 msgstr ""
 
-#: datacook/app/actions.py:219
+#: datacook/app/actions.py:227
 msgid "Second table (right side):"
 msgstr ""
 
-#: datacook/app/application.py:119
+#: datacook/app/actions.py:242
+msgid "Tables to add after the current one:"
+msgstr ""
+
+#: datacook/app/application.py:117
 msgid "Language"
 msgstr ""
 
-#: datacook/app/application.py:120
+#: datacook/app/application.py:118
 msgid "System default"
 msgstr ""
 
-#: datacook/app/commands.py:69
+#: datacook/app/commands.py:67
 msgid "Add step"
 msgstr ""
 
-#: datacook/app/commands.py:95 datacook/app/docks/nodetree.py:447
-#: datacook/app/docks/nodetree.py:455
+#: datacook/app/commands.py:93 datacook/app/docks/nodetree.py:445
+#: datacook/app/docks/nodetree.py:453
 msgid "Delete step"
 msgstr ""
 
-#: datacook/app/commands.py:122 datacook/app/docks/nodetree.py:449
-#: datacook/app/docks/nodetree.py:456
+#: datacook/app/commands.py:120 datacook/app/docks/nodetree.py:447
+#: datacook/app/docks/nodetree.py:454
 msgid "Delete step (keep following steps)"
 msgstr ""
 
-#: datacook/app/commands.py:148
+#: datacook/app/commands.py:146
 msgid "Edit step"
 msgstr ""
 
-#: datacook/app/commands.py:208
+#: datacook/app/commands.py:206
 msgid "Rename step"
 msgstr ""
 
-#: datacook/app/commands.py:219
+#: datacook/app/commands.py:217
 msgid "Edit comment"
 msgstr ""
 
-#: datacook/app/controllers/preview.py:144
+#: datacook/app/controllers/preview.py:142
 msgid "computing full result…"
 msgstr ""
 
-#: datacook/app/controllers/preview.py:180
+#: datacook/app/controllers/preview.py:178
 msgid "updating…"
 msgstr ""
 
-#: datacook/app/controllers/project.py:131
-#: datacook/app/controllers/project.py:173 datacook/engine/formats.py:110
+#: datacook/app/controllers/project.py:129
+#: datacook/app/controllers/project.py:171 datacook/engine/formats.py:108
 msgid "DataCook project"
 msgstr ""
 
-#: datacook/app/controllers/project.py:132
+#: datacook/app/controllers/project.py:130
 msgid "Open project"
 msgstr ""
 
-#: datacook/app/controllers/project.py:143
-#: datacook/app/controllers/project.py:153
+#: datacook/app/controllers/project.py:141
+#: datacook/app/controllers/project.py:151
 #, python-brace-format
 msgid "Cannot open {path}: {error}"
 msgstr ""
 
-#: datacook/app/controllers/project.py:163
+#: datacook/app/controllers/project.py:161
 #, python-brace-format
 msgid "Opened {path}"
 msgstr ""
 
-#: datacook/app/controllers/project.py:174
+#: datacook/app/controllers/project.py:172
 msgid "Save project"
 msgstr ""
 
-#: datacook/app/controllers/project.py:187
+#: datacook/app/controllers/project.py:185
 #, python-brace-format
 msgid "Cannot save {path}: {error}"
 msgstr ""
 
-#: datacook/app/controllers/project.py:193
+#: datacook/app/controllers/project.py:191
 #, python-brace-format
 msgid "Saved {path}"
 msgstr ""
 
-#: datacook/app/controllers/project.py:205
+#: datacook/app/controllers/project.py:203
 msgid "needs"
 msgstr ""
 
-#: datacook/app/controllers/project.py:207 datacook/app/docks/recipes.py:226
+#: datacook/app/controllers/project.py:205 datacook/app/docks/recipes.py:224
 msgid "All data files"
 msgstr ""
 
-#: datacook/app/controllers/project.py:212
+#: datacook/app/controllers/project.py:210
 msgid "Open data file"
 msgstr ""
 
-#: datacook/app/controllers/project.py:219 datacook/engine/recipes.py:414
+#: datacook/app/controllers/project.py:217 datacook/engine/recipes.py:412
 #, python-brace-format
 msgid "No reader for {suffix} files"
 msgstr ""
 
-#: datacook/app/controllers/project.py:249
-#: datacook/app/controllers/project.py:294
+#: datacook/app/controllers/project.py:247
+#: datacook/app/controllers/project.py:292
 msgid "Select a step to export."
 msgstr ""
 
-#: datacook/app/controllers/project.py:259
-#: datacook/app/controllers/project.py:367
+#: datacook/app/controllers/project.py:257
+#: datacook/app/controllers/project.py:365
 #, python-brace-format
 msgid "Export {title}"
 msgstr ""
 
-#: datacook/app/controllers/project.py:277
-#: datacook/app/controllers/project.py:310
+#: datacook/app/controllers/project.py:275
+#: datacook/app/controllers/project.py:308
 #, python-brace-format
 msgid "Export to {path} failed: {error}"
 msgstr ""
 
-#: datacook/app/controllers/project.py:280
-#: datacook/app/controllers/project.py:313
+#: datacook/app/controllers/project.py:278
+#: datacook/app/controllers/project.py:311
 #, python-brace-format
 msgid "Exported {path}"
 msgstr ""
 
-#: datacook/app/controllers/project.py:298
+#: datacook/app/controllers/project.py:296
 msgid "Export script"
 msgstr ""
 
-#: datacook/app/controllers/project.py:298 datacook/engine/formats.py:94
+#: datacook/app/controllers/project.py:296 datacook/engine/formats.py:92
 msgid "Python script"
 msgstr ""
 
-#: datacook/app/controllers/project.py:322
+#: datacook/app/controllers/project.py:320
 msgid "Discard the unsaved changes of this project?"
 msgstr ""
 
-#: datacook/app/controllers/project.py:334
+#: datacook/app/controllers/project.py:332
 msgid "Save the changes of this project before closing?"
 msgstr ""
 
-#: datacook/app/controllers/project.py:399
+#: datacook/app/controllers/project.py:397
 msgid "&New project"
 msgstr ""
 
-#: datacook/app/controllers/project.py:400
+#: datacook/app/controllers/project.py:398
 msgid "&Open project…"
 msgstr ""
 
-#: datacook/app/controllers/project.py:401
-#: datacook/app/controllers/project.py:433
+#: datacook/app/controllers/project.py:399
+#: datacook/app/controllers/project.py:431
 msgid "Open &recent"
 msgstr ""
 
-#: datacook/app/controllers/project.py:402
+#: datacook/app/controllers/project.py:400
 msgid "&Save project"
 msgstr ""
 
-#: datacook/app/controllers/project.py:403
+#: datacook/app/controllers/project.py:401
 msgid "Save project &as…"
 msgstr ""
 
-#: datacook/app/controllers/project.py:404
+#: datacook/app/controllers/project.py:402
 msgid "Open &data file…"
 msgstr ""
 
-#: datacook/app/controllers/project.py:405
-#: datacook/app/controllers/project.py:434
+#: datacook/app/controllers/project.py:403
+#: datacook/app/controllers/project.py:432
 msgid "&Export"
 msgstr ""
 
-#: datacook/app/controllers/project.py:415
+#: datacook/app/controllers/project.py:413
 msgid "Python script…"
 msgstr ""
 
-#: datacook/app/docks/code.py:158 datacook/app/docks/schema.py:65
-#: datacook/engine/categories.py:30 datacook/engine/ops/code.py:40
+#: datacook/app/docks/code.py:156 datacook/app/docks/schema.py:63
+#: datacook/engine/categories.py:29 datacook/engine/ops/code.py:38
 msgid "Code"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:188
+#: datacook/app/docks/dataview.py:186
 #, python-brace-format
 msgid "Could not add the sort step: {error}"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:196
+#: datacook/app/docks/dataview.py:194
 msgid "Sort ascending (display only)"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:198
+#: datacook/app/docks/dataview.py:196
 msgid "Sort descending (display only)"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:200
+#: datacook/app/docks/dataview.py:198
 msgid "Clear display sort"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:207
+#: datacook/app/docks/dataview.py:205
 msgid "Add as sort step"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:243
+#: datacook/app/docks/dataview.py:241
 msgid "No step selected"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:244
+#: datacook/app/docks/dataview.py:242
 msgid "Open a data file or select a step in the tree."
 msgstr ""
 
-#: datacook/app/docks/dataview.py:247
+#: datacook/app/docks/dataview.py:245
 msgid "No preview"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:249
+#: datacook/app/docks/dataview.py:247
 msgid "Computing…"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:251
+#: datacook/app/docks/dataview.py:249
 msgid "Recomputing…"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:254
+#: datacook/app/docks/dataview.py:252
 msgid "Not in memory"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:256
+#: datacook/app/docks/dataview.py:254
 msgid "Recompute"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:265
+#: datacook/app/docks/dataview.py:263
 msgid "Failed"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:265
+#: datacook/app/docks/dataview.py:263
 #, python-brace-format
 msgid "Step {name} failed"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:269
+#: datacook/app/docks/dataview.py:267
 msgid "Go to step"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:270
+#: datacook/app/docks/dataview.py:268
 msgid "Retry"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:281
+#: datacook/app/docks/dataview.py:279
 msgid "Last known shape: {rows:,} rows × {columns} columns"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:295
+#: datacook/app/docks/dataview.py:293
 msgid "Preview (first rows)"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:297
+#: datacook/app/docks/dataview.py:295
 msgid "Sorting…"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:301
+#: datacook/app/docks/dataview.py:299
 #, python-brace-format
 msgid "Sorted by {column} {arrow} (display only)"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:349
+#: datacook/app/docks/dataview.py:347
 #, python-brace-format
 msgid "Sorting failed: {error}"
 msgstr ""
 
-#: datacook/app/docks/dataview.py:371
+#: datacook/app/docks/dataview.py:369
 msgid "Data"
 msgstr ""
 
-#: datacook/app/docks/messages.py:43
+#: datacook/app/docks/messages.py:41
 msgid "Debug"
 msgstr ""
 
-#: datacook/app/docks/messages.py:44
+#: datacook/app/docks/messages.py:42
 msgid "Info"
 msgstr ""
 
-#: datacook/app/docks/messages.py:45
+#: datacook/app/docks/messages.py:43
 msgid "Warning"
 msgstr ""
 
-#: datacook/app/docks/messages.py:46 datacook/app/docks/nodetree.py:43
+#: datacook/app/docks/messages.py:44 datacook/app/docks/nodetree.py:41
 msgid "Error"
 msgstr ""
 
-#: datacook/app/docks/messages.py:109
+#: datacook/app/docks/messages.py:107
 msgid "Level"
 msgstr ""
 
-#: datacook/app/docks/messages.py:109
+#: datacook/app/docks/messages.py:107
 msgid "Message"
 msgstr ""
 
-#: datacook/app/docks/messages.py:109
+#: datacook/app/docks/messages.py:107
 msgid "Time"
 msgstr ""
 
-#: datacook/app/docks/messages.py:288
+#: datacook/app/docks/messages.py:286
 msgid "Level:"
 msgstr ""
 
-#: datacook/app/docks/messages.py:289
+#: datacook/app/docks/messages.py:287
 msgid "Clear"
 msgstr ""
 
-#: datacook/app/docks/messages.py:306
+#: datacook/app/docks/messages.py:304
 msgid "Messages"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:44
+#: datacook/app/docks/nodetree.py:42
 msgid "Computing"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:45
+#: datacook/app/docks/nodetree.py:43
 msgid "Pinned (in use)"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:46
+#: datacook/app/docks/nodetree.py:44
 msgid "In memory"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:47
+#: datacook/app/docks/nodetree.py:45
 msgid "Not computed"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:63
+#: datacook/app/docks/nodetree.py:61
 msgid "Shape"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:63 datacook/app/docks/schema.py:55
+#: datacook/app/docks/nodetree.py:61 datacook/app/docks/schema.py:53
 msgid "Size"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:63 datacook/engine/ops/strings.py:94
+#: datacook/app/docks/nodetree.py:61 datacook/engine/ops/strings.py:92
 msgid "Step"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:301
+#: datacook/app/docks/nodetree.py:299
 #, python-brace-format
 msgid "Upstream error in step {name}"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:391
+#: datacook/app/docks/nodetree.py:389
 #, python-brace-format
 msgid "Rename failed: {error}"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:444 datacook/app/docks/nodetree.py:452
+#: datacook/app/docks/nodetree.py:442 datacook/app/docks/nodetree.py:450
 msgid "Rename"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:445 datacook/app/docks/nodetree.py:453
+#: datacook/app/docks/nodetree.py:443 datacook/app/docks/nodetree.py:451
 msgid "Comment…"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:446 datacook/app/docks/nodetree.py:454
+#: datacook/app/docks/nodetree.py:444 datacook/app/docks/nodetree.py:452
 msgid "Branch from here"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:505
+#: datacook/app/docks/nodetree.py:503
 #, python-brace-format
 msgid "Add a step to branch from {name}"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:520
+#: datacook/app/docks/nodetree.py:518
 msgid "Comment"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:576
+#: datacook/app/docks/nodetree.py:574
 msgid "Steps"
 msgstr ""
 
-#: datacook/app/docks/params.py:121 datacook/app/docks/params.py:248
+#: datacook/app/docks/params.py:119 datacook/app/docks/params.py:246
 msgid "Apply"
 msgstr ""
 
-#: datacook/app/docks/params.py:122
+#: datacook/app/docks/params.py:120
 msgid "Cancel"
 msgstr ""
 
-#: datacook/app/docks/params.py:124
+#: datacook/app/docks/params.py:122
 msgid "Choose an operation from the Steps menu or the palette (Ctrl+Shift+P)."
 msgstr ""
 
-#: datacook/app/docks/params.py:239
+#: datacook/app/docks/params.py:237
 msgid "No operation"
 msgstr ""
 
-#: datacook/app/docks/params.py:243
+#: datacook/app/docks/params.py:241
 #, python-brace-format
 msgid "Edit step: {title}"
 msgstr ""
 
-#: datacook/app/docks/params.py:245
+#: datacook/app/docks/params.py:243
 #, python-brace-format
 msgid "New step: {title}"
 msgstr ""
 
-#: datacook/app/docks/params.py:248
+#: datacook/app/docks/params.py:246
 msgid "Add"
 msgstr ""
 
-#: datacook/app/docks/params.py:261
+#: datacook/app/docks/params.py:259
 #, python-brace-format
 msgid "Preview failed: {error}"
 msgstr ""
 
-#: datacook/app/docks/params.py:265 datacook/app/widgets/readerdialog.py:107
+#: datacook/app/docks/params.py:263 datacook/app/widgets/readerdialog.py:105
 #, python-brace-format
 msgid "Preview: first {rows} rows, {cols} columns"
 msgstr ""
 
-#: datacook/app/docks/params.py:275
+#: datacook/app/docks/params.py:273
 msgid "Parameters"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:53
+#: datacook/app/docks/recipes.py:51
 msgid "DataCook recipe"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:103 datacook/app/docks/recipes.py:247
-#: datacook/app/docks/schema.py:52
+#: datacook/app/docks/recipes.py:101 datacook/app/docks/recipes.py:245
+#: datacook/app/docks/schema.py:50
 msgid "Name"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:103
+#: datacook/app/docks/recipes.py:101
 msgid "Save as recipe"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:120
+#: datacook/app/docks/recipes.py:118
 msgid "Recipe {name!r} saved ({n} steps)"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:136
+#: datacook/app/docks/recipes.py:134
 msgid "Select a step to apply the recipe to."
 msgstr ""
 
-#: datacook/app/docks/recipes.py:154
+#: datacook/app/docks/recipes.py:152
 #, python-brace-format
 msgid "Could not check the columns: {error}"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:160
+#: datacook/app/docks/recipes.py:158
 msgid "Computing the steps to check the recipe's columns…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:181 datacook/app/docks/recipes.py:352
+#: datacook/app/docks/recipes.py:179 datacook/app/docks/recipes.py:350
 #, python-brace-format
 msgid "Apply recipe {name}"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:228
+#: datacook/app/docks/recipes.py:226
 msgid "Apply import recipe to files"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:247
+#: datacook/app/docks/recipes.py:245
 msgid "Rename recipe"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:258
+#: datacook/app/docks/recipes.py:256
 msgid "Description"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:258
+#: datacook/app/docks/recipes.py:256
 msgid "Recipe description"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:268
+#: datacook/app/docks/recipes.py:266
 #, python-brace-format
 msgid "Delete the recipes {names}?"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:281
+#: datacook/app/docks/recipes.py:279
 msgid "Import recipe"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:289
+#: datacook/app/docks/recipes.py:287
 msgid "Export recipe"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:331 datacook/app/docks/recipes.py:592
-#: datacook/app/docks/recipes.py:602 datacook/app/docks/recipes.py:631
+#: datacook/app/docks/recipes.py:329 datacook/app/docks/recipes.py:590
+#: datacook/app/docks/recipes.py:600 datacook/app/docks/recipes.py:629
 msgid "Recipes"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:371
+#: datacook/app/docks/recipes.py:369
 msgid "Apply to these steps:"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:396
+#: datacook/app/docks/recipes.py:394
 msgid "Import recipe (starts with a reader)"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:396
+#: datacook/app/docks/recipes.py:394
 msgid "Recipe"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:402
+#: datacook/app/docks/recipes.py:400
 msgid "Required columns"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:408
+#: datacook/app/docks/recipes.py:406
 msgid "input"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:414
+#: datacook/app/docks/recipes.py:412
 msgid "Created"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:456
+#: datacook/app/docks/recipes.py:454
 msgid "Rename…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:457
+#: datacook/app/docks/recipes.py:455
 msgid "Edit description…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:458
+#: datacook/app/docks/recipes.py:456
 msgid "Merge selected recipes"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:459
+#: datacook/app/docks/recipes.py:457
 msgid "Export…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:460
+#: datacook/app/docks/recipes.py:458
 msgid "Delete"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:461 datacook/app/docks/recipes.py:618
+#: datacook/app/docks/recipes.py:459 datacook/app/docks/recipes.py:616
 msgid "Import recipe file…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:488
+#: datacook/app/docks/recipes.py:486
 #, python-brace-format
 msgid "{n} steps"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:488
+#: datacook/app/docks/recipes.py:486
 #, python-brace-format
 msgid "{n} steps, import"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:527
+#: datacook/app/docks/recipes.py:525
 msgid "No recipes yet. Select a step and use Steps > Recipes > Save as recipe."
 msgstr ""
 
-#: datacook/app/docks/recipes.py:540
+#: datacook/app/docks/recipes.py:538
 msgid "Run"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:541
+#: datacook/app/docks/recipes.py:539
 msgid "Run on files…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:544
+#: datacook/app/docks/recipes.py:542
 msgid "Apply to current step"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:545
+#: datacook/app/docks/recipes.py:543
 msgid "Apply to steps…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:612
+#: datacook/app/docks/recipes.py:610
 msgid "Save steps up to here as recipe…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:614
+#: datacook/app/docks/recipes.py:612
 msgid "Save step and following steps as recipe…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:621
+#: datacook/app/docks/recipes.py:619
 msgid "Recipe library"
 msgstr ""
 
-#: datacook/app/docks/schema.py:53
+#: datacook/app/docks/schema.py:51
 msgid "Type"
 msgstr ""
 
-#: datacook/app/docks/schema.py:54
+#: datacook/app/docks/schema.py:52
 msgid "Nulls"
 msgstr ""
 
-#: datacook/app/docks/schema.py:56 datacook/engine/categories.py:20
-#: datacook/engine/ops/rows.py:64 datacook/engine/ops/rows.py:78
-#: datacook/engine/ops/rows.py:118 datacook/engine/ops/timeseries.py:575
-#: datacook/engine/ops/timeseries.py:588 datacook/engine/ops/timeseries.py:600
+#: datacook/app/docks/schema.py:54 datacook/engine/categories.py:18
+#: datacook/engine/ops/rows.py:62 datacook/engine/ops/rows.py:76
+#: datacook/engine/ops/rows.py:116 datacook/engine/ops/timeseries.py:573
+#: datacook/engine/ops/timeseries.py:586 datacook/engine/ops/timeseries.py:598
 msgid "Rows"
 msgstr ""
 
-#: datacook/app/docks/schema.py:57
+#: datacook/app/docks/schema.py:55
 msgid "Unique"
 msgstr ""
 
-#: datacook/app/docks/schema.py:58
+#: datacook/app/docks/schema.py:56
 msgid "Min"
 msgstr ""
 
-#: datacook/app/docks/schema.py:59
+#: datacook/app/docks/schema.py:57
 msgid "Max"
 msgstr ""
 
-#: datacook/app/docks/schema.py:60
+#: datacook/app/docks/schema.py:58
 msgid "Mean"
 msgstr ""
 
-#: datacook/app/docks/schema.py:61
+#: datacook/app/docks/schema.py:59
 msgid "Std"
 msgstr ""
 
-#: datacook/app/docks/schema.py:62 datacook/app/widgets/columnchooser.py:155
-#: datacook/engine/ops/missing.py:52
+#: datacook/app/docks/schema.py:60 datacook/app/widgets/columnchooser.py:153
+#: datacook/engine/ops/missing.py:50
 msgid "Value"
 msgstr ""
 
-#: datacook/app/docks/schema.py:63
+#: datacook/app/docks/schema.py:61
 msgid "Count"
 msgstr ""
 
-#: datacook/app/docks/schema.py:64
+#: datacook/app/docks/schema.py:62
 msgid "Share"
 msgstr ""
 
-#: datacook/app/docks/schema.py:66
+#: datacook/app/docks/schema.py:64
 msgid "Items"
 msgstr ""
 
-#: datacook/app/docks/schema.py:270
+#: datacook/app/docks/schema.py:268
 msgid "Select a column to see its statistics."
 msgstr ""
 
-#: datacook/app/docks/schema.py:277 datacook/engine/categories.py:19
-#: datacook/engine/ops/columns.py:32 datacook/engine/ops/columns.py:73
-#: datacook/engine/ops/columns.py:108 datacook/engine/ops/missing.py:39
-#: datacook/engine/ops/missing.py:192 datacook/engine/ops/rows.py:44
-#: datacook/engine/ops/rows.py:94 datacook/engine/ops/rows.py:120
-#: datacook/engine/ops/series.py:206 datacook/engine/ops/sources.py:69
-#: datacook/engine/ops/sources.py:83 datacook/engine/ops/sources.py:210
-#: datacook/engine/ops/timeseries.py:617 datacook/engine/ops/values.py:36
-#: datacook/engine/ops/values.py:53 datacook/engine/ops/values.py:84
+#: datacook/app/docks/schema.py:275 datacook/engine/categories.py:17
+#: datacook/engine/ops/columns.py:30 datacook/engine/ops/columns.py:71
+#: datacook/engine/ops/columns.py:106 datacook/engine/ops/combine.py:68
+#: datacook/engine/ops/missing.py:37 datacook/engine/ops/missing.py:192
+#: datacook/engine/ops/rows.py:42 datacook/engine/ops/rows.py:92
+#: datacook/engine/ops/rows.py:118 datacook/engine/ops/series.py:241
+#: datacook/engine/ops/sources.py:67 datacook/engine/ops/sources.py:81
+#: datacook/engine/ops/sources.py:208 datacook/engine/ops/timeseries.py:615
+#: datacook/engine/ops/values.py:35 datacook/engine/ops/values.py:53
+#: datacook/engine/ops/values.py:84
 msgid "Columns"
 msgstr ""
 
-#: datacook/app/mainwindow.py:37
+#: datacook/app/mainwindow.py:35
 msgid "&File"
 msgstr ""
 
-#: datacook/app/mainwindow.py:38
+#: datacook/app/mainwindow.py:36
 msgid "&Edit"
 msgstr ""
 
-#: datacook/app/mainwindow.py:39
+#: datacook/app/mainwindow.py:37
 msgid "&View"
 msgstr ""
 
-#: datacook/app/mainwindow.py:40
+#: datacook/app/mainwindow.py:38
 msgid "&Steps"
 msgstr ""
 
-#: datacook/app/mainwindow.py:41
+#: datacook/app/mainwindow.py:39
 msgid "&Help"
 msgstr ""
 
-#: datacook/app/mainwindow.py:92
+#: datacook/app/mainwindow.py:90
 msgid "No data view installed"
 msgstr ""
 
-#: datacook/app/mainwindow.py:162
+#: datacook/app/mainwindow.py:160
 msgid "Undo"
 msgstr ""
 
-#: datacook/app/mainwindow.py:164
+#: datacook/app/mainwindow.py:162
 msgid "Redo"
 msgstr ""
 
-#: datacook/app/mainwindow.py:187
+#: datacook/app/mainwindow.py:185
 msgid "Untitled"
 msgstr ""
 
-#: datacook/app/widgets/columnchooser.py:117
+#: datacook/app/widgets/columnchooser.py:115
 msgid "Not a column of the input (yet)"
 msgstr ""
 
-#: datacook/app/widgets/columnchooser.py:155
-#: datacook/engine/ops/categorical.py:24 datacook/engine/ops/combine.py:50
-#: datacook/engine/ops/dates.py:113 datacook/engine/ops/rows.py:193
-#: datacook/engine/ops/strings.py:195 datacook/engine/ops/strings.py:355
-#: datacook/engine/ops/strings.py:387 datacook/engine/ops/timeseries.py:368
+#: datacook/app/widgets/columnchooser.py:153
+#: datacook/engine/ops/categorical.py:22 datacook/engine/ops/combine.py:126
+#: datacook/engine/ops/dates.py:111 datacook/engine/ops/rows.py:191
+#: datacook/engine/ops/strings.py:193 datacook/engine/ops/strings.py:353
+#: datacook/engine/ops/strings.py:385 datacook/engine/ops/timeseries.py:366
 msgid "Column"
 msgstr ""
 
-#: datacook/app/widgets/columnchooser.py:267
-#: datacook/app/widgets/columnchooser.py:277
+#: datacook/app/widgets/columnchooser.py:265
+#: datacook/app/widgets/columnchooser.py:275
 msgid "Choose a file"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:58
+#: datacook/app/widgets/memoryindicator.py:56
 #, python-brace-format
 msgid "Cache {used:.1f}/{budget:.1f} GB · RSS {rss:.1f} GB"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:65
+#: datacook/app/widgets/memoryindicator.py:63
 #, python-brace-format
 msgid ""
 "Frame cache: {used} of {budget}, {cached} steps in memory, {pinned} pinned\n"
 "Process memory (RSS): {rss}"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:98
+#: datacook/app/widgets/memoryindicator.py:96
 msgid "Steps in memory"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:101
+#: datacook/app/widgets/memoryindicator.py:99
 msgid "(none)"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:106
+#: datacook/app/widgets/memoryindicator.py:104
 msgid "[pinned]"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:110
+#: datacook/app/widgets/memoryindicator.py:108
 msgid "Free memory"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:121
+#: datacook/app/widgets/memoryindicator.py:119
 #, python-brace-format
 msgid "Freed {n} cached steps"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:123
+#: datacook/app/widgets/memoryindicator.py:121
 msgid "Nothing to free: only steps in use are in memory"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:133
+#: datacook/app/widgets/memoryindicator.py:131
 msgid "Memory"
 msgstr ""
 
-#: datacook/app/widgets/readerdialog.py:43
+#: datacook/app/widgets/readerdialog.py:41
 #, python-brace-format
 msgid "Open data: {title}"
 msgstr ""
 
-#: datacook/app/widgets/readerdialog.py:91
+#: datacook/app/widgets/readerdialog.py:89
 msgid "Reading preview…"
 msgstr ""
 
-#: datacook/app/widgets/readerdialog.py:104
+#: datacook/app/widgets/readerdialog.py:102
 #, python-brace-format
 msgid "Cannot read: {error}"
 msgstr ""
 
-#: datacook/engine/categories.py:17
+#: datacook/engine/categories.py:15
 msgid "Import"
 msgstr ""
 
-#: datacook/engine/categories.py:18
+#: datacook/engine/categories.py:16
 msgid "General"
 msgstr ""
 
-#: datacook/engine/categories.py:21
+#: datacook/engine/categories.py:19
 msgid "Filter operations"
 msgstr ""
 
-#: datacook/engine/categories.py:22
+#: datacook/engine/categories.py:20
 msgid "NaN operations"
 msgstr ""
 
-#: datacook/engine/categories.py:23 datacook/engine/ops/categorical.py:101
+#: datacook/engine/categories.py:21 datacook/engine/ops/categorical.py:99
 msgid "Categories"
 msgstr ""
 
-#: datacook/engine/categories.py:24
+#: datacook/engine/categories.py:22
 msgid "Conversion"
 msgstr ""
 
-#: datacook/engine/categories.py:25
+#: datacook/engine/categories.py:23
 msgid "Reshape"
 msgstr ""
 
-#: datacook/engine/categories.py:26
+#: datacook/engine/categories.py:24
 msgid "Combine"
 msgstr ""
 
-#: datacook/engine/categories.py:27
+#: datacook/engine/categories.py:25
+msgid "Statistics"
+msgstr ""
+
+#: datacook/engine/categories.py:26
 msgid "Text"
 msgstr ""
 
-#: datacook/engine/categories.py:28
+#: datacook/engine/categories.py:27
 msgid "Date and time"
 msgstr ""
 
-#: datacook/engine/categories.py:29
+#: datacook/engine/categories.py:28
 msgid "Time series"
 msgstr ""
 
-#: datacook/engine/formats.py:56 datacook/engine/ops/sources.py:45
+#: datacook/engine/formats.py:54 datacook/engine/ops/sources.py:43
 msgid "CSV file"
 msgstr ""
 
-#: datacook/engine/formats.py:61 datacook/engine/ops/columns.py:401
-#: datacook/engine/ops/sources.py:52 datacook/engine/ops/sources.py:131
-#: datacook/engine/ops/strings.py:388
+#: datacook/engine/formats.py:59 datacook/engine/ops/columns.py:399
+#: datacook/engine/ops/sources.py:50 datacook/engine/ops/sources.py:129
+#: datacook/engine/ops/strings.py:386
 msgid "Separator"
 msgstr ""
 
-#: datacook/engine/formats.py:62 datacook/engine/ops/sources.py:53
+#: datacook/engine/formats.py:60 datacook/engine/ops/sources.py:51
 msgid "Decimal separator"
 msgstr ""
 
-#: datacook/engine/formats.py:63 datacook/engine/formats.py:74
-#: datacook/engine/formats.py:87
+#: datacook/engine/formats.py:61 datacook/engine/formats.py:72
+#: datacook/engine/formats.py:85
 msgid "Write index"
 msgstr ""
 
-#: datacook/engine/formats.py:68 datacook/engine/ops/sources.py:62
+#: datacook/engine/formats.py:66 datacook/engine/ops/sources.py:60
 msgid "Parquet file"
 msgstr ""
 
-#: datacook/engine/formats.py:73
+#: datacook/engine/formats.py:71
 msgid "Compression"
 msgstr ""
 
-#: datacook/engine/formats.py:79 datacook/engine/ops/sources.py:107
+#: datacook/engine/formats.py:77 datacook/engine/ops/sources.py:105
 msgid "Excel file"
 msgstr ""
 
-#: datacook/engine/formats.py:86 datacook/engine/ops/sources.py:116
+#: datacook/engine/formats.py:84 datacook/engine/ops/sources.py:114
 msgid "Sheet"
 msgstr ""
 
-#: datacook/engine/formats.py:98
+#: datacook/engine/formats.py:96
 msgid "Whole tree"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:37
+#: datacook/engine/ops/categorical.py:35
 msgid "Add categories"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:38
+#: datacook/engine/ops/categorical.py:36
 msgid "Add new (unused) categories to a categorical column."
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:45
+#: datacook/engine/ops/categorical.py:43
 msgid "New categories"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:50
+#: datacook/engine/ops/categorical.py:48
 msgid "Remove categories"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:51
+#: datacook/engine/ops/categorical.py:49
 msgid "Remove categories; values of a removed category become missing."
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:58
+#: datacook/engine/ops/categorical.py:56
 msgid "Categories to remove"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:63
+#: datacook/engine/ops/categorical.py:61
 msgid "Rename categories"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:64
+#: datacook/engine/ops/categorical.py:62
 msgid "Rename categories (old name -> new name); the values follow."
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:71 datacook/engine/ops/columns.py:87
+#: datacook/engine/ops/categorical.py:69 datacook/engine/ops/columns.py:85
 msgid "New names"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:76
+#: datacook/engine/ops/categorical.py:74
 msgid "Reorder categories"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:77
+#: datacook/engine/ops/categorical.py:75
 msgid "Put the categories in a new order (all categories, each once)."
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:84
+#: datacook/engine/ops/categorical.py:82
 msgid "Categories in new order"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:85 datacook/engine/ops/categorical.py:102
+#: datacook/engine/ops/categorical.py:83 datacook/engine/ops/categorical.py:100
 msgid "Ordered"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:90
+#: datacook/engine/ops/categorical.py:88
 msgid "Set categories"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:92
+#: datacook/engine/ops/categorical.py:90
 msgid ""
 "Replace the categories: values not in the new categories become missing, new "
 "categories are added."
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:103
+#: datacook/engine/ops/categorical.py:101
 msgid "Rename (match by position)"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:108
+#: datacook/engine/ops/categorical.py:106
 msgid "Set categories as ordered"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:109
+#: datacook/engine/ops/categorical.py:107
 msgid "Mark the categories as ordered (enables min / max and comparisons)."
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:116
+#: datacook/engine/ops/categorical.py:114
 msgid "Set categories as unordered"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:117
+#: datacook/engine/ops/categorical.py:115
 msgid "Mark the categories as unordered."
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:124
+#: datacook/engine/ops/categorical.py:122
 msgid "Remove unused categories"
 msgstr ""
 
-#: datacook/engine/ops/categorical.py:125
+#: datacook/engine/ops/categorical.py:123
 msgid "Remove categories that no value uses."
 msgstr ""
 
-#: datacook/engine/ops/code.py:33
+#: datacook/engine/ops/code.py:31
 msgid "Custom code"
 msgstr ""
 
-#: datacook/engine/ops/code.py:34
+#: datacook/engine/ops/code.py:32
 msgid "Run Python code on the table (variable 'df', pandas as 'pd')."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:25
+#: datacook/engine/ops/columns.py:23
 msgid "Select columns"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:26
+#: datacook/engine/ops/columns.py:24
 msgid "Keep only the given columns, in the given order."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:65
+#: datacook/engine/ops/columns.py:63
 msgid "Drop columns"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:66
+#: datacook/engine/ops/columns.py:64
 msgid "Remove columns."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:79
+#: datacook/engine/ops/columns.py:77
 msgid "Rename columns"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:80
+#: datacook/engine/ops/columns.py:78
 msgid "Rename columns (old name -> new name)."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:93
+#: datacook/engine/ops/columns.py:91
 msgid "Change data type"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:95
+#: datacook/engine/ops/columns.py:93
 msgid ""
 "Convert columns to other data types (e.g. 'float32', 'int64[pyarrow]', "
 "'category')."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:104 datacook/engine/ops/sources.py:56
-#: datacook/engine/ops/sources.py:70 datacook/engine/ops/sources.py:84
-#: datacook/engine/ops/sources.py:101 datacook/engine/ops/sources.py:118
-#: datacook/engine/ops/sources.py:132 datacook/engine/ops/sources.py:151
+#: datacook/engine/ops/columns.py:102 datacook/engine/ops/sources.py:54
+#: datacook/engine/ops/sources.py:68 datacook/engine/ops/sources.py:82
+#: datacook/engine/ops/sources.py:99 datacook/engine/ops/sources.py:116
+#: datacook/engine/ops/sources.py:130 datacook/engine/ops/sources.py:149
 msgid "Data types"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:131
+#: datacook/engine/ops/columns.py:129
 msgid "Move columns"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:132
+#: datacook/engine/ops/columns.py:130
 msgid ""
 "Move columns to the front or the end; the other columns keep their order."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:138
+#: datacook/engine/ops/columns.py:136
 msgid "Position"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:194
+#: datacook/engine/ops/columns.py:192
 msgid "Sort columns"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:195
+#: datacook/engine/ops/columns.py:193
 msgid "Order the columns by name."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:202 datacook/engine/ops/rows.py:46
+#: datacook/engine/ops/columns.py:200 datacook/engine/ops/rows.py:44
+#: datacook/engine/ops/stats.py:232 datacook/engine/ops/stats.py:286
 msgid "Ascending"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:207
+#: datacook/engine/ops/columns.py:205
 msgid "Add prefix"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:208
+#: datacook/engine/ops/columns.py:206
 msgid "Put a text in front of every column name."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:215
+#: datacook/engine/ops/columns.py:213
 msgid "Prefix"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:220
+#: datacook/engine/ops/columns.py:218
 msgid "Add suffix"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:221
+#: datacook/engine/ops/columns.py:219
 msgid "Append a text to every column name."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:228 datacook/engine/ops/columns.py:342
+#: datacook/engine/ops/columns.py:226 datacook/engine/ops/columns.py:340
 msgid "Suffix"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:236
+#: datacook/engine/ops/columns.py:234
 msgid "Select columns by type"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:238
+#: datacook/engine/ops/columns.py:236
 msgid ""
 "Keep only columns of the given types (e.g. 'number', 'string', 'datetime', "
 "'bool', 'category') or drop them."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:246
+#: datacook/engine/ops/columns.py:244
 msgid "Include types"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:247
+#: datacook/engine/ops/columns.py:245
 msgid "Exclude types"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:259
+#: datacook/engine/ops/columns.py:257
 msgid "Infer data types"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:261
+#: datacook/engine/ops/columns.py:259
 msgid ""
 "Convert columns to the best fitting data type (e.g. text columns holding "
 "whole numbers to integers), arrow-backed by default."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:270
+#: datacook/engine/ops/columns.py:268
 msgid "Backend"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:275
+#: datacook/engine/ops/columns.py:273
 msgid "Downcast numbers"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:276
+#: datacook/engine/ops/columns.py:274
 msgid ""
 "Store numeric columns in the smallest data type that holds their values."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:283
+#: datacook/engine/ops/columns.py:281
 msgid "Target type"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:335
+#: datacook/engine/ops/columns.py:333
 msgid "Duplicate columns"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:336
+#: datacook/engine/ops/columns.py:334
 msgid "Add copies of columns (name + suffix) at the end."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:393
+#: datacook/engine/ops/columns.py:391
 msgid "Combine columns"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:394
+#: datacook/engine/ops/columns.py:392
 msgid "Join the values of several columns as text into a new column."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:400 datacook/engine/ops/timeseries.py:325
-#: datacook/engine/ops/timeseries.py:374
+#: datacook/engine/ops/columns.py:398 datacook/engine/ops/timeseries.py:323
+#: datacook/engine/ops/timeseries.py:372
 msgid "New column"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:402
+#: datacook/engine/ops/columns.py:400
 msgid "Missing values as (empty: result missing)"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:483
+#: datacook/engine/ops/columns.py:481
 msgid "Calculate columns"
 msgstr ""
 
-#: datacook/engine/ops/columns.py:485
+#: datacook/engine/ops/columns.py:483
 msgid ""
 "Add or overwrite columns with formulas, one per line, e.g. 'total = price * "
 "amount' (pandas eval syntax)."
 msgstr ""
 
-#: datacook/engine/ops/columns.py:494
+#: datacook/engine/ops/columns.py:492
 msgid "Formulas"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:23
+#: datacook/engine/ops/combine.py:21
 msgid "Merge"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:24
+#: datacook/engine/ops/combine.py:22
 msgid "Join two tables on key columns (database-style join)."
 msgstr ""
 
-#: datacook/engine/ops/combine.py:32
+#: datacook/engine/ops/combine.py:30
 msgid "Join type"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:35
+#: datacook/engine/ops/combine.py:33
 msgid "Key columns"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:38
+#: datacook/engine/ops/combine.py:36
 msgid "Left key columns"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:42
+#: datacook/engine/ops/combine.py:40
 msgid "Right key columns"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:45
+#: datacook/engine/ops/combine.py:43
 msgid "Suffixes"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:46
+#: datacook/engine/ops/combine.py:44
 msgid "Add indicator column"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:51 datacook/engine/ops/timeseries.py:441
-#: datacook/engine/ops/timeseries.py:532
+#: datacook/engine/ops/combine.py:51
+msgid "Concatenate"
+msgstr ""
+
+#: datacook/engine/ops/combine.py:53
+msgid ""
+"Stack two or more tables: rows below each other (columns matched by name) or "
+"side by side."
+msgstr ""
+
+#: datacook/engine/ops/combine.py:63 datacook/engine/ops/missing.py:176
+msgid "Direction"
+msgstr ""
+
+#: datacook/engine/ops/combine.py:64
+msgid "rows: below each other; columns: side by side."
+msgstr ""
+
+#: datacook/engine/ops/combine.py:70
+msgid ""
+"outer: all columns (missing values where a table has none); inner: only the "
+"common ones."
+msgstr ""
+
+#: datacook/engine/ops/combine.py:74
+msgid "Sort the other axis"
+msgstr ""
+
+#: datacook/engine/ops/combine.py:127 datacook/engine/ops/reshape.py:77
+#: datacook/engine/ops/timeseries.py:439 datacook/engine/ops/timeseries.py:530
 msgid "Function"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:52
+#: datacook/engine/ops/combine.py:128
 msgid "Result name"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:61
+#: datacook/engine/ops/combine.py:137
 msgid "Group and aggregate"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:62
+#: datacook/engine/ops/combine.py:138
 msgid "Group rows by key columns and aggregate other columns per group."
 msgstr ""
 
-#: datacook/engine/ops/combine.py:68
+#: datacook/engine/ops/combine.py:144
 msgid "Group by"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:70 datacook/engine/ops/timeseries.py:112
+#: datacook/engine/ops/combine.py:146 datacook/engine/ops/timeseries.py:110
 msgid "Aggregations"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:71
+#: datacook/engine/ops/combine.py:147 datacook/engine/ops/reshape.py:81
 msgid "Drop missing keys"
 msgstr ""
 
-#: datacook/engine/ops/combine.py:72
+#: datacook/engine/ops/combine.py:148
 msgid "Sort groups"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:25
+#: datacook/engine/ops/dates.py:23
 msgid "Convert to date / time"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:26
+#: datacook/engine/ops/dates.py:24
 msgid "Parse text or numbers (epoch values) into date / time values."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:34 datacook/engine/ops/dates.py:197
+#: datacook/engine/ops/dates.py:32 datacook/engine/ops/dates.py:195
 msgid "Format"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:35
+#: datacook/engine/ops/dates.py:33
 msgid "strftime format like %d.%m.%Y %H:%M. Empty: detect."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:38
+#: datacook/engine/ops/dates.py:36
 msgid "Day first (01.02. = 1 February)"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:40
+#: datacook/engine/ops/dates.py:38
 msgid "For numbers since 1970-01-01."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:40
+#: datacook/engine/ops/dates.py:38
 msgid "Unit of numbers"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:42
+#: datacook/engine/ops/dates.py:40
 msgid "Convert to UTC"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:45
+#: datacook/engine/ops/dates.py:43
 msgid "Invalid values"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:46
+#: datacook/engine/ops/dates.py:44
 msgid "raise: fail; coerce: make them missing."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:54
+#: datacook/engine/ops/dates.py:52
 msgid "Decimal year to date / time"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:55
+#: datacook/engine/ops/dates.py:53
 msgid "Convert decimal years (2020.5) into date / time values."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:104
+#: datacook/engine/ops/dates.py:102
 msgid "Extract date / time parts"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:106
+#: datacook/engine/ops/dates.py:104
 msgid ""
 "New columns with the year, month, weekday, hour, ... of a date / time column "
 "(weekday: Monday = 0)."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:114
+#: datacook/engine/ops/dates.py:112
 msgid "Parts"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:117
+#: datacook/engine/ops/dates.py:115
 msgid "Language of names"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:118
+#: datacook/engine/ops/dates.py:116
 msgid "Locale for month / day names, e.g. de_DE.UTF-8. Empty: English."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:187
+#: datacook/engine/ops/dates.py:185
 msgid "Date / time to text"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:188
+#: datacook/engine/ops/dates.py:186
 msgid "Format date / time values as text (strftime format)."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:203
+#: datacook/engine/ops/dates.py:201
 msgid "Set time zone"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:205
+#: datacook/engine/ops/dates.py:203
 msgid ""
 "Declare the time zone of date / time values without one (or remove it: "
 "empty)."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:214 datacook/engine/ops/dates.py:239
+#: datacook/engine/ops/dates.py:212 datacook/engine/ops/dates.py:237
 msgid "Time zone"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:217
+#: datacook/engine/ops/dates.py:215
 msgid "Ambiguous times"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:218
+#: datacook/engine/ops/dates.py:216
 msgid "Times that occur twice when daylight saving time ends."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:222
+#: datacook/engine/ops/dates.py:220
 msgid "Nonexistent times"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:223
+#: datacook/engine/ops/dates.py:221
 msgid "Times skipped when daylight saving time starts."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:229
+#: datacook/engine/ops/dates.py:227
 msgid "Convert time zone"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:230
+#: datacook/engine/ops/dates.py:228
 msgid "Convert date / time values with a time zone to another time zone."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:240
+#: datacook/engine/ops/dates.py:238
 msgid "Empty: UTC without a time zone."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:247
+#: datacook/engine/ops/dates.py:245
 msgid "Round date / time"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:248
+#: datacook/engine/ops/dates.py:246
 msgid ""
 "Round date / time values down, up or to the nearest multiple of a frequency."
 msgstr ""
 
-#: datacook/engine/ops/dates.py:256
+#: datacook/engine/ops/dates.py:254
 msgid "Rounding"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:259
+#: datacook/engine/ops/dates.py:257
 msgid "Frequency"
 msgstr ""
 
-#: datacook/engine/ops/dates.py:261
+#: datacook/engine/ops/dates.py:259
 msgid "e.g. 1s, 15min, 1h, 1D"
 msgstr ""
 
-#: datacook/engine/ops/missing.py:35
+#: datacook/engine/ops/missing.py:33 datacook/engine/ops/stats.py:30
 msgid "Columns (empty: all)"
 msgstr ""
 
-#: datacook/engine/ops/missing.py:44
+#: datacook/engine/ops/missing.py:42
 msgid "Fill missing values"
 msgstr ""
 
-#: datacook/engine/ops/missing.py:45
+#: datacook/engine/ops/missing.py:43
 msgid "Replace missing values with a value (or one value per column)."
 msgstr ""
 
-#: datacook/engine/ops/missing.py:57
+#: datacook/engine/ops/missing.py:55
 msgid "Fill forward"
 msgstr ""
 
-#: datacook/engine/ops/missing.py:58
+#: datacook/engine/ops/missing.py:56
 msgid "Fill missing values with the last valid value."
 msgstr ""
 
-#: datacook/engine/ops/missing.py:64 datacook/engine/ops/missing.py:174
+#: datacook/engine/ops/missing.py:63 datacook/engine/ops/missing.py:174
 msgid "Limit"
 msgstr ""
 
-#: datacook/engine/ops/missing.py:70
+#: datacook/engine/ops/missing.py:69
 msgid "Fill backward"
 msgstr ""
 
-#: datacook/engine/ops/missing.py:71
+#: datacook/engine/ops/missing.py:70
 msgid "Fill missing values with the next valid value."
 msgstr ""
 
-#: datacook/engine/ops/missing.py:87
+#: datacook/engine/ops/missing.py:86
 msgid "Fill with mean / median / mode"
 msgstr ""
 
-#: datacook/engine/ops/missing.py:89
+#: datacook/engine/ops/missing.py:88
 msgid ""
 "Fill missing values of each column with a statistic of that column (mean, "
 "median, minimum, maximum or most frequent value)."
 msgstr ""
 
-#: datacook/engine/ops/missing.py:98
+#: datacook/engine/ops/missing.py:97
 msgid "Statistic"
 msgstr ""
 
-#: datacook/engine/ops/missing.py:163
+#: datacook/engine/ops/missing.py:162
 msgid "Interpolate missing values"
 msgstr ""
 
-#: datacook/engine/ops/missing.py:165
+#: datacook/engine/ops/missing.py:164
 msgid ""
 "Fill missing numbers linearly between the neighbouring valid values (integer "
 "columns become floats)."
-msgstr ""
-
-#: datacook/engine/ops/missing.py:176
-msgid "Direction"
 msgstr ""
 
 #: datacook/engine/ops/missing.py:178
@@ -1437,8 +1471,8 @@ msgstr ""
 msgid "Drop if"
 msgstr ""
 
-#: datacook/engine/ops/missing.py:194 datacook/engine/ops/rows.py:51
-#: datacook/engine/ops/rows.py:97 datacook/engine/ops/rows.py:253
+#: datacook/engine/ops/missing.py:194 datacook/engine/ops/rows.py:49
+#: datacook/engine/ops/rows.py:95 datacook/engine/ops/rows.py:251
 msgid "Reset index"
 msgstr ""
 
@@ -1481,597 +1515,881 @@ msgid ""
 "missing value ops see them."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:23
+#: datacook/engine/ops/reshape.py:32
+msgid "Unpivot (melt)"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:34
+msgid ""
+"Turn columns into rows: one row per identifier and column, with the column "
+"name and its value (wide to long format)."
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:43
+msgid "Identifier columns"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:47
+msgid "Columns to unpivot"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:48
+msgid "Empty: all other columns."
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:51 datacook/engine/ops/reshape.py:186
+msgid "Name of the column-name column"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:52
+msgid "Name of the value column"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:59
+msgid "Pivot table"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:61
+msgid ""
+"Aggregate a value column per row key and per value of another column (long "
+"to wide format), optionally with totals."
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:71 datacook/engine/ops/reshape.py:103
+msgid "Row keys"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:74 datacook/engine/ops/reshape.py:106
+#: datacook/engine/ops/reshape.py:182
+msgid "Column with the new column names"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:76
+msgid "Value column"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:78
+msgid "Value for empty cells"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:79 datacook/engine/ops/reshape.py:113
+msgid "Include totals"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:80 datacook/engine/ops/reshape.py:114
+msgid "Totals label"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:82
+msgid "Sort"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:93
+msgid "Frequency table"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:95
+msgid ""
+"Count the rows per combination of values (cross tabulation), optionally as "
+"shares and with totals."
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:110
+msgid "Shares"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:111
+msgid "all: of the total; index: per row; columns: per column."
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:115
+msgid "Drop missing values"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:171
+msgid "Transpose"
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:173
+msgid ""
+"Swap rows and columns. The column names become a column; the new column "
+"names are the values of a column (or the row numbers)."
+msgstr ""
+
+#: datacook/engine/ops/reshape.py:183
+msgid "Empty: the row numbers."
+msgstr ""
+
+#: datacook/engine/ops/rows.py:21
 msgid "Filter rows"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:24
+#: datacook/engine/ops/rows.py:22
 msgid "Keep the rows for which an expression is true (pandas query syntax)."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:31
+#: datacook/engine/ops/rows.py:29
 msgid "Expression"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:36
+#: datacook/engine/ops/rows.py:34
 msgid "Sort rows"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:37
+#: datacook/engine/ops/rows.py:35
 msgid "Sort rows by one or more columns."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:47
+#: datacook/engine/ops/rows.py:45 datacook/engine/ops/stats.py:285
 msgid "Missing values"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:49
+#: datacook/engine/ops/rows.py:47
 msgid "Algorithm"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:56
+#: datacook/engine/ops/rows.py:54
 msgid "First rows"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:57
+#: datacook/engine/ops/rows.py:55
 msgid "Keep the first n rows."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:69
+#: datacook/engine/ops/rows.py:67
 msgid "Random sample"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:71
+#: datacook/engine/ops/rows.py:69
 msgid ""
 "Random rows (a fixed seed keeps the result stable when the node is "
 "recomputed)."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:79
+#: datacook/engine/ops/rows.py:77
 msgid "Fraction"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:80
+#: datacook/engine/ops/rows.py:78
 msgid "With replacement"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:81
+#: datacook/engine/ops/rows.py:79
 msgid "Seed"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:86
+#: datacook/engine/ops/rows.py:84
 msgid "Drop duplicates"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:87
+#: datacook/engine/ops/rows.py:85
 msgid "Remove duplicate rows (optionally compared on a subset of columns)."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:96
+#: datacook/engine/ops/rows.py:94
 msgid "Keep"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:102
+#: datacook/engine/ops/rows.py:100
 msgid "Last rows"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:103
+#: datacook/engine/ops/rows.py:101
 msgid "Keep the last n rows."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:110
+#: datacook/engine/ops/rows.py:108
 msgid "Largest values"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:111
+#: datacook/engine/ops/rows.py:109
 msgid "Keep the n rows with the largest values in the given columns."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:122
+#: datacook/engine/ops/rows.py:120 datacook/engine/ops/stats.py:283
 msgid "Ties"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:127
+#: datacook/engine/ops/rows.py:125
 msgid "Smallest values"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:128
+#: datacook/engine/ops/rows.py:126
 msgid "Keep the n rows with the smallest values in the given columns."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:135
+#: datacook/engine/ops/rows.py:133
 msgid "Slice rows"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:137
+#: datacook/engine/ops/rows.py:135
 msgid ""
 "Keep rows by position: from start (inclusive) to stop (exclusive), every n-"
 "th row."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:143 datacook/engine/ops/strings.py:92
+#: datacook/engine/ops/rows.py:141 datacook/engine/ops/strings.py:90
 msgid "Start"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:144 datacook/engine/ops/strings.py:93
+#: datacook/engine/ops/rows.py:142 datacook/engine/ops/strings.py:91
 msgid "Stop"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:145
+#: datacook/engine/ops/rows.py:143
 msgid "Every n-th row"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:187
+#: datacook/engine/ops/rows.py:185
 msgid "Filter by values"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:188
+#: datacook/engine/ops/rows.py:186
 msgid "Keep the rows whose value in a column is one of the given values."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:194 datacook/engine/ops/values.py:81
+#: datacook/engine/ops/rows.py:192 datacook/engine/ops/values.py:81
 msgid "Values"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:195 datacook/engine/ops/strings.py:196
+#: datacook/engine/ops/rows.py:193 datacook/engine/ops/strings.py:194
 msgid "Keep the other rows"
 msgstr ""
 
-#: datacook/engine/ops/rows.py:254
+#: datacook/engine/ops/rows.py:252
 msgid ""
 "Number the rows 0, 1, 2, ...; the old index becomes columns or is dropped."
 msgstr ""
 
-#: datacook/engine/ops/rows.py:260
+#: datacook/engine/ops/rows.py:258
 msgid "Drop the old index"
 msgstr ""
 
-#: datacook/engine/ops/series.py:210 datacook/engine/ops/strings.py:121
-#: datacook/engine/ops/strings.py:182
+#: datacook/engine/ops/series.py:245 datacook/engine/ops/stats.py:279
+#: datacook/engine/ops/stats.py:307 datacook/engine/ops/strings.py:119
+#: datacook/engine/ops/strings.py:180
 msgid "Suffix for new columns"
 msgstr ""
 
-#: datacook/engine/ops/series.py:211 datacook/engine/ops/strings.py:122
-#: datacook/engine/ops/strings.py:183
+#: datacook/engine/ops/series.py:246 datacook/engine/ops/stats.py:280
+#: datacook/engine/ops/stats.py:308 datacook/engine/ops/strings.py:120
+#: datacook/engine/ops/strings.py:181
 msgid "Empty: replace the columns. Otherwise the results are new columns."
 msgstr ""
 
-#: datacook/engine/ops/sources.py:46
+#: datacook/engine/ops/sources.py:44
 msgid "Read a comma separated values file."
 msgstr ""
 
-#: datacook/engine/ops/sources.py:51 datacook/engine/ops/sources.py:68
-#: datacook/engine/ops/sources.py:82 datacook/engine/ops/sources.py:96
-#: datacook/engine/ops/sources.py:115 datacook/engine/ops/sources.py:149
+#: datacook/engine/ops/sources.py:49 datacook/engine/ops/sources.py:66
+#: datacook/engine/ops/sources.py:80 datacook/engine/ops/sources.py:94
+#: datacook/engine/ops/sources.py:113 datacook/engine/ops/sources.py:147
 msgid "File"
 msgstr ""
 
-#: datacook/engine/ops/sources.py:54
+#: datacook/engine/ops/sources.py:52
 msgid "Encoding"
 msgstr ""
 
-#: datacook/engine/ops/sources.py:55 datacook/engine/ops/sources.py:117
+#: datacook/engine/ops/sources.py:53 datacook/engine/ops/sources.py:115
 msgid "Skip rows"
 msgstr ""
 
-#: datacook/engine/ops/sources.py:63
+#: datacook/engine/ops/sources.py:61
 msgid "Read an Apache Parquet file."
 msgstr ""
 
-#: datacook/engine/ops/sources.py:76
+#: datacook/engine/ops/sources.py:74
 msgid "Feather / Arrow IPC file"
 msgstr ""
 
-#: datacook/engine/ops/sources.py:77
+#: datacook/engine/ops/sources.py:75
 msgid "Read an Arrow IPC (Feather v2) file."
 msgstr ""
 
-#: datacook/engine/ops/sources.py:90
+#: datacook/engine/ops/sources.py:88
 msgid "JSON file"
 msgstr ""
 
-#: datacook/engine/ops/sources.py:91
+#: datacook/engine/ops/sources.py:89
 msgid "Read a JSON file (records, columns, ... or JSON lines)."
 msgstr ""
 
-#: datacook/engine/ops/sources.py:98
+#: datacook/engine/ops/sources.py:96
 msgid "Layout"
 msgstr ""
 
-#: datacook/engine/ops/sources.py:100
+#: datacook/engine/ops/sources.py:98
 msgid "JSON lines"
 msgstr ""
 
-#: datacook/engine/ops/sources.py:108
+#: datacook/engine/ops/sources.py:106
 msgid "Read a sheet of an Excel workbook."
 msgstr ""
 
-#: datacook/engine/ops/sources.py:124
+#: datacook/engine/ops/sources.py:122
 msgid "Clipboard"
 msgstr ""
 
-#: datacook/engine/ops/sources.py:125
+#: datacook/engine/ops/sources.py:123
 msgid "Read a table from the clipboard (e.g. copied from a spreadsheet)."
 msgstr ""
 
-#: datacook/engine/ops/sources.py:139
+#: datacook/engine/ops/sources.py:137
 msgid "SQLite database"
 msgstr ""
 
-#: datacook/engine/ops/sources.py:140
+#: datacook/engine/ops/sources.py:138
 msgid "Run a query against a SQLite database file."
 msgstr ""
 
-#: datacook/engine/ops/sources.py:150
+#: datacook/engine/ops/sources.py:148
 msgid "Query"
 msgstr ""
 
-#: datacook/engine/ops/sources.py:203
+#: datacook/engine/ops/sources.py:201
 msgid "Table data"
 msgstr ""
 
-#: datacook/engine/ops/sources.py:204
+#: datacook/engine/ops/sources.py:202
 msgid "A table given as columns of values."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:34
+#: datacook/engine/ops/stats.py:36
+msgid "Method"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:37
+msgid "pearson: linear; spearman / kendall: rank correlation."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:42 datacook/engine/ops/stats.py:212
+msgid "Numeric columns only"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:117
+msgid "Descriptive statistics"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:119
+msgid ""
+"Count, mean, standard deviation, minimum, quartiles and maximum of each "
+"column (text columns: count, unique values, most frequent value)."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:129
+msgid "Include"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:130
+msgid "Empty: numeric columns only (if any); all: every column."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:133
+msgid "Between 0 and 1; empty: quartiles."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:133
+msgid "Percentiles"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:143
+msgid "Variances"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:144
+msgid "The variance of each numeric column."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:152
+msgid "1: sample variance."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:152 datacook/engine/ops/stats.py:173
+msgid "Delta degrees of freedom"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:154
+msgid "Skip missing values"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:164
+msgid "Covariances"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:165
+msgid ""
+"Covariance matrix of the numeric columns (pairwise, missing values skipped)."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:172 datacook/engine/ops/stats.py:193
+#: datacook/engine/ops/timeseries.py:442 datacook/engine/ops/timeseries.py:531
+msgid "Minimum values"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:183
+msgid "Correlations"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:184
+msgid ""
+"Correlation matrix of the numeric columns (Pearson, Spearman or Kendall)."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:203
+msgid "Most frequent values"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:205
+msgid ""
+"The most frequent value(s) of each column (mode): one row per mode, missing "
+"values where a column has fewer modes."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:213 datacook/engine/ops/stats.py:233
+msgid "Ignore missing values"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:218
+msgid "Value counts"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:220
+msgid ""
+"Count the rows per value (or per combination of values) of columns: a new "
+"table with the values and a count (or share) column."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:230
+msgid "Shares instead of counts"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:231
+msgid "Sort by count"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:247
+msgid "Correlation with another table"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:249
+msgid ""
+"Pearson correlation of each column with the column of the same name in a "
+"second table (rows matched by position)."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:260
+msgid "Drop columns missing in one table"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:270
+msgid "Rank values"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:271
+msgid "The rank of each value within its column (1 = smallest)."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:283
+msgid "Rank of equal values."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:287
+msgid "As share (0 to 1)"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:294
+msgid "Bin values"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:296
+msgid ""
+"Put numbers into intervals: a number of equal-width bins, or bins between "
+"given edges (histogram classes)."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:311
+msgid "Bins"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:312
+msgid "A number of equal-width bins, or the bin edges (ascending)."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:314
+msgid "Bins include their right edge"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:315
+msgid "First bin includes its left edge"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:317
+msgid "Labels"
+msgstr ""
+
+#: datacook/engine/ops/stats.py:317
+msgid "One per bin; empty: the intervals."
+msgstr ""
+
+#: datacook/engine/ops/stats.py:319
+msgid "Precision of the interval labels"
+msgstr ""
+
+#: datacook/engine/ops/strings.py:32
 msgid "Change case"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:35
+#: datacook/engine/ops/strings.py:33
 msgid "Upper case, lower case, capitalize, title case, ... of text columns."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:41
+#: datacook/engine/ops/strings.py:39
 msgid "Case"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:47
+#: datacook/engine/ops/strings.py:45
 msgid "Strip text"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:48
+#: datacook/engine/ops/strings.py:46
 msgid ""
 "Remove whitespace (or the given characters) at the start and end of text."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:54 datacook/engine/ops/strings.py:107
+#: datacook/engine/ops/strings.py:52 datacook/engine/ops/strings.py:105
 msgid "Side"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:57
+#: datacook/engine/ops/strings.py:55
 msgid "Characters"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:58
+#: datacook/engine/ops/strings.py:56
 msgid "Characters to remove (any order). Empty: whitespace."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:64
+#: datacook/engine/ops/strings.py:62
 msgid "Replace text"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:65
+#: datacook/engine/ops/strings.py:63
 msgid "Replace a text or a regular expression in text columns."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:71
+#: datacook/engine/ops/strings.py:69
 msgid "Search for"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:72
+#: datacook/engine/ops/strings.py:70
 msgid "Replace with"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:75 datacook/engine/ops/strings.py:149
-#: datacook/engine/ops/strings.py:357 datacook/engine/ops/strings.py:390
+#: datacook/engine/ops/strings.py:73 datacook/engine/ops/strings.py:147
+#: datacook/engine/ops/strings.py:355 datacook/engine/ops/strings.py:388
 msgid "Regular expression"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:76
+#: datacook/engine/ops/strings.py:74
 msgid "Groups can be used in the replacement as \\1, \\2, ..."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:78 datacook/engine/ops/strings.py:146
+#: datacook/engine/ops/strings.py:76 datacook/engine/ops/strings.py:144
 msgid "Case sensitive"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:79 datacook/engine/ops/strings.py:389
+#: datacook/engine/ops/strings.py:77 datacook/engine/ops/strings.py:387
 msgid "-1: all"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:79
+#: datacook/engine/ops/strings.py:77
 msgid "Replacements per cell"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:84
+#: datacook/engine/ops/strings.py:82
 msgid "Slice text"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:86
+#: datacook/engine/ops/strings.py:84
 msgid ""
 "Keep the characters from start to stop (Python slice, negative = from the "
 "end)."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:99
+#: datacook/engine/ops/strings.py:97
 msgid "Pad text"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:100
+#: datacook/engine/ops/strings.py:98
 msgid "Fill text up to a minimum width (e.g. leading zeros)."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:106
+#: datacook/engine/ops/strings.py:104
 msgid "Width"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:108
+#: datacook/engine/ops/strings.py:106
 msgid "Fill character"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:113
+#: datacook/engine/ops/strings.py:111
 msgid "Text length"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:114
+#: datacook/engine/ops/strings.py:112
 msgid "Number of characters of each text."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:128
+#: datacook/engine/ops/strings.py:126
 msgid "Repeat text"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:129
+#: datacook/engine/ops/strings.py:127
 msgid "Repeat each text n times."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:135
+#: datacook/engine/ops/strings.py:133
 msgid "Repeats"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:144
+#: datacook/engine/ops/strings.py:142
 msgid "Test"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:145
+#: datacook/engine/ops/strings.py:143
 msgid "Pattern"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:150
+#: datacook/engine/ops/strings.py:148
 msgid "Only for 'contains'; 'match' and 'fullmatch' always use one."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:173
+#: datacook/engine/ops/strings.py:171
 msgid "Test text"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:174
+#: datacook/engine/ops/strings.py:172
 msgid ""
 "True / False per cell: contains, starts with, ends with or matches a pattern."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:189
+#: datacook/engine/ops/strings.py:187
 msgid "Filter rows by text"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:190
+#: datacook/engine/ops/strings.py:188
 msgid "Keep the rows whose text contains, starts with, ... a pattern."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:346
+#: datacook/engine/ops/strings.py:344
 msgid "Extract with regular expression"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:348
+#: datacook/engine/ops/strings.py:346
 msgid ""
 "New columns from the groups of a regular expression; named groups (?"
 "P<name>...) name the columns."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:361 datacook/engine/ops/strings.py:393
+#: datacook/engine/ops/strings.py:359 datacook/engine/ops/strings.py:391
 msgid "Prefix of the new columns"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:362 datacook/engine/ops/strings.py:395
+#: datacook/engine/ops/strings.py:360 datacook/engine/ops/strings.py:393
 msgid "Default: the column name and '_'."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:381
+#: datacook/engine/ops/strings.py:379
 msgid "Split text into columns"
 msgstr ""
 
-#: datacook/engine/ops/strings.py:382
+#: datacook/engine/ops/strings.py:380
 msgid "Split text at a separator into new columns."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:388
+#: datacook/engine/ops/strings.py:386
 msgid "Empty: whitespace."
 msgstr ""
 
-#: datacook/engine/ops/strings.py:389
+#: datacook/engine/ops/strings.py:387
 msgid "Maximum splits"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:32
+#: datacook/engine/ops/timeseries.py:30
 msgid "Time column"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:43
+#: datacook/engine/ops/timeseries.py:41
 msgid "Use as time column"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:45
+#: datacook/engine/ops/timeseries.py:43
 msgid ""
 "Make a date / time (or numeric) column the time of the table: rows are "
 "sorted by it and time series steps use it by default."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:97
+#: datacook/engine/ops/timeseries.py:95
 msgid "e.g. 10s, 1min, 1h, 1D, 1W, 1MS (month start)"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:102
+#: datacook/engine/ops/timeseries.py:100
 msgid "Resample"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:104
+#: datacook/engine/ops/timeseries.py:102
 msgid ""
 "Aggregate the rows per time interval (e.g. mean per minute), optionally per "
 "group."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:111 datacook/engine/ops/timeseries.py:244
+#: datacook/engine/ops/timeseries.py:109 datacook/engine/ops/timeseries.py:242
 msgid "Interval"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:114
+#: datacook/engine/ops/timeseries.py:112
 msgid "Per group of"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:116
+#: datacook/engine/ops/timeseries.py:114
 msgid "Closed side"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:117
+#: datacook/engine/ops/timeseries.py:115
 msgid "Label side"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:234
+#: datacook/engine/ops/timeseries.py:232
 msgid "Upsample"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:236
+#: datacook/engine/ops/timeseries.py:234
 msgid ""
 "One row per time interval (finer than the data): new rows are filled "
 "forward, backward, from the nearest row, interpolated or left missing."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:246
+#: datacook/engine/ops/timeseries.py:244
 msgid "Fill new rows"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:318
+#: datacook/engine/ops/timeseries.py:316
 msgid "Seconds since start"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:319
+#: datacook/engine/ops/timeseries.py:317
 msgid "New column: seconds since the earliest time (e.g. for x axes of plots)."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:359
+#: datacook/engine/ops/timeseries.py:357
 msgid "Number segments between gaps"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:361
+#: datacook/engine/ops/timeseries.py:359
 msgid ""
 "New column numbering the segments of the data (1, 2, ...): a new segment "
 "starts where the time (or a numeric column) jumps by more than the maximum "
 "gap."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:371
+#: datacook/engine/ops/timeseries.py:369
 msgid "Maximum gap"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:372
+#: datacook/engine/ops/timeseries.py:370
 msgid "A duration (e.g. 1s, 5min) for date / time, a number otherwise."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:438 datacook/engine/ops/timeseries.py:621
+#: datacook/engine/ops/timeseries.py:436 datacook/engine/ops/timeseries.py:619
 msgid "Window"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:439 datacook/engine/ops/timeseries.py:622
+#: datacook/engine/ops/timeseries.py:437 datacook/engine/ops/timeseries.py:620
 msgid "Number of rows, or a duration like 10s / 5min (needs a time column)."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:444 datacook/engine/ops/timeseries.py:533
-msgid "Minimum values"
-msgstr ""
-
-#: datacook/engine/ops/timeseries.py:446
+#: datacook/engine/ops/timeseries.py:444
 msgid "Fewer values give a missing result."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:448
+#: datacook/engine/ops/timeseries.py:446
 msgid "Centered window"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:460
+#: datacook/engine/ops/timeseries.py:458
 msgid "Rolling window"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:462
+#: datacook/engine/ops/timeseries.py:460
 msgid ""
 "Moving mean, sum, minimum, ... over a window of rows or of a duration "
 "(smoothing)."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:526
+#: datacook/engine/ops/timeseries.py:524
 msgid "Cumulative (expanding window)"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:527
+#: datacook/engine/ops/timeseries.py:525
 msgid ""
 "Mean, sum, minimum, ... of all values from the first row up to each row."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:568
+#: datacook/engine/ops/timeseries.py:566
 msgid "Shift values"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:569
+#: datacook/engine/ops/timeseries.py:567
 msgid "Move values down (positive periods) or up (negative) by rows."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:576
+#: datacook/engine/ops/timeseries.py:574
 msgid "Value for new cells"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:581
+#: datacook/engine/ops/timeseries.py:579
 msgid "Difference"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:582
+#: datacook/engine/ops/timeseries.py:580
 msgid "Difference to the value n rows before."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:593
+#: datacook/engine/ops/timeseries.py:591
 msgid "Relative change"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:594
+#: datacook/engine/ops/timeseries.py:592
 msgid "Relative change to the value n rows before (0.1 = +10 %)."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:607
+#: datacook/engine/ops/timeseries.py:605
 msgid "Tolerance bands"
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:609
+#: datacook/engine/ops/timeseries.py:607
 msgid ""
 "New columns <column>_lower / _upper: the centered rolling minimum / maximum, "
 "at least the given fraction below / above each value."
 msgstr ""
 
-#: datacook/engine/ops/timeseries.py:624
+#: datacook/engine/ops/timeseries.py:622
 msgid "Minimum distance (fraction)"
 msgstr ""
 
-#: datacook/engine/ops/values.py:28
+#: datacook/engine/ops/values.py:26
 msgid "Absolute values"
 msgstr ""
 
-#: datacook/engine/ops/values.py:29
+#: datacook/engine/ops/values.py:27
 msgid "Replace numbers by their absolute value."
 msgstr ""
 
-#: datacook/engine/ops/values.py:42
+#: datacook/engine/ops/values.py:41
 msgid "Clip values"
 msgstr ""
 
-#: datacook/engine/ops/values.py:44
+#: datacook/engine/ops/values.py:43
 msgid ""
 "Limit numbers to a range: values below the lower bound become the lower "
 "bound, values above the upper bound become the upper bound."
@@ -2099,110 +2417,110 @@ msgstr ""
 msgid "New value (empty: missing)"
 msgstr ""
 
-#: datacook/engine/recipes.py:117
+#: datacook/engine/recipes.py:115
 msgid "A recipe needs at least one step."
 msgstr ""
 
-#: datacook/engine/recipes.py:122
+#: datacook/engine/recipes.py:120
 msgid "Step {index}: unknown operation {op!r}"
 msgstr ""
 
-#: datacook/engine/recipes.py:125
+#: datacook/engine/recipes.py:123
 #, python-brace-format
 msgid "Step {index}: {op} takes {n} input(s)"
 msgstr ""
 
-#: datacook/engine/recipes.py:129
+#: datacook/engine/recipes.py:127
 msgid "Step {index}: invalid input {ref!r}"
 msgstr ""
 
-#: datacook/engine/recipes.py:165
+#: datacook/engine/recipes.py:163
 msgid "Not a DataCook recipe"
 msgstr ""
 
-#: datacook/engine/recipes.py:168
+#: datacook/engine/recipes.py:166
 msgid "Unsupported recipe version {version!r} (supported: up to {supported})"
 msgstr ""
 
-#: datacook/engine/recipes.py:175
+#: datacook/engine/recipes.py:173
 #, python-brace-format
 msgid "Step {index}: {error}"
 msgstr ""
 
-#: datacook/engine/recipes.py:201
+#: datacook/engine/recipes.py:199
 #, python-brace-format
 msgid "Not a DataCook recipe: {error}"
 msgstr ""
 
-#: datacook/engine/recipes.py:248
+#: datacook/engine/recipes.py:246
 msgid "No steps selected for the recipe."
 msgstr ""
 
-#: datacook/engine/recipes.py:253
+#: datacook/engine/recipes.py:251
 #, python-brace-format
 msgid ""
 "The steps use {n} steps outside the selection as input; a recipe can have "
 "only one input."
 msgstr ""
 
-#: datacook/engine/recipes.py:309
+#: datacook/engine/recipes.py:307
 msgid "The start step is not on the path to the step."
 msgstr ""
 
-#: datacook/engine/recipes.py:327
+#: datacook/engine/recipes.py:325
 msgid "The first recipe must end in a single step to merge."
 msgstr ""
 
-#: datacook/engine/recipes.py:329
+#: datacook/engine/recipes.py:327
 msgid "An import recipe can only be the first one of a merge."
 msgstr ""
 
-#: datacook/engine/recipes.py:377
+#: datacook/engine/recipes.py:375
 msgid ""
 "{name!r} is an import recipe (it starts with a reader): apply it to files."
 msgstr ""
 
-#: datacook/engine/recipes.py:380
+#: datacook/engine/recipes.py:378
 msgid "{name!r} needs a step to apply it to."
 msgstr ""
 
-#: datacook/engine/recipes.py:404
+#: datacook/engine/recipes.py:402
 msgid "Only an import recipe with one reader can be applied to files."
 msgstr ""
 
-#: datacook/engine/recipes.py:409
+#: datacook/engine/recipes.py:407
 msgid "The recipe's first step does not read a file."
 msgstr ""
 
-#: datacook/engine/recipes.py:440
+#: datacook/engine/recipes.py:438
 msgid "Recipe {name!r} needs columns that {target} does not have: {columns}"
 msgstr ""
 
-#: datacook/engine/recipes.py:441
+#: datacook/engine/recipes.py:439
 msgid "the step"
 msgstr ""
 
-#: datacook/engine/recipes.py:557
+#: datacook/engine/recipes.py:555
 msgid "A recipe needs a name."
 msgstr ""
 
-#: datacook/engine/recipes.py:576
+#: datacook/engine/recipes.py:574
 msgid "Select at least two recipes to merge."
 msgstr ""
 
-#: datacook/engine/restructure.py:48
+#: datacook/engine/restructure.py:46
 msgid ""
 "The first step of a chain (a data source) cannot be deleted on its own. "
 "Delete the step with its following steps instead."
 msgstr ""
 
-#: datacook/engine/restructure.py:54
+#: datacook/engine/restructure.py:52
 msgid ""
 "A step with several inputs (e.g. a merge) cannot be deleted while keeping "
 "its following steps: they would not know which input to use."
 msgstr ""
 
-#: datacook/engine/restructure.py:70
+#: datacook/engine/restructure.py:68
 #, python-brace-format
 msgid ""
 "The following steps use columns the previous step does not have: {columns}"

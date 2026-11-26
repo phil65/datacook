@@ -315,8 +315,8 @@ class Session:
     ) -> Node:
         op = self.registry[record.op_id]
         parent_ids = tuple(p if isinstance(p, str) else p.id for p in parents)
-        if len(parent_ids) != op.n_inputs:
-            msg = f"{op.id} takes {op.n_inputs} input(s), got {len(parent_ids)}"
+        if not op.takes(len(parent_ids)):
+            msg = f"{op.id} takes {op.inputs_text()} input(s), got {len(parent_ids)}"
             raise ValueError(msg)
         if not isinstance(record.params, op.Params):
             msg = f"params of {op.id} must be {op.Params.__qualname__}"
@@ -368,7 +368,7 @@ class Session:
             invalidated: list[str] = []
             if record is not None and record != node.record:
                 op = self.registry[record.op_id]
-                if op.n_inputs != len(node.parents) or not isinstance(record.params, op.Params):
+                if not op.takes(len(node.parents)) or not isinstance(record.params, op.Params):
                     msg = f"record does not fit node {node_id} ({op.id})"
                     raise ValueError(msg)
                 changes["record"] = record

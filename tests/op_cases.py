@@ -1,6 +1,16 @@
 """Op test cases: (op class, params kwargs, number of inputs)."""
 
-from datacook.engine.ops import categorical, code, columns, combine, missing, rows, values
+from datacook.engine.ops import (
+    categorical,
+    code,
+    columns,
+    combine,
+    missing,
+    reshape,
+    rows,
+    stats,
+    values,
+)
 
 
 CASES = {
@@ -101,6 +111,57 @@ CASES = {
             "aggregations": [{"column": "x", "func": "mean", "name": "mean x"}],
             "dropna": False,
         },
+    ),
+    # WP4.6 reshape + combine
+    "concat": (combine.Concat, {}),
+    "concat_columns": (combine.Concat, {"axis": "columns", "join": "inner"}),
+    "unpivot": (reshape.Unpivot, {"id_vars": ["k"], "value_vars": ["x", "i"]}),
+    "unpivot_all": (reshape.Unpivot, {"var_name": "column"}),
+    "pivot": (reshape.Pivot, {"index": ["s"], "columns": "k", "values": "x"}),
+    "pivot_totals": (
+        reshape.Pivot,
+        {
+            "index": ["s"],
+            "columns": "k",
+            "values": "i",
+            "aggfunc": "sum",
+            "margins": True,
+            "margins_name": "Total",
+            "fill_value": 0.0,
+        },
+    ),
+    "crosstab": (reshape.Crosstab, {"index": ["s"], "columns": "k"}),
+    "crosstab_shares": (
+        reshape.Crosstab,
+        {"index": ["s", "c"], "columns": "k", "normalize": "index", "margins": True},
+    ),
+    "transpose": (reshape.Transpose, {}),
+    "transpose_header": (reshape.Transpose, {"header": "s", "names": "field"}),
+    # WP4.7 statistics
+    "describe": (stats.Describe, {}),
+    "describe_all": (stats.Describe, {"columns": ["x", "s"], "include": "all"}),
+    "describe_percentiles": (stats.Describe, {"percentiles": [0.1, 0.9]}),
+    "var": (stats.Variance, {"ddof": 0}),
+    "cov": (stats.Covariance, {"columns": ["x", "i"]}),
+    "corr": (stats.Correlation, {}),
+    "corr_spearman": (stats.Correlation, {"columns": ["k", "x"], "method": "spearman"}),
+    "corrwith": (stats.CorrelationWith, {"drop": True}),
+    "mode": (stats.Mode, {}),
+    "mode_columns": (stats.Mode, {"columns": ["k", "s"], "dropna": False}),
+    "value_counts": (stats.ValueCounts, {"subset": ["s"]}),
+    "value_counts_shares": (
+        stats.ValueCounts,
+        {"subset": ["k", "s"], "normalize": True, "dropna": False},
+    ),
+    "rank": (stats.Rank, {"columns": ["x", "i"]}),
+    "rank_replace": (
+        stats.Rank,
+        {"columns": ["k"], "suffix": "", "method": "dense", "ascending": False, "pct": True},
+    ),
+    "cut": (stats.Bin, {"columns": ["x"], "bins": 3}),
+    "cut_edges": (
+        stats.Bin,
+        {"columns": ["i"], "bins": [0, 25, 60], "labels": ["low", "high"], "right": False},
     ),
     "custom_code": (
         code.CustomCode,
