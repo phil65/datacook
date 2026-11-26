@@ -2,5 +2,5 @@
 
 from importlib.metadata import version
 
-__version__ = version("DataCook")
+__version__ = version("datacook-app")
 __title__ = "DataCook"

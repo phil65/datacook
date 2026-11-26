@@ -14,7 +14,7 @@ project_description: Qt desktop tool for tabular data analysis that records ever
 project_name: DataCook
 python_minimum_version: '3.14'
 python_package_command_line_name: datacook
-python_package_distribution_name: DataCook
+python_package_distribution_name: datacook-app
 python_package_import_name: datacook
 repository_name: datacook
 repository_namespace: phil65

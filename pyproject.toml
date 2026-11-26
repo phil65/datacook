@@ -1,7 +1,7 @@
 #:tombi schema.strict = false
 
 [project]
-name = "DataCook"
+name = "datacook-app"
 version = "2.12.0"
 description = "Qt desktop tool for pandas data analysis that records every transformation as replayable Python code"
 readme = "README.md"
@@ -411,6 +411,8 @@ incompatible-attribute-override = "ignore"
 default-groups = ["dev", "lint", "docs"]
 
 [tool.uv.build-backend]
+# Project-specific: the distribution is datacook-app (PyPI name), the import package is datacook.
+module-name = "datacook"
 wheel-exclude = [
   ".mypy_cache/**",
   "__pycache__/**",
