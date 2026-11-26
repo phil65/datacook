@@ -76,12 +76,22 @@ class Op:
         raise NotImplementedError
 
     @classmethod
+    def to_code_block(cls, params: Any, inputs: Sequence[str], output: str, used: set[str]) -> str:
+        """Like `to_code`, with the script's already-used variable names (for unique locals)."""
+        return cls.to_code(params, inputs, output)
+
+    @classmethod
     def from_code(cls, stmt: ast.stmt, bound: Mapping[str, Any]) -> Match | None:
         """Recognise one statement produced by `to_code`; `bound` = known variable names.
 
         Return None if the statement is not this op. Raise `ValueError` for a recognised
         statement with invalid params.
         """
+        return None
+
+    @classmethod
+    def from_block(cls, stmts: Sequence[ast.stmt], bound: Mapping[str, Any]) -> Match | None:
+        """Recognise a multi-statement block produced by `to_code` (default: none)."""
         return None
 
     # --- helpers ---------------------------------------------------------------------

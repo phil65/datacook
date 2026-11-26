@@ -138,6 +138,26 @@ def parse(
             raise error
         return None
 
+    def recognise_block(
+        block: list[ast.stmt], scope: dict[str, int]
+    ) -> tuple[type[Op], Match] | None:
+        error: ParseError | None = None
+        for op in ops:
+            try:
+                found = op.from_block(block, scope)
+            except (ValueError, TypeError, pydantic.ValidationError) as e:
+                if error is None:
+                    error = ParseError(f"{op.id}: {e}", block[0].lineno)
+                    error.__cause__ = e
+                continue
+            if found is not None:
+                if not op.takes(len(found.inputs)):
+                    raise ParseError(f"{op.id} needs {op.inputs_text()} input(s)", block[0].lineno)
+                return op, found
+        if error is not None:
+            raise error
+        return None
+
     def custom_function(block: list[ast.stmt]) -> bool:
         """`def custom_step(df): ... return df` + `out = custom_step(var)` (codegen form)."""
         if len(block) != 2:  # noqa: PLR2004
@@ -173,6 +193,20 @@ def parse(
 
     def process(block: list[ast.stmt]) -> None:
         if custom_function(block):
+            return
+        if len(block) > 1 and (block_match := recognise_block(block, bound)) is not None:
+            op, found = block_match
+            first, last = block[0], block[-1]
+            step = Step(
+                OpRecord(op.id, found.params),
+                tuple(bound[v] for v in found.inputs),
+                found.output,
+                step_name(comment_above(first.lineno), op),
+                first.lineno,
+                last.end_lineno or last.lineno,
+            )
+            result.steps.append(step)
+            bound[found.output] = len(result.steps) - 1
             return
         # dry run: are all statements aliases or recognised ops?
         scope = dict(bound)

@@ -92,7 +92,7 @@ def render(
         variables[node.id] = var
         used.add(var)
         inputs = [variables[p] for p in node.parents]
-        code = op.to_code(node.record.params, inputs, var)
+        code = op.to_code_block(node.record.params, inputs, var, used)
         blocks.append((node.id, f"# {label(node, op)}\n{code}"))
     header = sorted(imports, key=lambda line: (line.startswith("from "), line))
     parts = ["\n".join(header)] if header else []

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DataCook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-26 22:17+0100\n"
+"POT-Creation-Date: 2026-11-26 22:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -687,7 +687,7 @@ msgstr ""
 #: datacook/app/docks/schema.py:275 datacook/engine/categories.py:17
 #: datacook/engine/ops/columns.py:30 datacook/engine/ops/columns.py:71
 #: datacook/engine/ops/columns.py:106 datacook/engine/ops/combine.py:68
-#: datacook/engine/ops/estimators.py:55 datacook/engine/ops/missing.py:37
+#: datacook/engine/ops/estimators.py:76 datacook/engine/ops/missing.py:37
 #: datacook/engine/ops/missing.py:192 datacook/engine/ops/rows.py:42
 #: datacook/engine/ops/rows.py:92 datacook/engine/ops/rows.py:118
 #: datacook/engine/ops/series.py:241 datacook/engine/ops/sources.py:67
@@ -1403,119 +1403,138 @@ msgstr ""
 msgid "e.g. 1s, 15min, 1h, 1D"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:205
-msgid "Scale / transform columns"
-msgstr ""
-
-#: datacook/engine/ops/estimators.py:207
-msgid ""
-"Fit and apply a scikit-learn scaler or transformer on numeric columns. "
-"Missing values in the selected columns are rejected; fill or drop them first."
-msgstr ""
-
-#: datacook/engine/ops/estimators.py:217
+#: datacook/engine/ops/estimators.py:87
 msgid "Transformer"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:220 datacook/engine/ops/series.py:245
+#: datacook/engine/ops/estimators.py:91 datacook/engine/ops/rows.py:47
+msgid "Algorithm"
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:95
+msgid "Estimator"
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:101 datacook/engine/ops/series.py:245
 #: datacook/engine/ops/stats.py:279 datacook/engine/ops/stats.py:307
 #: datacook/engine/ops/strings.py:119 datacook/engine/ops/strings.py:180
 msgid "Suffix for new columns"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:221 datacook/engine/ops/series.py:246
+#: datacook/engine/ops/estimators.py:102 datacook/engine/ops/series.py:246
 #: datacook/engine/ops/stats.py:280 datacook/engine/ops/stats.py:308
 #: datacook/engine/ops/strings.py:120 datacook/engine/ops/strings.py:181
 msgid "Empty: replace the columns. Otherwise the results are new columns."
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:223
+#: datacook/engine/ops/estimators.py:104
 msgid "Minimum (MinMaxScaler)"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:224
+#: datacook/engine/ops/estimators.py:105
 msgid "Maximum (MinMaxScaler)"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:225
+#: datacook/engine/ops/estimators.py:106
 msgid "Norm (Normalizer)"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:226
+#: datacook/engine/ops/estimators.py:107
 msgid "Method (PowerTransformer)"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:227
+#: datacook/engine/ops/estimators.py:108
 msgid "Quantiles (QuantileTransformer)"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:229
+#: datacook/engine/ops/estimators.py:110
 msgid "Distribution (QuantileTransformer)"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:231
+#: datacook/engine/ops/estimators.py:112
 msgid "Random seed (QuantileTransformer)"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:355
+#: datacook/engine/ops/estimators.py:116
+msgid "Components"
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:117
+msgid "Whiten"
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:120
+msgid "Replace selected columns"
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:121
+msgid "Drop the input columns and keep only the principal components."
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:126
+msgid "Cluster column"
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:127
+msgid "Clusters (KMeans)"
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:128
+msgid "Random seed (KMeans)"
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:489
+msgid "Scale / transform columns"
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:491
+msgid ""
+"Fit and apply a scikit-learn scaler or transformer on numeric columns. "
+"Missing values in the selected columns are rejected; fill or drop them first."
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:565
 msgid "Principal components (PCA)"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:357
+#: datacook/engine/ops/estimators.py:567
 msgid ""
 "Compute principal components (pc1..pcN) from numeric columns. Missing values "
 "in the selected columns are rejected; fill or drop them first."
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:368
-msgid "Components"
-msgstr ""
-
-#: datacook/engine/ops/estimators.py:369
-msgid "Whiten"
-msgstr ""
-
-#: datacook/engine/ops/estimators.py:372
-msgid "Replace selected columns"
-msgstr ""
-
-#: datacook/engine/ops/estimators.py:373
-msgid "Drop the input columns and keep only the principal components."
-msgstr ""
-
-#: datacook/engine/ops/estimators.py:450
+#: datacook/engine/ops/estimators.py:645
 msgid "Cluster rows"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:452
+#: datacook/engine/ops/estimators.py:647
 msgid ""
 "Cluster rows using KMeans or DBSCAN on numeric columns and add a cluster "
 "label column. Missing values in the selected columns are rejected; fill or "
 "drop them first."
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:462 datacook/engine/ops/rows.py:47
-msgid "Algorithm"
-msgstr ""
-
-#: datacook/engine/ops/estimators.py:463
-msgid "Cluster column"
-msgstr ""
-
-#: datacook/engine/ops/estimators.py:464
-msgid "Clusters (KMeans)"
-msgstr ""
-
-#: datacook/engine/ops/estimators.py:465
-msgid "Random seed (KMeans)"
-msgstr ""
-
-#: datacook/engine/ops/estimators.py:466
+#: datacook/engine/ops/estimators.py:656
 msgid "Neighborhood radius eps (DBSCAN)"
 msgstr ""
 
-#: datacook/engine/ops/estimators.py:467
+#: datacook/engine/ops/estimators.py:657
 msgid "Minimum samples (DBSCAN)"
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:731
+msgid "Apply model trained on another table"
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:733
+msgid ""
+"Fit a scikit-learn transformer, PCA or KMeans model on a second (training) "
+"table and apply it to the current table. Missing values in the selected "
+"columns of either table are rejected; fill or drop them first."
+msgstr ""
+
+#: datacook/engine/ops/estimators.py:744
+msgid "Random seed (QuantileTransformer / KMeans)"
 msgstr ""
 
 #: datacook/engine/ops/missing.py:33 datacook/engine/ops/stats.py:30

@@ -170,7 +170,7 @@ ported, its open part is in the list below. The old op catalogue (95 method clas
 | Merge (two datasets) | `actions/mergeactions.py` | ported: Merge op, second input chooser (`ops/combine.py`, `app/actions.py`) |
 | Concat (Ctrl+M) | `actions/mergeactions.py` | ported: "Concatenate" (two or more inputs, `Op.variadic`; rows below each other or side by side, outer / inner, sort; `ops/combine.py`), the other inputs are checked in a list (`app/actions.py`); MultiIndex keys dropped (no index); Ctrl+M not mapped |
 | Correlation with another dataset (corrwith) | `actions/mergeactions.py` | ported: "Correlation with another table" (`ops/stats.py`; Pearson only: pandas needs scipy for Spearman / Kendall here, no dependency; axis dropped) |
-| Estimator submenu: apply transformer, train, predict | `actions/estimatoractions.py` | ported partly: single-step transformers, PCA and clustering (`ops/estimators.py`, `sklearn` extra); train / predict on another table planned (WP4.8 part 2) |
+| Estimator submenu: apply transformer, train, predict | `actions/estimatoractions.py` | ported: single-step transformers, PCA, clustering and "Apply model trained on another table" (`ops/estimators.py`, `sklearn` extra) |
 
 ## 4. Datasets page: Feature list dock (columns)
 
@@ -290,7 +290,7 @@ apply == generated code == parsed code per op (`tests/test_ops.py`).
 | `CorrMethod`, `RankMethod`, `ModeMethod`, `DescribeMethod`, `VarMethod`, `CovMethod` | same | ported: `ops/stats.py` (see the statistics menu row) |
 | Category: rename, add, remove, reorder, set ordered / unordered, remove unused (7) | `methods/pandas/categorymethods.py` | ported: `ops/categorical.py` (+ "Set categories"); legacy module deleted |
 | Datetime: strftime, month name, day name (3) | `methods/pandas/datetimemethods.py` | ported: "Date / time to text", "Extract date / time parts" (parts `month_name` / `day_name`, locale) (`ops/dates.py`); new: time zones (set / convert), round, convert to date / time; legacy module deleted |
-| Estimator: set params, fit, fit-transform, transform, predict, fit-predict (6) | `methods/pandas/estimatormethods.py` | ported partly: single-step `FitTransform` ("Scale / transform columns"), `PCA` ("Principal components (PCA)"), `Cluster` ("Cluster rows", KMeans / DBSCAN) (`ops/estimators.py`, `sklearn` extra); train / predict on another table planned (WP4.8 part 2) |
+| Estimator: set params, fit, fit-transform, transform, predict, fit-predict (6) | `methods/pandas/estimatormethods.py` | ported: `FitTransform` ("Scale / transform columns"), `PCA` ("Principal components (PCA)"), `Cluster` ("Cluster rows", KMeans / DBSCAN) and `ApplyModel` ("Apply model trained on another table": fit on training table, transform / predict on target table; no model nodes) (`ops/estimators.py`, `sklearn` extra) |
 | Group-by: filter, get group, transform (3) | `methods/pandas/groupbymethods.py` | planned (WP4.6) |
 | Index: astype, rename, set names (3) | `methods/pandas/indexmethods.py` | planned (§2, phase 4) |
 | `MergeMethod` (DataFrame.merge) | `methods/pandas/mergemethods.py` | ported: "Merge" |
@@ -328,7 +328,7 @@ apply == generated code == parsed code per op (`tests/test_ops.py`).
 | `export_parquet` | Parquet | ported: `WriteParquet` |
 | `export_recipe` | `.recipe` | ported: Recipes dock "Export…" (`.datacookrecipe`) |
 | `export_hdf`, `export_html`, `export_notebook`, `export_pantab` | further exporters (4) | backlog (§0) |
-| `datacook_sklearn_plugin` | KMeans, MiniBatchKMeans, spectral, agglomerative, spectral biclustering, PCA, IncrementalPCA, IsolationForest, LinearRegression, MLPClassifier, SimpleImputer, polynomial features, quantile transformer, decision tree | ported partly: scalers / transformers (StandardScaler, MinMaxScaler, RobustScaler, MaxAbsScaler, Normalizer, PowerTransformer, QuantileTransformer), PCA, KMeans / DBSCAN (`ops/estimators.py`, `sklearn` extra); train / predict on another table and supervised models planned (WP4.8 part 2) |
+| `datacook_sklearn_plugin` | KMeans, MiniBatchKMeans, spectral, agglomerative, spectral biclustering, PCA, IncrementalPCA, IsolationForest, LinearRegression, MLPClassifier, SimpleImputer, polynomial features, quantile transformer, decision tree | ported partly: scalers / transformers (StandardScaler, MinMaxScaler, RobustScaler, MaxAbsScaler, Normalizer, PowerTransformer, QuantileTransformer), PCA, KMeans / DBSCAN, plus `ApplyModel` (fit on another table and transform / predict) (`ops/estimators.py`, `sklearn` extra); supervised models planned (WP4.8 part 2) |
 | `datacook_lightgbm_plugin`, `datacook_xgboost_plugin` | boosted-tree estimators | planned (phase 5, decide when porting; §4: via generic estimator op) |
 | `datacook_scipy_plugin` | Levene test, Mann-Whitney U, FFT, distribution parameter fit (+ KS test) | planned (phase 5, decide when porting) |
 | `datacook_scipy_plugin` | Arff file reader | open (O15) |
