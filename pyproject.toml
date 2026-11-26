@@ -1,0 +1,429 @@
+#:tombi schema.strict = false
+
+[project]
+name = "DataCook"
+version = "2.12.0"
+description = "Qt desktop tool for pandas data analysis that records every transformation as replayable Python code"
+readme = "README.md"
+requires-python = ">=3.14"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+  { name = "Philipp Temminghoff", email = "philipptemminghoff@gmail.com" },
+]
+maintainers = [
+  { name = "Philipp Temminghoff", email = "philipptemminghoff@gmail.com" },
+]
+keywords = [
+  "data analysis",
+  "data science",
+  "dataframe",
+  "gui",
+  "pandas",
+  "qt",
+  "statistics",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: X11 Applications :: Qt",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+  "PySide6",
+  "cutepandas>=0.6.2",
+  "epregistry>=2.0.5",
+  "numpy",
+  "pandas",
+  "platformdirs",
+  "prettyqt>=1.63.1",
+  "psutil>=7.2.2",
+  "pyarrow>=26.0.1",
+  "pydantic",
+]
+
+[project.urls]
+"Code coverage" = "https://app.codecov.io/gh/phil65/datacook"
+Documentation = "https://phil65.github.io/datacook/"
+Issues = "https://github.com/phil65/datacook/issues"
+Source = "https://github.com/phil65/datacook"
+
+[project.gui-scripts]
+datacook = "datacook.app:main"
+
+[project.entry-points."datacook.ops"]
+read_csv = "datacook.engine.ops.sources:ReadCsv"
+read_parquet = "datacook.engine.ops.sources:ReadParquet"
+read_feather = "datacook.engine.ops.sources:ReadFeather"
+read_json = "datacook.engine.ops.sources:ReadJson"
+read_excel = "datacook.engine.ops.sources:ReadExcel"
+read_clipboard = "datacook.engine.ops.sources:ReadClipboard"
+read_sqlite = "datacook.engine.ops.sources:ReadSqlite"
+inline_data = "datacook.engine.ops.sources:InlineData"
+select_columns = "datacook.engine.ops.columns:SelectColumns"
+drop_columns = "datacook.engine.ops.columns:DropColumns"
+rename_columns = "datacook.engine.ops.columns:RenameColumns"
+astype = "datacook.engine.ops.columns:ChangeDtypes"
+move_columns = "datacook.engine.ops.columns:MoveColumns"
+sort_columns = "datacook.engine.ops.columns:SortColumns"
+add_prefix = "datacook.engine.ops.columns:AddPrefix"
+add_suffix = "datacook.engine.ops.columns:AddSuffix"
+select_dtypes = "datacook.engine.ops.columns:SelectDtypes"
+convert_dtypes = "datacook.engine.ops.columns:ConvertDtypes"
+downcast = "datacook.engine.ops.columns:Downcast"
+duplicate_columns = "datacook.engine.ops.columns:DuplicateColumns"
+combine_columns = "datacook.engine.ops.columns:CombineColumns"
+calculate_columns = "datacook.engine.ops.columns:CalculateColumns"
+filter_rows = "datacook.engine.ops.rows:FilterRows"
+sort_rows = "datacook.engine.ops.rows:SortRows"
+head = "datacook.engine.ops.rows:Head"
+sample = "datacook.engine.ops.rows:Sample"
+drop_duplicates = "datacook.engine.ops.rows:DropDuplicates"
+tail = "datacook.engine.ops.rows:Tail"
+nlargest = "datacook.engine.ops.rows:NLargest"
+nsmallest = "datacook.engine.ops.rows:NSmallest"
+slice_rows = "datacook.engine.ops.rows:SliceRows"
+filter_isin = "datacook.engine.ops.rows:FilterIsIn"
+reset_index = "datacook.engine.ops.rows:ResetIndex"
+fill_missing = "datacook.engine.ops.missing:FillMissing"
+ffill = "datacook.engine.ops.missing:FillForward"
+bfill = "datacook.engine.ops.missing:FillBackward"
+drop_missing = "datacook.engine.ops.missing:DropMissing"
+fill_statistic = "datacook.engine.ops.missing:FillWithStatistic"
+interpolate = "datacook.engine.ops.missing:Interpolate"
+drop_missing_columns = "datacook.engine.ops.missing:DropMissingColumns"
+isna = "datacook.engine.ops.missing:IsMissing"
+filter_missing = "datacook.engine.ops.missing:FilterMissing"
+nan_to_missing = "datacook.engine.ops.missing:NanToMissing"
+abs = "datacook.engine.ops.values:Abs"
+clip = "datacook.engine.ops.values:Clip"
+replace_values = "datacook.engine.ops.values:ReplaceValues"
+cat_add_categories = "datacook.engine.ops.categorical:AddCategories"
+cat_remove_categories = "datacook.engine.ops.categorical:RemoveCategories"
+cat_rename_categories = "datacook.engine.ops.categorical:RenameCategories"
+cat_reorder_categories = "datacook.engine.ops.categorical:ReorderCategories"
+cat_set_categories = "datacook.engine.ops.categorical:SetCategories"
+cat_as_ordered = "datacook.engine.ops.categorical:AsOrdered"
+cat_as_unordered = "datacook.engine.ops.categorical:AsUnordered"
+cat_remove_unused = "datacook.engine.ops.categorical:RemoveUnusedCategories"
+merge = "datacook.engine.ops.combine:Merge"
+groupby_aggregate = "datacook.engine.ops.combine:GroupByAggregate"
+custom_code = "datacook.engine.ops.code:CustomCode"
+detect_gaps = "datacook.engine.ops.timeseries:DetectGaps"
+diff = "datacook.engine.ops.timeseries:Diff"
+dt_parts = "datacook.engine.ops.dates:DatetimeParts"
+dt_round = "datacook.engine.ops.dates:RoundTime"
+dt_strftime = "datacook.engine.ops.dates:Strftime"
+expanding = "datacook.engine.ops.timeseries:Expanding"
+filter_text = "datacook.engine.ops.strings:FilterText"
+float_year_to_datetime = "datacook.engine.ops.dates:FloatYearToDatetime"
+pct_change = "datacook.engine.ops.timeseries:PctChange"
+resample = "datacook.engine.ops.timeseries:Resample"
+rolling = "datacook.engine.ops.timeseries:Rolling"
+seconds_since_start = "datacook.engine.ops.timeseries:SecondsSinceStart"
+set_time_column = "datacook.engine.ops.timeseries:SetTimeColumn"
+shift = "datacook.engine.ops.timeseries:Shift"
+str_case = "datacook.engine.ops.strings:ChangeCase"
+str_extract = "datacook.engine.ops.strings:Extract"
+str_len = "datacook.engine.ops.strings:Length"
+str_pad = "datacook.engine.ops.strings:Pad"
+str_repeat = "datacook.engine.ops.strings:Repeat"
+str_replace = "datacook.engine.ops.strings:Replace"
+str_slice = "datacook.engine.ops.strings:Slice"
+str_split = "datacook.engine.ops.strings:Split"
+str_strip = "datacook.engine.ops.strings:Strip"
+str_test = "datacook.engine.ops.strings:Test"
+to_datetime = "datacook.engine.ops.dates:ToDatetime"
+tolerance_bands = "datacook.engine.ops.timeseries:ToleranceBands"
+tz_convert = "datacook.engine.ops.dates:TzConvert"
+tz_localize = "datacook.engine.ops.dates:TzLocalize"
+upsample = "datacook.engine.ops.timeseries:Upsample"
+
+[project.entry-points."datacook.writers"]
+csv = "datacook.engine.formats:WriteCsv"
+parquet = "datacook.engine.formats:WriteParquet"
+excel = "datacook.engine.formats:WriteExcel"
+script = "datacook.engine.formats:WriteScript"
+project = "datacook.engine.formats:WriteProject"
+
+[project.optional-dependencies]
+excel = [
+  "openpyxl>=3.1.5",
+]
+
+[dependency-groups]
+dev = [
+  "deptry",
+  "devtools",
+  "pyreadline3",
+  "pytest",
+  "pytest-cov",
+  "pytest-qt",
+  # Only add below (Copier)
+]
+benchmark = ["pyinstrument"]
+docs = [
+  "mkdocstrings[python]",
+  "mknodes>=4.0.0",
+  # Only add below (Copier)
+]
+lint = [
+  # Pinned on purpose: CI, pre-commit and editors all run exactly these versions.
+  # Bump them here (template) and roll out via `copier update`.
+  "ruff==0.17.6",
+  "ty==0.0.110",
+  # Only add below (Copier)
+]
+
+[build-system]
+requires = ["uv_build>=0.8.22"]
+build-backend = "uv_build"
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+  "@overload",
+  "except ImportError",
+  'if __name__ == "__main__":',
+]
+
+[tool.mknodes]
+allowed-commit-types = [
+  "fix",
+  "feat",
+  "refactor",
+  "docs",
+  "test",
+  "build",
+  "chore",
+]
+docstring-style = "google"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.14"
+pythonPlatform = "All"
+typeCheckingMode = "basic"
+deprecateTypingAliases = true
+reportMissingTypeStubs = false
+reportUnusedCallResult = false
+reportUnknownVariableType = false
+reportAny = false
+reportImplicitOverride = false
+reportUnusedFunction = false
+reportImplicitStringConcatenation = false
+reportIgnoreCommentWithoutRule = false
+reportUnannotatedClassAttribute = false
+reportSelfClsParameterName = false
+reportPrivateImportUsage = false
+
+[tool.pytest]
+# logfire's pytest plugin (pulled in by the docs group via mknodes) imports pydantic while
+# PySide6's import hook is active (pytest-qt), which breaks pydantic's lazy imports.
+addopts = ["-p", "no:logfire"]
+log_cli = true
+log_date_format = "%Y-%m-%d %H:%M:%S"
+log_format = "%(asctime)s %(levelname)s %(message)s"
+markers = ["slow: long-running scenario, opt-in via an environment variable (not in CI)"]
+minversion = "9.0"
+norecursedirs = ["dist", "legacy"]
+testpaths = ["tests/"]
+asyncio_mode = "auto"
+qt_api = "pyside6"
+
+[tool.ruff]
+line-length = 100
+# legacy/: old GUI / plugin code kept as reference for the rework, not maintained.
+extend-exclude = ["docs", "legacy"]
+force-exclude = true
+target-version = "py314"
+
+[tool.ruff.lint]
+select = [
+  "A",  # Flake8-builtins
+  # "ANN",  # Flake8-Annotations
+  # "ASYNC",  # Flake8-Async
+  # "ARG",  # # Flake8-Unused-Arguments
+  "B",  # flake8-bugbear
+  "BLE",  # Flake8-blind-except
+  "C",
+  "C4",  # flake8-comprehensions
+  # "C90",  # MCCabe
+  "COM",  # Flake8-commas
+  # "CPY",  #  Copyright-related rules
+  "D",  # PyDocStyle
+  # "DTZ",  # Flake8- Datetimez
+  "E",  # PyCodeStyle Error
+  "EM",  # flake8-errmsg
+  # "ERA",  #  Eradicate
+  "EXE",  # flake8-executable
+  "F",  # PyFlakes
+  # "FBT",  # flake8-boolean-trap
+  # "FIX",  # flake8-fixme
+  "FLY",  # flynt
+  "G",  # flake8-logging-format
+  "I",  # ISort
+  "ICN",  # Flake8-import-conventions
+  "INP",  # flake8-no-pep420
+  "INT",  # flake8-gettext
+  "ISC",  # flake8-implicit-str-concat
+  "N",  # pep8-naming
+  # "NPY",  # numpy-specific rules
+  # "PD",   # pandas-vet
+  "PERF",  # perflint
+  # "PGH",  # pygrep-hooks
+  "PIE",  # flake8-pie
+  "PLE",  # PyLint Error
+  "PLC",  # PyLint convention
+  # "PLW",  # PyLint Warning
+  "PLR",  # PyLint refactor
+  "PT",  # flake8-pytest-style
+  "PTH",  # flake8-use-pathlib
+  "PYI",  # flake8-pyi
+  "Q",  # flake8-quotes
+  "RET",  # flake8-return
+  "RSE",  # flake8-raise
+  "RUF",  # ruff-specific rules
+  # "S",    # flake8-bandit
+  "SIM",  # flake8-simplify
+  "SLF",  # flake8-self
+  "SLOT",  # flake8-slots
+  # "T",
+  # "TD",   # flake8-todos
+  "T10",  # flake8-debugger
+  # "T20",  # flake8-print
+  "TC",  # flake8-type-checking
+  "TID",  # flake8-tidy-imports
+  "TRY",  # tryceratops
+  "UP",  # PyUpgrade
+  "W",  # PyCodeStyle warning
+  "YTT",  # flake8-2020
+]
+ignore = [
+  "C408",  # Unnecessary {obj_type} call (rewrite as a literal)
+  "B905",  # zip() without an explicit strict= parameter
+  "C901",  # {name} is too complex ({complexity} > {max_complexity})
+  "COM812",
+  # "CPY001", # Missing copyright notice at top of file
+  "D100",  # Missing docstring in public module
+  "D101",  # Missing docstring in public class
+  "D102",  # Missing docstring in public method
+  "D103",  # Missing docstring in public function
+  "D104",  # Missing docstring in public package
+  "D105",  # Missing docstring in magic method
+  "D106",  # Missing docstring in public nested class
+  "D107",  # Missing docstring in __init__
+  "D203",  # 1 blank line required before class docstring
+  "D204",  # 1 blank line required after class docstring
+  "D213",  # Multi-line docstring summary should start at the second line
+  "D215",  # Section underline is over-indented ("{name}")
+  "D400",  # First line should end with a period
+  "D401",  # First line of docstring should be in imperative mood: "{first_line}"
+  "D404",  # First word of the docstring should not be "This"
+  "D406",  # Section name should end with a newline ("{name}")
+  "D407",  # Missing dashed underline after section ("{name}")
+  "D408",  # Section underline should be in the line following the section's name ("{name}")
+  "D409",  # Section underline should match the length of its name ("{name}")
+  "D413",  # Missing blank line after last section ("{name}")
+  "EM101",  # Exception must not use a string literal, assign to variable first
+  "EM102",  # Exception must not use an f-string literal, assign to variable first
+  "ISC001",
+  "PLC0415",
+  "PLR0912",  # Too many branches
+  "PLR0913",  # Too many arguments to function call
+  "PLR0915",  # Too many statements
+  "PLR0917",  # Too many positional arguments
+  # "PLR2004", # Magic values instead of named consts
+  "SLF001",  # Private member accessed
+  "TRY003",  # Avoid specifying long messages outside the exception class
+  "TC006",  # runtime-cast-value
+]
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+
+[tool.ruff.lint.flake8-type-checking]
+runtime-evaluated-base-classes = [
+  "datacook.engine.ops.base.Params",
+  "pydantic.BaseModel",
+  "sqlalchemy.orm.DeclarativeBase",
+  "schemez.Schema",
+  "sqlmodel.SQLModel",
+]
+runtime-evaluated-decorators = [
+  "pydantic.validate_call",
+  "fastapi.FastAPI.get",
+  "fastapi.FastAPI.post",
+  "fastmcp.FastMCP.tool",
+  "typer.Typer.command",
+]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"__future__.annotations".msg = "Python 3.14+ evaluates annotations lazily (PEP 649); drop the import."
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+# lines-between-types = 1
+# atomic = true
+force-sort-within-sections = true
+combine-as-imports = true
+
+[tool.ruff.lint.mccabe]
+max-complexity = 15
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "I001"]
+"scripts/*" = ["INP001"]
+"tools/*" = ["INP001"]
+"*tests/*" = ["D100", "PLR2004"]
+
+[tool.ruff.format]
+preview = true
+
+[tool.ty.environment]
+python-version = "3.14"
+python-platform = "all"
+
+[tool.ty.src]
+# `ty check` (hooks, CI, editors) type-checks the package code only.
+include = ["src"]
+exclude = ["legacy"]
+
+[tool.ty.analysis]
+# Optional dependencies that are not always installed, e.g. "numpy", "numpy.**".
+# Unresolved imports are errors otherwise, so broken imports are caught.
+allowed-unresolved-imports = []
+
+[tool.ty.rules]
+# Narrowing an overridden class attribute (e.g. pydantic discriminators,
+# `Config` attributes) is an intentional pattern.
+incompatible-mutable-override = "ignore"
+# Each op class defines its own nested `Params` model (`Op.Params: type[Params]`).
+incompatible-attribute-override = "ignore"
+
+[tool.uv]
+default-groups = ["dev", "lint", "docs"]
+
+[tool.uv.build-backend]
+wheel-exclude = [
+  ".mypy_cache/**",
+  "__pycache__/**",
+  "*.pyc",
+  "*.pyo",
+  ".pytest_cache/**",
+  ".ruff_cache/**",
+]
+source-exclude = [
+  ".mypy_cache/**",
+  "__pycache__/**",
+  "*.pyc",
+  "*.pyo",
+  ".pytest_cache/**",
+  ".ruff_cache/**",
+]

@@ -1,0 +1,6 @@
+---
+name: HDF5 exporter
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Pandas HDF5 exporter

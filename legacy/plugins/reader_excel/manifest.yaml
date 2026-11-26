@@ -1,0 +1,11 @@
+---
+name: Excel Importer
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Importer for several Excel formats
+requirements:
+  - xlrd
+  - pyxlsb
+  - odf
+  - openpyxl

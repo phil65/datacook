@@ -1,0 +1,11 @@
+---
+name: QtCharts Plot
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Plugin for plotting with QtCharts
+requirements:
+  - PyQt5.QtChart
+  - prettyqt.charts
+  - simplification.cutil
+  - processanalyzer.util.colorgenerator

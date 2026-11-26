@@ -1,0 +1,8 @@
+---
+name: XDI importer
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Read XDI files
+requirements:
+  - xdi_pandas

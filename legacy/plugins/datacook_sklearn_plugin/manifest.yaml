@@ -1,0 +1,14 @@
+---
+name: ScikitLearn estimators
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Scikit-Learn estimators
+requirements:
+  - sklearn
+  - sklearn.impute
+  - sklearn.ensemble
+  - sklearn.neural_network
+  - sklearn.mixture
+  - sklearn.utils._weight_vector
+  - sklearn.neighbors._partition_nodes

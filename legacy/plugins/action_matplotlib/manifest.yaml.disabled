@@ -1,0 +1,8 @@
+---
+name: Seaborn plots
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Plots based on seaborn
+requirements:
+  - seaborn

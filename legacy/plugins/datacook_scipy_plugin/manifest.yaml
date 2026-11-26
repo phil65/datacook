@@ -1,0 +1,9 @@
+---
+name: SciPy Tools
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Extension containing SciPy stuff
+requirements:
+  - scipy.io.arff
+  - pandastools.accessors.scipydataframe

@@ -1,0 +1,6 @@
+---
+name: Recipe reader
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Recipe reader. Import datasets via code.

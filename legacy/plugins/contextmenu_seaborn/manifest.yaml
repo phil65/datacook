@@ -1,0 +1,8 @@
+---
+name: Seaborn plots action
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Plotting actions based on Seaborn library.
+requirements:
+  - seaborn

@@ -1,0 +1,10 @@
+---
+name: OpenInExcel action
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Action to open datasets in Microsoft Excel.
+requirements:
+  - win32com
+platforms:
+  - win32

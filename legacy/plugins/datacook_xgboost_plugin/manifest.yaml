@@ -1,0 +1,8 @@
+---
+name: XgBoost models
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Models from XgBoost module
+requirements:
+  - xgboost

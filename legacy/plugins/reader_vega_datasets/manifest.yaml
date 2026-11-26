@@ -1,0 +1,8 @@
+---
+name: Vega datasets importer
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Vega datasets importer
+requirements:
+  - vega_datasets

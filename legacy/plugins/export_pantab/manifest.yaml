@@ -1,0 +1,9 @@
+---
+name: Tableau exporter
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Export to tableau
+requirements:
+  - tableauhyperapi
+  - pantab

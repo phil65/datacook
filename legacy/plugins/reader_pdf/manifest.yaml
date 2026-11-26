@@ -1,0 +1,8 @@
+---
+name: PDF Importer
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Import tables from PDF files
+requirements:
+  - tabula

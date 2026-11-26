@@ -1,0 +1,8 @@
+---
+name: Dtaidistance DTW comparer
+author: Philipp Temminghoff
+version: 0.9.0
+website: www.uni-wuppertal.de
+description: Dynamic time warping provided by Dtaidistance library.
+requirements:
+  - dtaidistance
