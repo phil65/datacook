@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="DataCook">
+  <title>DataCook</title>
+  <defs>
+    <linearGradient id="dc-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b3f73"/>
+      <stop offset="1" stop-color="#18223f"/>
+    </linearGradient>
+    <linearGradient id="dc-pot" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb347"/>
+      <stop offset="1" stop-color="#f07f24"/>
+    </linearGradient>
+    <clipPath id="dc-body">
+      <path d="M60 128 H196 V176 Q196 208 164 208 H92 Q60 208 60 176 Z"/>
+    </clipPath>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="url(#dc-bg)"/>
+  <!-- steam: three wisps -->
+  <g fill="none" stroke="#e8eefc" stroke-width="12" stroke-linecap="round">
+    <path d="M96 100 C84 86 108 74 96 58"/>
+    <path d="M128 100 C116 82 140 68 128 46" />
+    <path d="M160 100 C148 86 172 74 160 58"/>
+  </g>
+  <!-- handles -->
+  <rect x="36" y="136" width="30" height="18" rx="9" fill="#f07f24"/>
+  <rect x="190" y="136" width="30" height="18" rx="9" fill="#f07f24"/>
+  <!-- pot body = a small table -->
+  <path d="M60 128 H196 V176 Q196 208 164 208 H92 Q60 208 60 176 Z" fill="url(#dc-pot)"/>
+  <g clip-path="url(#dc-body)">
+    <rect x="60" y="128" width="136" height="22" fill="#d9661a"/>
+    <g stroke="#fff4e0" stroke-opacity="0.7" stroke-width="4">
+      <line x1="105" y1="128" x2="105" y2="210"/>
+      <line x1="151" y1="128" x2="151" y2="210"/>
+      <line x1="58" y1="150" x2="198" y2="150"/>
+      <line x1="58" y1="178" x2="198" y2="178"/>
+    </g>
+  </g>
+  <!-- rim -->
+  <rect x="48" y="110" width="160" height="22" rx="11" fill="#ffc46b"/>
+</svg>

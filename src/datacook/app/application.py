@@ -156,6 +156,18 @@ def open_paths(window: MainWindow, paths: Sequence[str]) -> None:
             project.open_data(path)
 
 
+ICON_DIR = pathlib.Path(__file__).parent.parent / "resources" / "icons"
+"""App icon in 16-256 px (`resources/icon.svg` is the master, `icon.ico` for Windows)."""
+
+
+def app_icon() -> QtGui.QIcon:
+    """The DataCook icon with every size from `ICON_DIR`."""
+    icon = QtGui.QIcon()
+    for path in sorted(ICON_DIR.glob("*.png")):
+        icon.addFile(str(path))
+    return icon
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     """`datacook [PROJECT.datacook | DATA_FILE ...]`."""
     logging.basicConfig(level=logging.INFO)
@@ -163,6 +175,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = list(sys.argv if argv is None else argv)
     qapp = QtWidgets.QApplication.instance() or QtWidgets.QApplication(args)
     qapp.setApplicationName("DataCook")
+    QtGui.QGuiApplication.setWindowIcon(app_icon())
     window = create_window()
     window.app.state.settings_changed.connect(lambda settings: settings.save())  # recent files
     window.show()
