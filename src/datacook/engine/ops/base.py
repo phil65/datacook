@@ -6,7 +6,7 @@ files contain. Ops are stateless: all methods are classmethods taking the params
 
 Most ops are a single pandas call; `CallOp` derives `apply`, `to_code` and `from_call` from
 one declaration (`method` / `function`, positional params), so execution and generated code
-cannot drift.
+cannot drift. Ops working on selected columns derive from `ops.series.ColumnOp`.
 """
 
 import ast
@@ -260,6 +260,32 @@ def literal_value(node: ast.expr) -> Any:
         raise ValueError(str(e)) from e
 
 
+def call_arguments(
+    params: Params,
+    positional: Sequence[str] = (),
+    always: Sequence[str] = (),
+    skip: Sequence[str] = (),
+) -> tuple[list[Any], dict[str, Any]]:
+    """Call arguments of params: `positional` ones in order, the others as keywords.
+
+    A keyword is passed when it is required, listed in `always` or differs from its
+    default; `skip`: params that are not call arguments (e.g. the selected columns).
+    """
+    values = params.model_dump(mode="python")
+    for name in skip:
+        values.pop(name, None)
+    args = [values.pop(name) for name in positional]
+    fields = type(params).model_fields
+    kwargs = {
+        k: v
+        for k, v in values.items()
+        if k in always
+        or fields[k].is_required()
+        or v != fields[k].get_default(call_default_factory=True)
+    }
+    return args, kwargs
+
+
 class CallOp(Op):
     """An op that is one pandas call.
 
@@ -277,30 +303,15 @@ class CallOp(Op):
     """Params passed even when they equal their default (defaults that differ from pandas)."""
     fixed: ClassVar[Mapping[str, Any]] = MappingProxyType({})
     """Keyword arguments that are not params, always passed first (e.g. `axis="columns"`)."""
-    excluded: ClassVar[tuple[str, ...]] = ()
-    """Params that are not call arguments (handled by a subclass, e.g. the column subset)."""
 
     @classmethod
     def call_args(cls, params: Params) -> tuple[list[Any], dict[str, Any]]:
-        values = params.model_dump(mode="python")
-        for name in cls.excluded:
-            values.pop(name)
-        args = [values.pop(name) for name in cls.positional]
-        fields = type(params).model_fields
-        kwargs = {
-            k: v
-            for k, v in values.items()
-            if k in cls.always
-            or fields[k].is_required()
-            or v != fields[k].get_default(call_default_factory=True)
-        }
+        args, kwargs = call_arguments(params, cls.positional, cls.always)
         return args, {**cls.fixed, **kwargs}
 
     @classmethod
-    def params_from_call(
-        cls, args: list[Any], kwargs: dict[str, Any], **extra: Any
-    ) -> Params | None:
-        """The params of a call (`extra`: values of `excluded` params); None if not this op."""
+    def params_from_call(cls, args: list[Any], kwargs: dict[str, Any]) -> Params | None:
+        """The params of a call; None if not this op."""
         if len(args) > len(cls.positional):
             msg = f"too many positional arguments for {cls.id}"
             raise ValueError(msg)
@@ -309,7 +320,7 @@ class CallOp(Op):
                 return None
         if not set(kwargs) <= set(cls.Params.model_fields):
             return None  # e.g. `dropna(axis="columns")` is not "drop rows with missing values"
-        return cls.Params(**dict(zip(cls.positional, args)), **kwargs, **extra)
+        return cls.Params(**dict(zip(cls.positional, args)), **kwargs)
 
     @classmethod
     def _callable(cls, inputs: Sequence[Frame]) -> Any:
@@ -430,153 +441,3 @@ def assign_kwarg(name: str, expr: str) -> str:
     if name.isidentifier() and not keyword.iskeyword(name) and name != "self":
         return f"{name}={expr}"
     return f"**{{{literal(name)}: {expr}}}"
-
-
-class ColumnsCallOp(CallOp):
-    """A method call on all columns or on a subset of them (the `columns` param).
-
-    `columns=None` (if the field allows it) calls the method on the whole frame
-    (`out = a.clip(lower=0)`); a list calls it on those columns and puts the result back in
-    place: `out = a.assign(**a[["x", "y"]].clip(lower=0))`.
-    """
-
-    excluded = ("columns",)
-
-    @classmethod
-    def apply(cls, params: Any, *inputs: Frame) -> Frame:
-        columns = params.columns
-        if columns is None:
-            return super().apply(params, *inputs)
-        frame = inputs[0]
-        args, kwargs = cls.call_args(params)
-        assert cls.method is not None
-        part = getattr(frame[columns], cls.method)(*args, **kwargs)
-        return frame.assign(**part)
-
-    @classmethod
-    def to_code(cls, params: Any, inputs: Sequence[str], output: str) -> str:
-        columns = params.columns
-        if columns is None:
-            return super().to_code(params, inputs, output)
-        args, kwargs = cls.call_args(params)
-        frame = inputs[0]
-        func = f"{frame}[{literal(columns)}].{cls.method}"
-        prefix = f"{output} = {frame}.assign(**"
-        call = format_call(func, list(map(literal, args)), kwargs, len(prefix))
-        return f"{prefix}{call})"
-
-    @classmethod
-    def from_code(  # noqa: PLR0911
-        cls, stmt: ast.stmt, bound: Mapping[str, Any]
-    ) -> Match | None:
-        assign = assignment(stmt)
-        if assign is None:
-            return None
-        output, value = assign
-        target = assign_target(value, bound)
-        if target is None:
-            if cls.Params.model_fields["columns"].is_required():
-                return None
-            return super().from_code(stmt, bound)
-        frame, kw = target
-        call = kw.value
-        if not (
-            kw.arg is None
-            and isinstance(call, ast.Call)
-            and isinstance(call.func, ast.Attribute)
-            and call.func.attr == cls.method
-            and isinstance(sub := call.func.value, ast.Subscript)
-            and isinstance(sub.value, ast.Name)
-            and sub.value.id == frame
-            and isinstance(sub.slice, ast.List)
-        ):
-            return None
-        found = cls.literal_args(call)
-        if found is None:
-            return None
-        try:
-            columns = literal_value(sub.slice)
-        except ValueError:
-            return None
-        params = cls.params_from_call(*found, columns=columns)
-        return None if params is None else Match(params, (frame,), output)
-
-
-class ColumnCallOp(CallOp):
-    """A method call on one column (the `column` param), optionally through an accessor.
-
-    `out = a.assign(c=a["c"].cat.add_categories(["x"]))`: the result replaces the column
-    in place.
-    """
-
-    excluded = ("column",)
-    accessor: ClassVar[str | None] = None
-    """Series accessor (`"cat"`, `"str"`, `"dt"`) or None for a Series method."""
-
-    @classmethod
-    def _series_method(cls, frame: Frame, column: str) -> Any:
-        series: Any = frame[column]
-        if cls.accessor is not None:
-            series = getattr(series, cls.accessor)
-        assert cls.method is not None
-        return getattr(series, cls.method)
-
-    @classmethod
-    def apply(cls, params: Any, *inputs: Frame) -> Frame:
-        frame = inputs[0]
-        args, kwargs = cls.call_args(params)
-        try:
-            method = cls._series_method(frame, params.column)
-        except AttributeError as e:  # e.g. `.cat` on a column that is not categorical
-            raise OpError(f"{params.column}: {e}") from e
-        return frame.assign(**{params.column: method(*args, **kwargs)})
-
-    @classmethod
-    def to_code(cls, params: Any, inputs: Sequence[str], output: str) -> str:
-        args, kwargs = cls.call_args(params)
-        frame = inputs[0]
-        accessor = f".{cls.accessor}" if cls.accessor else ""
-        func = f"{frame}[{literal(params.column)}]{accessor}.{cls.method}"
-        prefix = f"{output} = {frame}.assign("
-        kwarg = assign_kwarg(params.column, "")
-        call = format_call(func, list(map(literal, args)), kwargs, len(prefix) + len(kwarg))
-        return f"{prefix}{assign_kwarg(params.column, call)})"
-
-    @classmethod
-    def from_code(cls, stmt: ast.stmt, bound: Mapping[str, Any]) -> Match | None:  # noqa: PLR0911
-        assign = assignment(stmt)
-        if assign is None:
-            return None
-        output, value = assign
-        target = assign_target(value, bound)
-        if target is None:
-            return None
-        frame, kw = target
-        found = assign_item(kw)
-        if found is None:
-            return None
-        name, call = found
-        if not (
-            isinstance(call, ast.Call)
-            and isinstance(call.func, ast.Attribute)
-            and call.func.attr == cls.method
-        ):
-            return None
-        series = call.func.value
-        if cls.accessor is not None:
-            if not (isinstance(series, ast.Attribute) and series.attr == cls.accessor):
-                return None
-            series = series.value
-        if not (
-            isinstance(series, ast.Subscript)
-            and isinstance(series.value, ast.Name)
-            and series.value.id == frame
-            and isinstance(series.slice, ast.Constant)
-            and series.slice.value == name
-        ):
-            return None
-        found = cls.literal_args(call)
-        if found is None:
-            return None
-        params = cls.params_from_call(*found, column=name)
-        return None if params is None else Match(params, (frame,), output)

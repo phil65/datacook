@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING, Any, Literal
 from pydantic import Field
 
 from datacook.engine import categories
-from datacook.engine.ops import base
+from datacook.engine.ops import base, series
 from datacook.i18n import N_, _
 
 
@@ -50,13 +50,14 @@ class FillMissing(base.CallOp):
         value: Scalar | dict[str, Scalar] = Field(title=N_("Value"))
 
 
-class FillForward(base.ColumnsCallOp):
+class FillForward(series.SeriesOp):
     id = "ffill"
     title = _("Fill forward")
     description = _("Fill missing values with the last valid value.")
     category = categories.NAN
     icon = "mdi.arrow-down-bold"
     method = "ffill"
+    frame_call = True
 
     class Params(base.Params):
         limit: int | None = Field(None, title=N_("Limit"), ge=1)
@@ -156,7 +157,7 @@ class FillWithStatistic(base.Op):
         return base.Match(params, (frame,), output)
 
 
-class Interpolate(base.ColumnsCallOp):
+class Interpolate(series.SeriesOp):
     id = "interpolate"
     title = _("Interpolate missing values")
     description = _(
@@ -166,6 +167,7 @@ class Interpolate(base.ColumnsCallOp):
     category = categories.NAN
     icon = "mdi.chart-bell-curve-cumulative"
     method = "interpolate"
+    frame_call = True
 
     class Params(base.Params):
         columns: list[str] = _columns()

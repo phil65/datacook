@@ -174,6 +174,15 @@ def test_whole_frame_form_needs_optional_columns() -> None:
     assert _parse_one("df = df.ffill()").op_id == "ffill"
 
 
+def test_frame_call_forms_with_other_arguments_are_custom_code() -> None:
+    """Keywords the params lack: not the op (like `CallOp`), parsed as custom code."""
+    assert _parse_one("df = df.ffill(axis=1)").op_id == "custom_code"
+    assert _parse_one('df = df.assign(**df[["x"]].ffill(axis=1))').op_id == "custom_code"
+    assert _parse_one('df = df.assign(**df["x"].ffill())').op_id == "custom_code"
+    record = _parse_one('df = df.assign(**df[["x"]].clip(upper=2))')
+    assert record == values.Clip.record(columns=["x"], upper=2.0)
+
+
 # --- categorical ----------------------------------------------------------------------------
 
 
@@ -221,6 +230,13 @@ def test_category_code_with_any_column_name(cat_frame) -> None:
     assert _parse_one(code) == categorical.AsOrdered.record(params)
     params = categorical.AsOrdered.Params(column="class")  # a keyword: no `class=...`
     assert "**{" in categorical.AsOrdered.to_code(params, ["df"], "df")
+
+
+def test_category_op_has_no_suffix() -> None:
+    """One `column`, no suffix: a result under another name is not the op."""
+    assert _parse_one('df = df.assign(c2=df["c"].cat.as_ordered())').op_id == "custom_code"
+    code = 'df = df.assign(c=df["c"].cat.as_ordered(), d=df["d"].cat.as_ordered())'
+    assert _parse_one(code).op_id == "custom_code"
 
 
 def test_category_op_on_other_column(cat_frame) -> None:

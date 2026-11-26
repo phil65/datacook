@@ -8,7 +8,7 @@ import pydantic
 from pydantic import Field
 
 from datacook.engine import categories
-from datacook.engine.ops import base
+from datacook.engine.ops import base, series
 from datacook.i18n import N_, _
 
 
@@ -21,13 +21,14 @@ if TYPE_CHECKING:
 type Scalar = bool | int | float | str
 
 
-class Abs(base.ColumnsCallOp):
+class Abs(series.SeriesOp):
     id = "abs"
     title = _("Absolute values")
     description = _("Replace numbers by their absolute value.")
     category = categories.GENERAL
     icon = "mdi.plus-minus-variant"
     method = "abs"
+    frame_call = True
 
     class Params(base.Params):
         columns: list[str] = Field(
@@ -35,7 +36,7 @@ class Abs(base.ColumnsCallOp):
         )
 
 
-class Clip(base.ColumnsCallOp):
+class Clip(series.SeriesOp):
     id = "clip"
     title = _("Clip values")
     description = _(
@@ -45,6 +46,7 @@ class Clip(base.ColumnsCallOp):
     category = categories.GENERAL
     icon = "mdi.arrow-collapse-vertical"
     method = "clip"
+    frame_call = True
 
     class Params(base.Params):
         columns: list[str] = Field(

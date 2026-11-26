@@ -194,6 +194,43 @@ def item_key(link: Link) -> Any:
     return base.literal_value(link.key)
 
 
+def frame_call(  # noqa: PLR0911
+    stmt: ast.stmt, bound: Mapping[str, Any]
+) -> tuple[str, str, list[str] | None, Link] | None:
+    """`(output, var, columns, call)` of a frame call (`SeriesOp.frame_call`).
+
+    `out = var.f(...)` (columns None) or `out = var.assign(**var[[...]].f(...))`.
+    """
+    assign = base.assignment(stmt)
+    if assign is None:
+        return None
+    output, value = assign
+    target = base.assign_target(value, bound)
+    if target is not None:
+        if target[1].arg is not None:
+            return None
+        value = target[1].value
+    chain = unchain(value)
+    if chain is None:
+        return None
+    root, links = chain
+    if not (isinstance(root, ast.Name) and root.id in bound and links):
+        return None
+    if target is not None and root.id != target[0]:
+        return None
+    columns = None
+    if target is not None and len(links) == 2:  # noqa: PLR2004
+        try:
+            columns = item_key(links[0])
+        except ValueError:
+            return None
+    if len(links) != (1 if columns is None else 2) or links[-1].kind != "call":
+        return None
+    if target is not None and not isinstance(columns, list):
+        return None
+    return output, root.id, columns, links[-1]
+
+
 # --- column ops --------------------------------------------------------------------------
 
 
@@ -210,15 +247,21 @@ class ColumnParams(base.Params):
     )
 
 
-class ColumnOp(base.Op):
-    """One series per selected column, written back with `assign()`.
+SELECTION = ("columns", "column", "suffix")
+"""Params of a `ColumnOp` that select the columns and name the results."""
 
-    Subclasses implement `series()` (execution), `expr()` (its code) and `match_expr()`
-    (recognise one expression: the column and the other params as a dict). Params must
-    derive from `ColumnParams`.
+
+class ColumnOp(base.Op):
+    """The base of all per-column ops: one series per selected column, put back by `assign()`.
+
+    The params select the columns with either `columns` (a list) or `column` (one name).
+    Results replace the columns, or go to `<column><suffix>` if the params have a `suffix`
+    field (`ColumnParams` has both). Subclasses implement `series()` (execution), `expr()`
+    (its code) and `match_expr()` (recognise one expression: the column and the other params
+    as a dict); `SeriesOp` derives all three from the declaration of one call.
     """
 
-    Params: ClassVar[type[ColumnParams]] = ColumnParams
+    Params: ClassVar[type[base.Params]] = ColumnParams
 
     @classmethod
     def series(cls, params: Any, frame: Frame, column: str) -> pd.Series:
@@ -232,19 +275,61 @@ class ColumnOp(base.Op):
     def match_expr(cls, node: ast.expr, var: str) -> tuple[str, dict[str, Any]] | None:
         raise NotImplementedError
 
+    # --- column selection --------------------------------------------------------------
+    @classmethod
+    def selected(cls, params: Any) -> list[str] | None:
+        """The selected columns; None = all (only `SeriesOp` with `frame_call`)."""
+        if "column" in type(params).model_fields:
+            return [params.column]
+        return params.columns
+
+    @classmethod
+    def selection(cls, columns: list[str] | None, suffix: str = "") -> dict[str, Any] | None:
+        """Params selecting `columns` with `suffix`; None if the params cannot express it."""
+        fields = cls.Params.model_fields
+        if suffix and "suffix" not in fields:
+            return None
+        if "column" in fields:
+            return {"column": columns[0]} if columns is not None and len(columns) == 1 else None
+        if columns is None and fields["columns"].is_required():
+            return None
+        values: dict[str, Any] = {"columns": columns}
+        if "suffix" in fields:
+            values["suffix"] = suffix
+        return values
+
+    @classmethod
+    def results(cls, params: Any, columns: Sequence[str]) -> dict[str, str]:
+        """Result column per selected column."""
+        suffix = getattr(params, "suffix", "")
+        return {c: f"{c}{suffix}" for c in columns}
+
+    # --- op interface ------------------------------------------------------------------
     @classmethod
     def apply(cls, params: Any, *inputs: Frame) -> Frame:
         frame = inputs[0]
-        missing = [c for c in params.columns if c not in frame.columns]
+        columns = cls.selected(params)
+        assert columns is not None
+        missing = [c for c in columns if c not in frame.columns]
         if missing:
             raise base.OpError(f"unknown columns: {missing}")
-        values = {f"{c}{params.suffix}": cls.series(params, frame, c) for c in params.columns}
+        values = {}
+        for column, name in cls.results(params, columns).items():
+            try:
+                values[name] = cls.series(params, frame, column)
+            except AttributeError as e:  # e.g. `.cat` on a column that is not categorical
+                raise base.OpError(f"{column}: {e}") from e
         return frame.assign(**values)
 
     @classmethod
     def to_code(cls, params: Any, inputs: Sequence[str], output: str) -> str:
         var = inputs[0]
-        values = {f"{c}{params.suffix}": cls.expr(params, var, c) for c in params.columns}
+        columns = cls.selected(params)
+        assert columns is not None
+        values = {
+            name: cls.expr(params, var, column)
+            for column, name in cls.results(params, columns).items()
+        }
         return assign_code(var, output, values)
 
     @classmethod
@@ -268,20 +353,29 @@ class ColumnOp(base.Op):
             options.append(matched[1])
         if len(suffixes) != 1 or any(o != options[0] for o in options):
             return None
-        params = cls.Params(columns=columns, suffix=suffixes.pop(), **options[0])
+        selection = cls.selection(columns, suffixes.pop())
+        if selection is None:
+            return None
+        params = cls.Params(**selection, **options[0])
         return confirm(cls, params, [var], output, stmt)
 
 
 class SeriesOp(ColumnOp):
-    """A `ColumnOp` that is one series call, declared like `CallOp`.
+    """A `ColumnOp` that is one call per column, declared like `CallOp`.
 
-    - `accessor` (`"str"`, `"dt"` or None) + `method`: `df["a"].str.upper()`;
+    - `accessor` (`"str"`, `"dt"`, `"cat"` or None) + `method`: `df["a"].str.upper()`;
     - or `function` (dotted name; `pd` = pandas): `pd.to_datetime(df["a"], ...)`;
     - `method_param`: a param whose value picks the method (`methods` maps values to
       method names, default: the value itself); it is not passed to the call.
 
     Params in `positional` are passed positionally, the others as keywords when they differ
-    from their default (or are listed in `always`). `columns` and `suffix` are never passed.
+    from their default (or are listed in `always`). The selection params (`columns`,
+    `column`, `suffix`) are never passed.
+
+    `frame_call = True`: the method works on a frame column by column (`abs`, `clip`,
+    `ffill`), so the code calls it once on the selected columns and puts the result back,
+    `out = a.assign(**a[["x", "y"]].clip(lower=0))`, or on the whole frame when the
+    `columns` field allows None (`out = a.ffill()`). No accessor, function or suffix then.
     """
 
     accessor: ClassVar[str | None] = None
@@ -291,7 +385,7 @@ class SeriesOp(ColumnOp):
     function: ClassVar[str | None] = None
     positional: ClassVar[tuple[str, ...]] = ()
     always: ClassVar[tuple[str, ...]] = ()
-    skip: ClassVar[tuple[str, ...]] = ("columns", "suffix")
+    frame_call: ClassVar[bool] = False
 
     @classmethod
     def method_name(cls, params: Any) -> str:
@@ -303,41 +397,98 @@ class SeriesOp(ColumnOp):
 
     @classmethod
     def call_args(cls, params: Any) -> tuple[list[Any], dict[str, Any]]:
-        values = params.model_dump(mode="python")
-        for name in (*cls.skip, cls.method_param):
-            values.pop(name, None)
-        args = [values.pop(name) for name in cls.positional]
-        fields = type(params).model_fields
-        kwargs = {
-            k: v
-            for k, v in values.items()
-            if k in cls.always
-            or fields[k].is_required()
-            or v != fields[k].get_default(call_default_factory=True)
-        }
-        return args, kwargs
+        skip = (*SELECTION, cls.method_param) if cls.method_param else SELECTION
+        return base.call_arguments(params, cls.positional, cls.always, skip)
 
     @classmethod
-    def series(cls, params: Any, frame: Frame, column: str) -> pd.Series:
+    def call(cls, params: Any, obj: Any) -> Any:
+        """The declared call on a series (or, with `frame_call`, a frame)."""
         args, kwargs = cls.call_args(params)
         if cls.function is not None:
             module, _sep, name = cls.function.rpartition(".")
             func = getattr(importlib.import_module({"pd": "pandas"}.get(module, module)), name)
-            return func(frame[column], *args, **kwargs)
-        obj: Any = frame[column]
+            return func(obj, *args, **kwargs)
         if cls.accessor is not None:
             obj = getattr(obj, cls.accessor)
         return getattr(obj, cls.method_name(params))(*args, **kwargs)
 
     @classmethod
-    def expr(cls, params: Any, var: str, column: str) -> str:
+    def call_code(cls, params: Any, source: str, indent: int = 0) -> str:
+        """Code of `call()` on the expression `source`."""
         args, kwargs = cls.call_args(params)
-        source = column_code(var, column)
         if cls.function is not None:
-            return base.format_call(cls.function, [source, *map(base.literal, args)], kwargs)
+            return base.format_call(
+                cls.function, [source, *map(base.literal, args)], kwargs, indent
+            )
         prefix = f"{source}.{cls.accessor}" if cls.accessor is not None else source
         func = f"{prefix}.{cls.method_name(params)}"
-        return base.format_call(func, list(map(base.literal, args)), kwargs)
+        return base.format_call(func, list(map(base.literal, args)), kwargs, indent)
+
+    @classmethod
+    def series(cls, params: Any, frame: Frame, column: str) -> pd.Series:
+        return cls.call(params, frame[column])
+
+    @classmethod
+    def expr(cls, params: Any, var: str, column: str) -> str:
+        return cls.call_code(params, column_code(var, column))
+
+    @classmethod
+    def apply(cls, params: Any, *inputs: Frame) -> Frame:
+        if not cls.frame_call:
+            return super().apply(params, *inputs)
+        frame = inputs[0]
+        columns = cls.selected(params)
+        if columns is None:
+            return cls.call(params, frame)
+        missing = [c for c in columns if c not in frame.columns]
+        if missing:
+            raise base.OpError(f"unknown columns: {missing}")
+        return frame.assign(**cls.call(params, frame[columns]))
+
+    @classmethod
+    def to_code(cls, params: Any, inputs: Sequence[str], output: str) -> str:
+        if not cls.frame_call:
+            return super().to_code(params, inputs, output)
+        var = inputs[0]
+        columns = cls.selected(params)
+        if columns is None:
+            return f"{output} = {cls.call_code(params, var, len(output) + 3)}"
+        prefix = f"{output} = {var}.assign(**"
+        call = cls.call_code(params, f"{var}[{base.literal(columns)}]", len(prefix))
+        return f"{prefix}{call})"
+
+    @classmethod
+    def from_code(cls, stmt: ast.stmt, bound: Mapping[str, Any]) -> base.Match | None:
+        if not cls.frame_call:
+            return super().from_code(stmt, bound)
+        found = frame_call(stmt, bound)
+        if found is None:
+            return None
+        output, var, columns, call = found
+        options = cls._call_options(call)
+        selection = cls.selection(columns)
+        if options is None or selection is None:
+            return None
+        params = cls.Params(**selection, **options)
+        return base.Match(params, (var,), output)  # like `CallOp`: `clip(upper=2)` is fine
+
+    @classmethod
+    def _call_options(cls, call: Link) -> dict[str, Any] | None:
+        """The params (besides the selection) of a recognised call link; None if not this op."""
+        options = cls._method_options(call.name)
+        if options is None:
+            return None
+        try:
+            args, kwargs = call.literal_args()
+        except ValueError:  # not literal: user code
+            return None
+        if len(args) > len(cls.positional):
+            return None
+        if not set(kwargs) <= set(cls.Params.model_fields):
+            return None  # like `CallOp`: `df.ffill(axis=1)` is user code
+        options.update(zip(cls.positional, args))
+        options.update(kwargs)
+        return options
 
     @classmethod
     def _method_options(cls, name: str) -> dict[str, Any] | None:
@@ -362,11 +513,8 @@ class SeriesOp(ColumnOp):
             ):
                 return None
             column = column_of(node.args[0], var)
-            if column is None:
-                return None
-            call = Link(
-                "call", "", tuple(node.args[1:]), {k.arg: k.value for k in node.keywords if k.arg}
-            )
+            kwargs = {k.arg: k.value for k in node.keywords if k.arg}
+            call = Link("call", "", tuple(node.args[1:]), kwargs)
             options: dict[str, Any] | None = {}
         else:
             chain = unchain(node)
@@ -377,13 +525,11 @@ class SeriesOp(ColumnOp):
             if len(links) != n or links[-1].kind != "call":
                 return None
             column = chain_column(root, links, var)
-            if column is None:
-                return None
             if cls.accessor is not None and links[1] != Link("attr", cls.accessor):
                 return None
             call = links[-1]
             options = cls._method_options(call.name)
-        if options is None:
+        if column is None or options is None:
             return None
         args, kwargs = call.literal_args()
         if len(args) > len(cls.positional):

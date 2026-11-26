@@ -11,7 +11,7 @@ from typing import Any
 from pydantic import Field
 
 from datacook.engine import categories
-from datacook.engine.ops import base
+from datacook.engine.ops import base, series
 from datacook.i18n import N_, _
 
 
@@ -22,7 +22,7 @@ def _column() -> Any:
     return Field(title=N_("Column"), json_schema_extra={"widget": "column"})
 
 
-class _CategoryOp(base.ColumnCallOp):
+class _CategoryOp(series.SeriesOp):
     category = categories.CATEGORICAL
     accessor = "cat"
 

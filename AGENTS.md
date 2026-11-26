@@ -38,17 +38,19 @@ feature without a row saying where it went or which owner decision dropped it. O
     `icon`, `n_inputs`, `imports`, `requires`/`extra`), frozen pydantic `Params`, `OpRecord`
     (op id + params: what nodes and project files store). `CallOp` derives all three from
     one pandas call declaration (`method` or `function`, `positional`, `always`, `fixed`),
-    so apply and generated code cannot drift. `ColumnsCallOp`: the call on all columns or on
-    the `columns` subset (`df.assign(**df[cols].clip(...))`); `ColumnCallOp`: a Series
-    (accessor) call on one `column` (`df.assign(c=df["c"].cat.as_ordered())`).
+    so apply and generated code cannot drift. Per-column ops: `ops/series.py` (below).
   - `ops/{sources,columns,rows,missing,values,categorical,combine,code}.py`: the built-in
     ops; `sources` are readers (`n_inputs = 0`, `extensions`, `format_id`, default
     `dtype_backend="pyarrow"`). Missing-value policy (null vs NaN): `ops/missing.py`
     docstring.
   - `ops/{strings,dates,timeseries}.py`: text, date / time and time series ops. Column-wise
-    ops derive from `ops/series.py` (`ColumnOp` / `SeriesOp`: one `df.assign(...)` per step,
-    results replace the columns or go to `<column><suffix>`; code recognition via `unchain()`
-    + `confirm()`, which regenerates the code and compares syntax trees).
+    ops derive from `ops/series.py`: `ColumnOp` is the one per-column base (columns from
+    `columns` or a single `column`, one `df.assign(...)` per step, results replace the
+    columns or go to `<column><suffix>` if the params have `suffix`); `SeriesOp` declares
+    one call like `CallOp` (`accessor` `str` / `dt` / `cat`, `method`, `function`), with
+    `frame_call = True` for frame methods on the selection
+    (`df.assign(**df[cols].clip(...))`, `columns=None` = `df.ffill()`). Code recognition
+    via `unchain()` + `confirm()`, which regenerates the code and compares syntax trees.
   - `timecol.py`: the time column (no DatetimeIndex: time is a column named by params with
     the hint `TIME_COLUMN`, `{"widget": "column", "role": "time"}`); `time_column(session,
     node_id)` = nearest step on the path with a time param, else the first date / time
