@@ -105,6 +105,9 @@ feature without a row saying where it went or which owner decision dropped it. O
   module docstring and the workspace plan).
 - `src/datacook/constants/iconnames.py`, `resources/`: fonts, theme, sample data (no app logo / icon yet).
 - `tools/bench_memory.py`: the plan's memory benchmark on the engine vs raw pandas.
+- `tools/ui_inspect.py`: offscreen Qt UI screenshot and widget-tree inspection harness
+  (captures full window, individual docks, named widgets or dialogs at configurable
+  sizes/languages/scenarios, plus layout-clipping diagnostics).
 - `legacy/`: the old GUI, plugins, app glue, old core and op catalogue (`legacy/methods/`,
   to port in phase 4). Not imported, packaged, linted, type-checked or tested. See
   `legacy/README.md`.
@@ -134,6 +137,7 @@ uv run mknodes build          # docs (README + auto-generated pages)
 uv build
 uv run duty lang              # gettext: rescan, merge, compile, stats (needs GNU gettext)
 uv run python tools/demo_data.py demo   # demo data + project in ./demo
+uv run python tools/ui_inspect.py --scenario all --tree --out /tmp/dc-ui  # UI screenshots
 ARROW_DEFAULT_MEMORY_POOL=system uv run python tools/bench_memory.py engine_keep
 ```
 
