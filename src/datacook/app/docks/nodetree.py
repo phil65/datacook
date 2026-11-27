@@ -364,6 +364,10 @@ class NodeTreeModel(QtCore.QAbstractItemModel):
                 return int(
                     QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignVCenter
                 )
+            case QtCore.Qt.ItemDataRole.ForegroundRole if col > 0:
+                return QtGui.QGuiApplication.palette().brush(
+                    QtGui.QPalette.ColorRole.PlaceholderText
+                )
             case QtCore.Qt.ItemDataRole.FontRole if col == 0:
                 node = self.session.get(nid)
                 if node is not None and node.comment:
@@ -403,6 +407,7 @@ class NodeTreeWidget(QtWidgets.QWidget):
         self.view.setModel(self.model)
         self.view.setUniformRowHeights(True)
         self.view.setAlternatingRowColors(True)
+        self.view.setIndentation(14)
         self.view.setEditTriggers(
             QtWidgets.QAbstractItemView.EditTrigger.EditKeyPressed
             | QtWidgets.QAbstractItemView.EditTrigger.SelectedClicked

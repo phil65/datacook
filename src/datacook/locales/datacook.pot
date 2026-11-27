@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DataCook\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-26 22:51+0100\n"
+"POT-Creation-Date: 2026-11-28 00:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,45 +17,49 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: datacook/app/actions.py:151
+#: datacook/app/actions.py:168
 msgid "needs the extra {extra!r}"
 msgstr ""
 
-#: datacook/app/actions.py:158
+#: datacook/app/actions.py:175
 msgid "Command palette…"
 msgstr ""
 
-#: datacook/app/actions.py:159
+#: datacook/app/actions.py:176
 msgid "Edit step…"
 msgstr ""
 
-#: datacook/app/actions.py:160
+#: datacook/app/actions.py:177
 msgid "Cancel preview"
 msgstr ""
 
-#: datacook/app/actions.py:180 datacook/app/controllers/project.py:220
+#: datacook/app/actions.py:178
+msgid "Search operations…"
+msgstr ""
+
+#: datacook/app/actions.py:210 datacook/app/controllers/project.py:220
 #: datacook/app/controllers/project.py:251
 msgid "{title} needs the extra {extra!r}"
 msgstr ""
 
-#: datacook/app/actions.py:189
+#: datacook/app/actions.py:219
 msgid "Select a step first: the new step is added after it."
 msgstr ""
 
-#: datacook/app/actions.py:196
+#: datacook/app/actions.py:226
 #, python-brace-format
 msgid "{title} needs a second table."
 msgstr ""
 
-#: datacook/app/actions.py:210
+#: datacook/app/actions.py:240
 msgid "Ops with more than two inputs are not supported yet."
 msgstr ""
 
-#: datacook/app/actions.py:228
+#: datacook/app/actions.py:258
 msgid "Second table (right side):"
 msgstr ""
 
-#: datacook/app/actions.py:243
+#: datacook/app/actions.py:273
 msgid "Tables to add after the current one:"
 msgstr ""
 
@@ -71,13 +75,13 @@ msgstr ""
 msgid "Add step"
 msgstr ""
 
-#: datacook/app/commands.py:93 datacook/app/docks/nodetree.py:445
-#: datacook/app/docks/nodetree.py:453
+#: datacook/app/commands.py:93 datacook/app/docks/nodetree.py:450
+#: datacook/app/docks/nodetree.py:458
 msgid "Delete step"
 msgstr ""
 
-#: datacook/app/commands.py:120 datacook/app/docks/nodetree.py:447
-#: datacook/app/docks/nodetree.py:454
+#: datacook/app/commands.py:120 datacook/app/docks/nodetree.py:452
+#: datacook/app/docks/nodetree.py:459
 msgid "Delete step (keep following steps)"
 msgstr ""
 
@@ -225,7 +229,7 @@ msgstr ""
 msgid "Python script…"
 msgstr ""
 
-#: datacook/app/docks/code.py:156 datacook/app/docks/schema.py:63
+#: datacook/app/docks/code.py:168 datacook/app/docks/schema.py:63
 #: datacook/engine/categories.py:30 datacook/engine/ops/code.py:38
 msgid "Code"
 msgstr ""
@@ -338,27 +342,27 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: datacook/app/docks/messages.py:107
+#: datacook/app/docks/messages.py:113
 msgid "Level"
 msgstr ""
 
-#: datacook/app/docks/messages.py:107
+#: datacook/app/docks/messages.py:113
 msgid "Message"
 msgstr ""
 
-#: datacook/app/docks/messages.py:107
+#: datacook/app/docks/messages.py:113
 msgid "Time"
 msgstr ""
 
-#: datacook/app/docks/messages.py:286
+#: datacook/app/docks/messages.py:311
 msgid "Level:"
 msgstr ""
 
-#: datacook/app/docks/messages.py:287
+#: datacook/app/docks/messages.py:312
 msgid "Clear"
 msgstr ""
 
-#: datacook/app/docks/messages.py:304
+#: datacook/app/docks/messages.py:329
 msgid "Messages"
 msgstr ""
 
@@ -395,77 +399,77 @@ msgstr ""
 msgid "Upstream error in step {name}"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:389
+#: datacook/app/docks/nodetree.py:393
 #, python-brace-format
 msgid "Rename failed: {error}"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:442 datacook/app/docks/nodetree.py:450
+#: datacook/app/docks/nodetree.py:447 datacook/app/docks/nodetree.py:455
 msgid "Rename"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:443 datacook/app/docks/nodetree.py:451
+#: datacook/app/docks/nodetree.py:448 datacook/app/docks/nodetree.py:456
 msgid "Comment…"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:444 datacook/app/docks/nodetree.py:452
+#: datacook/app/docks/nodetree.py:449 datacook/app/docks/nodetree.py:457
 msgid "Branch from here"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:503
+#: datacook/app/docks/nodetree.py:508
 #, python-brace-format
 msgid "Add a step to branch from {name}"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:518
+#: datacook/app/docks/nodetree.py:523
 msgid "Comment"
 msgstr ""
 
-#: datacook/app/docks/nodetree.py:574
+#: datacook/app/docks/nodetree.py:579
 msgid "Steps"
 msgstr ""
 
-#: datacook/app/docks/params.py:119 datacook/app/docks/params.py:246
+#: datacook/app/docks/params.py:140 datacook/app/docks/params.py:292
 msgid "Apply"
 msgstr ""
 
-#: datacook/app/docks/params.py:120
+#: datacook/app/docks/params.py:141
 msgid "Cancel"
 msgstr ""
 
-#: datacook/app/docks/params.py:122
+#: datacook/app/docks/params.py:143
 msgid "Choose an operation from the Steps menu or the palette (Ctrl+Shift+P)."
 msgstr ""
 
-#: datacook/app/docks/params.py:237
+#: datacook/app/docks/params.py:283
 msgid "No operation"
 msgstr ""
 
-#: datacook/app/docks/params.py:241
+#: datacook/app/docks/params.py:287
 #, python-brace-format
 msgid "Edit step: {title}"
 msgstr ""
 
-#: datacook/app/docks/params.py:243
+#: datacook/app/docks/params.py:289
 #, python-brace-format
 msgid "New step: {title}"
 msgstr ""
 
-#: datacook/app/docks/params.py:246
+#: datacook/app/docks/params.py:292
 msgid "Add"
 msgstr ""
 
-#: datacook/app/docks/params.py:259
+#: datacook/app/docks/params.py:307
 #, python-brace-format
 msgid "Preview failed: {error}"
 msgstr ""
 
-#: datacook/app/docks/params.py:263 datacook/app/widgets/readerdialog.py:105
+#: datacook/app/docks/params.py:311 datacook/app/widgets/readerdialog.py:132
 #, python-brace-format
 msgid "Preview: first {rows} rows, {cols} columns"
 msgstr ""
 
-#: datacook/app/docks/params.py:273
+#: datacook/app/docks/params.py:323
 msgid "Parameters"
 msgstr ""
 
@@ -533,8 +537,8 @@ msgstr ""
 msgid "Export recipe"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:329 datacook/app/docks/recipes.py:590
-#: datacook/app/docks/recipes.py:600 datacook/app/docks/recipes.py:629
+#: datacook/app/docks/recipes.py:329 datacook/app/docks/recipes.py:609
+#: datacook/app/docks/recipes.py:619 datacook/app/docks/recipes.py:648
 msgid "Recipes"
 msgstr ""
 
@@ -550,81 +554,81 @@ msgstr ""
 msgid "Recipe"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:400
+#: datacook/app/docks/recipes.py:409
 msgid "Required columns"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:406
+#: datacook/app/docks/recipes.py:415
 msgid "input"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:412
+#: datacook/app/docks/recipes.py:421
 msgid "Created"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:454
+#: datacook/app/docks/recipes.py:473
 msgid "Rename…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:455
+#: datacook/app/docks/recipes.py:474
 msgid "Edit description…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:456
+#: datacook/app/docks/recipes.py:475
 msgid "Merge selected recipes"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:457
+#: datacook/app/docks/recipes.py:476
 msgid "Export…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:458
+#: datacook/app/docks/recipes.py:477
 msgid "Delete"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:459 datacook/app/docks/recipes.py:616
+#: datacook/app/docks/recipes.py:478 datacook/app/docks/recipes.py:635
 msgid "Import recipe file…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:486
+#: datacook/app/docks/recipes.py:505
 #, python-brace-format
 msgid "{n} steps"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:486
+#: datacook/app/docks/recipes.py:505
 #, python-brace-format
 msgid "{n} steps, import"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:525
+#: datacook/app/docks/recipes.py:544
 msgid "No recipes yet. Select a step and use Steps > Recipes > Save as recipe."
 msgstr ""
 
-#: datacook/app/docks/recipes.py:538
+#: datacook/app/docks/recipes.py:557
 msgid "Run"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:539
+#: datacook/app/docks/recipes.py:558
 msgid "Run on files…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:542
+#: datacook/app/docks/recipes.py:561
 msgid "Apply to current step"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:543
+#: datacook/app/docks/recipes.py:562
 msgid "Apply to steps…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:610
+#: datacook/app/docks/recipes.py:629
 msgid "Save steps up to here as recipe…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:612
+#: datacook/app/docks/recipes.py:631
 msgid "Save step and following steps as recipe…"
 msgstr ""
 
-#: datacook/app/docks/recipes.py:619
+#: datacook/app/docks/recipes.py:638
 msgid "Recipe library"
 msgstr ""
 
@@ -663,7 +667,7 @@ msgstr ""
 msgid "Std"
 msgstr ""
 
-#: datacook/app/docks/schema.py:60 datacook/app/widgets/columnchooser.py:153
+#: datacook/app/docks/schema.py:60 datacook/app/widgets/columnchooser.py:157
 #: datacook/engine/ops/missing.py:50
 msgid "Value"
 msgstr ""
@@ -680,11 +684,16 @@ msgstr ""
 msgid "Items"
 msgstr ""
 
-#: datacook/app/docks/schema.py:268
+#: datacook/app/docks/schema.py:312 datacook/engine/categories.py:21
+#: datacook/engine/ops/categorical.py:99
+msgid "Categories"
+msgstr ""
+
+#: datacook/app/docks/schema.py:313
 msgid "Select a column to see its statistics."
 msgstr ""
 
-#: datacook/app/docks/schema.py:275 datacook/engine/categories.py:17
+#: datacook/app/docks/schema.py:320 datacook/engine/categories.py:17
 #: datacook/engine/ops/columns.py:30 datacook/engine/ops/columns.py:71
 #: datacook/engine/ops/columns.py:106 datacook/engine/ops/combine.py:68
 #: datacook/engine/ops/estimators.py:76 datacook/engine/ops/missing.py:37
@@ -721,23 +730,23 @@ msgstr ""
 msgid "No data view installed"
 msgstr ""
 
-#: datacook/app/mainwindow.py:160
+#: datacook/app/mainwindow.py:161
 msgid "Undo"
 msgstr ""
 
-#: datacook/app/mainwindow.py:162
+#: datacook/app/mainwindow.py:163
 msgid "Redo"
 msgstr ""
 
-#: datacook/app/mainwindow.py:185
+#: datacook/app/mainwindow.py:186
 msgid "Untitled"
 msgstr ""
 
-#: datacook/app/widgets/columnchooser.py:115
+#: datacook/app/widgets/columnchooser.py:119
 msgid "Not a column of the input (yet)"
 msgstr ""
 
-#: datacook/app/widgets/columnchooser.py:153
+#: datacook/app/widgets/columnchooser.py:157
 #: datacook/engine/ops/categorical.py:22 datacook/engine/ops/combine.py:126
 #: datacook/engine/ops/dates.py:111 datacook/engine/ops/rows.py:191
 #: datacook/engine/ops/strings.py:193 datacook/engine/ops/strings.py:353
@@ -745,62 +754,62 @@ msgstr ""
 msgid "Column"
 msgstr ""
 
-#: datacook/app/widgets/columnchooser.py:265
-#: datacook/app/widgets/columnchooser.py:275
+#: datacook/app/widgets/columnchooser.py:274
+#: datacook/app/widgets/columnchooser.py:284
 msgid "Choose a file"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:56
+#: datacook/app/widgets/memoryindicator.py:57
 #, python-brace-format
 msgid "Cache {used:.1f}/{budget:.1f} GB · RSS {rss:.1f} GB"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:63
+#: datacook/app/widgets/memoryindicator.py:64
 #, python-brace-format
 msgid ""
 "Frame cache: {used} of {budget}, {cached} steps in memory, {pinned} pinned\n"
 "Process memory (RSS): {rss}"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:96
+#: datacook/app/widgets/memoryindicator.py:98
 msgid "Steps in memory"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:99
+#: datacook/app/widgets/memoryindicator.py:101
 msgid "(none)"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:104
+#: datacook/app/widgets/memoryindicator.py:106
 msgid "[pinned]"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:108
+#: datacook/app/widgets/memoryindicator.py:110
 msgid "Free memory"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:119
+#: datacook/app/widgets/memoryindicator.py:121
 #, python-brace-format
 msgid "Freed {n} cached steps"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:121
+#: datacook/app/widgets/memoryindicator.py:123
 msgid "Nothing to free: only steps in use are in memory"
 msgstr ""
 
-#: datacook/app/widgets/memoryindicator.py:131
+#: datacook/app/widgets/memoryindicator.py:133
 msgid "Memory"
 msgstr ""
 
-#: datacook/app/widgets/readerdialog.py:41
+#: datacook/app/widgets/readerdialog.py:42
 #, python-brace-format
 msgid "Open data: {title}"
 msgstr ""
 
-#: datacook/app/widgets/readerdialog.py:89
+#: datacook/app/widgets/readerdialog.py:112
 msgid "Reading preview…"
 msgstr ""
 
-#: datacook/app/widgets/readerdialog.py:102
+#: datacook/app/widgets/readerdialog.py:127
 #, python-brace-format
 msgid "Cannot read: {error}"
 msgstr ""
@@ -819,10 +828,6 @@ msgstr ""
 
 #: datacook/engine/categories.py:20
 msgid "NaN operations"
-msgstr ""
-
-#: datacook/engine/categories.py:21 datacook/engine/ops/categorical.py:99
-msgid "Categories"
 msgstr ""
 
 #: datacook/engine/categories.py:22

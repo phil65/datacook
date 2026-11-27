@@ -266,7 +266,7 @@ class DataView(QtWidgets.QWidget):
             if failing is not None and failing != slot.node_id:
                 buttons.append((str(_("Go to step")), lambda: self._go_to(failing)))
             buttons.append((str(_("Retry")), self.app.nodes.recompute))
-        page.overlay.show_message(title, str(slot.error or ""), buttons)
+        page.overlay.show_message(title, str(slot.error or ""), buttons, kind="error")
 
     def _go_to(self, nid: str) -> None:
         if nid in self.app.session:

@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 from prettyqt.qt import QtCore, QtWidgets
 import psutil
 
+from datacook.app import style
 from datacook.app.docks.nodetree import format_bytes, node_label
 from datacook.app.uimodules import DockSpec
 from datacook.i18n import _
@@ -71,7 +72,8 @@ class MemoryIndicator(QtWidgets.QToolButton):
                 rss=format_bytes(rss),
             )
         )
-        self.setStyleSheet("color: #dc322f;" if self.over_budget else "")
+        self.setProperty("overBudget", self.over_budget)
+        style.repolish(self)
 
     def cached_entries(self) -> list[tuple[str, str, int | None]]:
         """(node id, label, size in bytes or None) of the cached steps, largest first."""

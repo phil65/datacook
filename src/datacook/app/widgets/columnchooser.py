@@ -82,7 +82,11 @@ class ColumnsChooser(QtWidgets.QListWidget):
         super().__init__(parent)
         self.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.InternalMove)
         self.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
-        self.setMaximumHeight(160)
+        self.setAlternatingRowColors(True)
+        self.setFixedHeight(150)
+        self.setSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed
+        )
         self._columns: list[str] = []
         self._loading = False
         self.itemChanged.connect(self._emit)
@@ -153,8 +157,13 @@ class ColumnMapEditor(QtWidgets.QTableWidget):
         self.setHorizontalHeaderLabels([str(_("Column")), str(_("Value"))])
         self.horizontalHeader().setStretchLastSection(True)
         self.verticalHeader().hide()
+        self.verticalHeader().setDefaultSectionSize(24)
+        self.setAlternatingRowColors(True)
         self.setMinimumHeight(120)
-        self.setMaximumHeight(220)
+        self.setMaximumHeight(200)
+        self.setSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred
+        )
         self.itemChanged.connect(self._on_item_changed)
         self.set_columns(columns)
 

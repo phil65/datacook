@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING, Protocol
 
 from prettyqt.qt import QtCore, QtWidgets
 
-from datacook.app import uimodules
+from datacook.app import style, uimodules
 from datacook.i18n import _
 
 
@@ -40,7 +40,7 @@ MENUS = {
 }
 """Menu keys for `MainWindow.menu()`, in menu bar order."""
 
-DOCK_SIZES = {"left": 380, "right": 380, "bottom": 240}
+DOCK_SIZES = {"left": 340, "right": 340, "bottom": 210}
 """Initial width (left / right) or height (bottom) of the dock areas in pixels."""
 
 
@@ -100,6 +100,7 @@ class MainWindow(QtWidgets.QMainWindow):
             if spec.tabify_with in self.docks:
                 self.docks[spec.tabify_with].raise_()
         self._initial_dock_sizes()
+        style.apply(self)
         app.commands.undo_stack.cleanChanged.connect(self._update_title)
         app.state.language_changed.connect(self.retranslate)
         self._update_title()

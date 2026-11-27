@@ -22,6 +22,7 @@ from prettyqt import custom_widgets
 from prettyqt.qt import QtCore, QtWidgets
 
 from datacook import i18n
+from datacook.app import style
 from datacook.app.uimodules import DockSpec
 from datacook.app.widgets.columnchooser import form_factories
 from datacook.engine import timecol
@@ -53,35 +54,55 @@ class ParamsPanel(QtWidgets.QWidget):
         """The params last sent to the preview controller (or loaded from it)."""
 
         layout = QtWidgets.QVBoxLayout(self)
+        layout.setContentsMargins(12, 10, 12, 10)
+        layout.setSpacing(8)
         self.title_label = QtWidgets.QLabel()
+        self.title_label.setObjectName("params-title")
         font = self.title_label.font()
         font.setBold(True)
         self.title_label.setFont(font)
+        self.title_label.setWordWrap(True)
         self.description_label = QtWidgets.QLabel()
+        self.description_label.setObjectName("params-description")
         self.description_label.setWordWrap(True)
+        self._top_divider = QtWidgets.QFrame()
+        self._top_divider.setObjectName("params-divider")
+        self._top_divider.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.placeholder = QtWidgets.QLabel()
+        self.placeholder.setObjectName("params-placeholder")
         self.placeholder.setWordWrap(True)
         self.placeholder.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.placeholder.setContentsMargins(16, 16, 16, 16)
         self.scroll_area = QtWidgets.QScrollArea()
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self._bottom_divider = QtWidgets.QFrame()
+        self._bottom_divider.setObjectName("params-divider")
+        self._bottom_divider.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.status_label = QtWidgets.QLabel()
+        self.status_label.setObjectName("params-status")
         self.status_label.setWordWrap(True)
         self.apply_button = QtWidgets.QPushButton()
         self.apply_button.setObjectName("params-apply")
+        self.apply_button.setProperty("primary", True)
         self.apply_button.setDefault(True)
         self.cancel_button = QtWidgets.QPushButton()
         self.cancel_button.setObjectName("params-cancel")
-        buttons = QtWidgets.QHBoxLayout()
+        self._footer = QtWidgets.QWidget()
+        buttons = QtWidgets.QHBoxLayout(self._footer)
+        buttons.setContentsMargins(0, 2, 0, 0)
+        buttons.setSpacing(8)
         buttons.addStretch(1)
         buttons.addWidget(self.cancel_button)
         buttons.addWidget(self.apply_button)
         layout.addWidget(self.title_label)
         layout.addWidget(self.description_label)
+        layout.addWidget(self._top_divider)
         layout.addWidget(self.placeholder, 1)
         layout.addWidget(self.scroll_area, 1)
+        layout.addWidget(self._bottom_divider)
         layout.addWidget(self.status_label)
-        layout.addLayout(buttons)
+        layout.addWidget(self._footer)
 
         self.apply_button.clicked.connect(self.apply)
         self.cancel_button.clicked.connect(self.cancel)
@@ -149,8 +170,15 @@ class ParamsPanel(QtWidgets.QWidget):
         if self.form is not None:
             self.form.deleteLater()
             self.form = None
-        self.scroll_area.takeWidget()
+        if (old := self.scroll_area.takeWidget()) is not None:
+            old.deleteLater()
         self.scroll_area.hide()
+        self.title_label.hide()
+        self.description_label.hide()
+        self._top_divider.hide()
+        self._bottom_divider.hide()
+        self.status_label.hide()
+        self._footer.hide()
         self.placeholder.show()
         self._update_header()
         self._update_status()
@@ -174,15 +202,33 @@ class ParamsPanel(QtWidgets.QWidget):
             translate=i18n.translate,
         )
         form.setObjectName("params-form")
+        if isinstance(form_layout := form.layout(), QtWidgets.QFormLayout):
+            form_layout.setContentsMargins(0, 4, 2, 4)
+            form_layout.setVerticalSpacing(8)
+            form_layout.setHorizontalSpacing(10)
+            form_layout.setFieldGrowthPolicy(
+                QtWidgets.QFormLayout.FieldGrowthPolicy.ExpandingFieldsGrow
+            )
         self._column_editors = editors
         if params is not None:
             form.set_raw_value(params)
         elif spec.mode == "add" and spec.inputs:
             self._prefill_time_column(form, op, spec.inputs[0])
         self.form = form
-        self.scroll_area.setWidget(form)
+        container = QtWidgets.QWidget()
+        box = QtWidgets.QVBoxLayout(container)
+        box.setContentsMargins(0, 0, 0, 0)
+        box.addWidget(form)
+        box.addStretch(1)
+        self.scroll_area.setWidget(container)
         self.placeholder.hide()
+        self.title_label.show()
+        self.description_label.setVisible(bool(str(op.description)))
+        self._top_divider.show()
         self.scroll_area.show()
+        self._bottom_divider.show()
+        self.status_label.show()
+        self._footer.show()
         form.value_changed.connect(self._send)
         form.errors_changed.connect(self._on_errors)
         self._update_header()
@@ -253,9 +299,11 @@ class ParamsPanel(QtWidgets.QWidget):
 
     def _update_status(self, _state: object = None) -> None:
         slot = self.app.preview.slot
+        is_error = False
         if self.app.state.preview is None:
             self.status_label.clear()
         elif slot.error is not None:
+            is_error = True
             self.status_label.setText(str(_("Preview failed: {error}")).format(error=slot.error))
         elif slot.message:
             self.status_label.setText(slot.message)
@@ -264,6 +312,8 @@ class ParamsPanel(QtWidgets.QWidget):
             self.status_label.setText(text.format(rows=len(head), cols=len(head.columns)))
         else:
             self.status_label.clear()
+        self.status_label.setProperty("error", is_error)
+        style.repolish(self.status_label)
 
 
 def create(app: AppController, window: MainWindow) -> QtWidgets.QWidget:

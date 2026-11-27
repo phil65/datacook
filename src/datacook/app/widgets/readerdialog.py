@@ -12,6 +12,7 @@ from prettyqt import custom_widgets
 from prettyqt.qt import QtWidgets
 
 from datacook import i18n
+from datacook.app import style
 from datacook.app.widgets.columnchooser import form_factories
 from datacook.engine import Cancelled, OpRecord
 from datacook.i18n import _
@@ -46,10 +47,27 @@ class ReaderDialog(QtWidgets.QDialog):
             widget_factories=form_factories(lambda _i: [], getattr(op, "extensions", ())),
             translate=i18n.translate,
         )
+        if isinstance(form_layout := self.form.layout(), QtWidgets.QFormLayout):
+            form_layout.setContentsMargins(0, 4, 8, 4)
+            form_layout.setVerticalSpacing(8)
+            form_layout.setHorizontalSpacing(10)
+            form_layout.setFieldGrowthPolicy(
+                QtWidgets.QFormLayout.FieldGrowthPolicy.ExpandingFieldsGrow
+            )
         if path is not None and "path" in op.Params.model_fields:
             self.form.set_raw_value({"path": path})
+        form_scroll = QtWidgets.QScrollArea()
+        form_scroll.setWidgetResizable(True)
+        form_scroll.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        form_container = QtWidgets.QWidget()
+        form_box = QtWidgets.QVBoxLayout(form_container)
+        form_box.setContentsMargins(0, 0, 0, 0)
+        form_box.addWidget(self.form)
+        form_box.addStretch(1)
+        form_scroll.setWidget(form_container)
         self.viewer = DataFrameViewer(sortable=False)
         self.status = QtWidgets.QLabel()
+        self.status.setObjectName("reader-status")
         self.status.setWordWrap(True)
         self.buttons = QtWidgets.QDialogButtonBox(
             QtWidgets.QDialogButtonBox.StandardButton.Ok
@@ -58,10 +76,13 @@ class ReaderDialog(QtWidgets.QDialog):
         self.buttons.accepted.connect(self.accept)
         self.buttons.rejected.connect(self.reject)
         splitter = QtWidgets.QSplitter()
-        splitter.addWidget(self.form)
+        splitter.addWidget(form_scroll)
         splitter.addWidget(self.viewer)
         splitter.setStretchFactor(1, 1)
+        splitter.setSizes([310, 590])
         layout = QtWidgets.QVBoxLayout(self)
+        layout.setContentsMargins(12, 12, 12, 12)
+        layout.setSpacing(8)
         layout.addWidget(splitter, 1)
         layout.addWidget(self.status)
         layout.addWidget(self.buttons)
@@ -86,6 +107,8 @@ class ReaderDialog(QtWidgets.QDialog):
         if params == self._params:
             return
         self._params = params
+        self.status.setProperty("error", False)
+        style.repolish(self.status)
         self.status.setText(str(_("Reading preview…")))
         self._ok_enabled(True)
         rows = self.app.state.settings.preview_rows
@@ -99,9 +122,13 @@ class ReaderDialog(QtWidgets.QDialog):
             return
         except Exception as e:  # noqa: BLE001 - shown in the dialog
             self.viewer.holder.set_df(None)
+            self.status.setProperty("error", True)
+            style.repolish(self.status)
             self.status.setText(str(_("Cannot read: {error}")).format(error=e))
             return
         self.viewer.holder.set_df(head)
+        self.status.setProperty("error", False)
+        style.repolish(self.status)
         text = str(_("Preview: first {rows} rows, {cols} columns"))
         self.status.setText(text.format(rows=len(head), cols=len(head.columns)))
 

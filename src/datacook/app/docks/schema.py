@@ -86,30 +86,53 @@ class SchemaWidget(QtWidgets.QWidget):
         self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
         self.table.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
         self.table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.table.setAlternatingRowColors(True)
+        self.table.setShowGrid(False)
         self.table.verticalHeader().hide()
-        self.table.horizontalHeader().setStretchLastSection(True)
+        self.table.verticalHeader().setMinimumSectionSize(20)
+        self.table.verticalHeader().setDefaultSectionSize(24)
+        self.table.horizontalHeader().setStretchLastSection(False)
         self.profile = ColumnProfileWidget(translate=translate)
         self.profile.setObjectName("column-profile")
+        self.profile.title.setWordWrap(True)
+        if (profile_layout := self.profile.layout()) is not None:
+            profile_layout.setContentsMargins(8, 8, 8, 6)
+        self.profile.top_table.setAlternatingRowColors(True)
+        self.profile.top_table.setShowGrid(False)
+        self.profile.top_table.verticalHeader().setMinimumSectionSize(18)
+        self.profile.top_table.verticalHeader().setDefaultSectionSize(22)
         self.hint = QtWidgets.QLabel()
         self.hint.setObjectName("column-profile-hint")
         self.hint.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.hint.setWordWrap(True)
+        self.hint.setContentsMargins(16, 16, 16, 16)
         self.hint.setEnabled(False)  # greyed out
         self.categories: CategoryModel | None = None
         """Categories of the profiled column (only for categorical columns)."""
+        self.categories_label = QtWidgets.QLabel()
+        self.categories_label.setObjectName("schema-section-label")
+        self.categories_label.hide()
         self.category_table = QtWidgets.QTableView()
         self.category_table.setObjectName("category-table")
+        self.category_table.setAlternatingRowColors(True)
+        self.category_table.setShowGrid(False)
         self.category_table.verticalHeader().hide()
+        self.category_table.verticalHeader().setMinimumSectionSize(18)
+        self.category_table.verticalHeader().setDefaultSectionSize(22)
+        self.category_table.horizontalHeader().setStretchLastSection(False)
         self.category_table.hide()
         lower = QtWidgets.QWidget()
         box = QtWidgets.QVBoxLayout(lower)
         box.setContentsMargins(0, 0, 0, 0)
+        box.setSpacing(2)
         box.addWidget(self.hint)
-        box.addWidget(self.profile)
-        box.addWidget(self.category_table)
+        box.addWidget(self.profile, 3)
+        box.addWidget(self.categories_label)
+        box.addWidget(self.category_table, 2)
         splitter = QtWidgets.QSplitter(QtCore.Qt.Orientation.Vertical)
         splitter.addWidget(self.table)
         splitter.addWidget(lower)
+        splitter.setSizes([190, 390])
         layout = QtWidgets.QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(splitter)
@@ -147,6 +170,12 @@ class SchemaWidget(QtWidgets.QWidget):
         self._display = display
         old = self.table.selectionModel()
         self.table.setModel(self.model)
+        header = self.table.horizontalHeader()
+        if self.model.columnCount() >= 4:  # noqa: PLR2004
+            header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.Stretch)
+            header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.Stretch)
+            header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+            header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         if old is not None:
             old.deleteLater()
         self.table.selectionModel().currentRowChanged.connect(self._on_row_changed)
@@ -231,6 +260,7 @@ class SchemaWidget(QtWidgets.QWidget):
             self.app.jobs.cancel(PROFILE_SLOT)
         self._stats_key = None
         self.profile.clear()
+        self.categories_label.hide()
         self.category_table.hide()
 
     def _on_stats(self, key: tuple[int, Any], future: concurrent.futures.Future[Any]) -> None:
@@ -244,6 +274,13 @@ class SchemaWidget(QtWidgets.QWidget):
             logger.warning("column statistics for %r failed: %s", key[1], e)
             return
         self.profile.set_stats(info, stats)
+        top_header = self.profile.top_table.horizontalHeader()
+        top_model = self.profile.top_table.model()
+        if top_model is not None and top_model.columnCount() >= 3:  # noqa: PLR2004
+            top_header.setStretchLastSection(False)
+            top_header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.Stretch)
+            top_header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+            top_header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeMode.Stretch)
         self._show_categories(info)
 
     def _show_categories(self, info: ColumnInfo) -> None:
@@ -254,7 +291,14 @@ class SchemaWidget(QtWidgets.QWidget):
                 self.holder, info.name, translate=i18n.translate, parent=self
             )
         self.category_table.setModel(self.categories)
-        self.category_table.setVisible(self.categories is not None)
+        has_cats = self.categories is not None
+        if has_cats and self.categories is not None and self.categories.columnCount() >= 3:  # noqa: PLR2004
+            cat_header = self.category_table.horizontalHeader()
+            cat_header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.Stretch)
+            cat_header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+            cat_header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.categories_label.setVisible(has_cats)
+        self.category_table.setVisible(has_cats)
         if old is not None:
             old.deleteLater()
 
@@ -265,6 +309,7 @@ class SchemaWidget(QtWidgets.QWidget):
         if self.categories is not None:
             self.categories.retranslate()
         self.profile.retranslate()
+        self.categories_label.setText(str(_("Categories")))
         self.hint.setText(str(_("Select a column to see its statistics.")))
 
 

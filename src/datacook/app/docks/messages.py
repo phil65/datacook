@@ -14,7 +14,7 @@ import datetime as dt
 import logging
 from typing import TYPE_CHECKING, Any, ClassVar
 
-from prettyqt.qt import QtCore, QtWidgets
+from prettyqt.qt import QtCore, QtGui, QtWidgets
 
 from datacook.app.uimodules import DockSpec
 from datacook.i18n import _
@@ -42,6 +42,12 @@ LEVEL_TITLES = {
     "info": _("Info"),
     "warning": _("Warning"),
     "error": _("Error"),
+}
+LEVEL_COLORS = {
+    "debug": "#868e96",
+    "info": "#268bd2",
+    "warning": "#c67c00",
+    "error": "#c92a2a",
 }
 
 
@@ -131,12 +137,21 @@ class MessageModel(QtCore.QAbstractTableModel):
             return str(self.HEADER[section])
         return None
 
-    def data(self, index: Index, /, role: int = QtCore.Qt.ItemDataRole.DisplayRole) -> Any:
+    def data(self, index: Index, /, role: int = QtCore.Qt.ItemDataRole.DisplayRole) -> Any:  # noqa: PLR0911
         if not index.isValid():
             return None
         entry = self.entries[index.row()]
         if role == QtCore.Qt.ItemDataRole.DisplayRole:
             return self._display(entry, index.column())
+        if role == QtCore.Qt.ItemDataRole.ForegroundRole:
+            if index.column() == 1 and (color := LEVEL_COLORS.get(entry.level)):
+                return QtGui.QBrush(QtGui.QColor(color))
+            if index.column() == 0:
+                return QtGui.QBrush(QtGui.QColor("#767e86"))
+        if role == QtCore.Qt.ItemDataRole.FontRole and index.column() == 1:
+            font = QtGui.QFont()
+            font.setBold(entry.level in ("warning", "error"))
+            return font
         if role == QtCore.Qt.ItemDataRole.ToolTipRole:
             return f"{entry.logger}: {entry.text}" if entry.logger else entry.text
         if role == QtCore.Qt.ItemDataRole.UserRole:
@@ -215,17 +230,27 @@ class MessagesWidget(QtWidgets.QWidget):
         self.view.setModel(self.proxy)
         self.view.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
         self.view.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.view.setAlternatingRowColors(True)
+        self.view.setShowGrid(False)
         self.view.verticalHeader().hide()
-        self.view.horizontalHeader().setStretchLastSection(True)
+        self.view.verticalHeader().setMinimumSectionSize(20)
+        self.view.verticalHeader().setDefaultSectionSize(24)
+        header = self.view.horizontalHeader()
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeMode.Stretch)
         self.view.setWordWrap(False)
         self.view.clicked.connect(self._on_clicked)
         bar = QtWidgets.QHBoxLayout()
+        bar.setContentsMargins(8, 6, 8, 4)
+        bar.setSpacing(8)
         bar.addWidget(self.level_label)
         bar.addWidget(self.level_combo)
         bar.addStretch()
         bar.addWidget(self.clear_button)
         layout = QtWidgets.QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         layout.addLayout(bar)
         layout.addWidget(self.view)
 

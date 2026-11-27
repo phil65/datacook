@@ -392,13 +392,22 @@ def describe(recipe: Recipe, registry: Any) -> str:
             return op_id
 
     kind = _("Import recipe (starts with a reader)") if recipe.is_import else _("Recipe")
-    parts = [f"<b>{html.escape(recipe.name)}</b> <i>({kind})</i>"]
+    parts = [
+        (
+            f"<div style='font-weight:600; font-size:10.5pt; margin-bottom:2px;'>"
+            f"{html.escape(recipe.name)}</div>"
+        ),
+        (
+            f"<div style='color:gray; font-size:8.5pt; margin-bottom:8px;'>"
+            f"{html.escape(str(kind))}</div>"
+        ),
+    ]
     if recipe.description:
-        parts.append(f"<p>{html.escape(recipe.description)}</p>")
+        parts.append(f"<p style='margin:0 0 8px 0;'>{html.escape(recipe.description)}</p>")
     if recipe.required_columns:
-        cols = ", ".join(html.escape(c) for c in recipe.required_columns)
+        cols = ", ".join(f"<code>{html.escape(c)}</code>" for c in recipe.required_columns)
         label = str(_("Required columns"))
-        parts.append(f"<p>{label}: {cols}</p>")
+        parts.append(f"<p style='margin:0 0 8px 0;'><b>{label}:</b> {cols}</p>")
     items = []
     for step in recipe.steps:
         text = html.escape(step.name or title(step.record.op_id))
@@ -406,11 +415,15 @@ def describe(recipe: Recipe, registry: Any) -> str:
             str(_("input")) if ref == recipes.INPUT else str(int(ref) + 1) for ref in step.inputs
         ]
         suffix = f" <span style='color:gray'>← {', '.join(sources)}</span>" if sources else ""
-        items.append(f"<li>{text}{suffix}</li>")
-    parts.append(f"<ol>{''.join(items)}</ol>")
+        items.append(f"<li style='margin-bottom:2px;'>{text}{suffix}</li>")
+    parts.append(f"<ol style='margin:4px 0 8px 0; padding-left:20px;'>{''.join(items)}</ol>")
     if recipe.created:
         label = str(_("Created"))
-        parts.append(f"<p style='color:gray'>{label}: {html.escape(recipe.created)}</p>")
+        stamp = recipe.created.replace("T", " ").split("+")[0].removesuffix("Z")[:16]
+        parts.append(
+            f"<p style='color:gray; font-size:8.5pt; margin:4px 0 0 0;'>"
+            f"{label}: {html.escape(stamp)}</p>"
+        )
     return "".join(parts)
 
 
@@ -423,24 +436,30 @@ class RecipesWidget(QtWidgets.QWidget):
         self.app = controller.app
         self.list = QtWidgets.QListWidget(self)
         self.list.setObjectName("recipe-list")
+        self.list.setAlternatingRowColors(True)
         self.list.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
         self.list.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.ActionsContextMenu)
         self.details = QtWidgets.QTextBrowser(self)
         self.details.setObjectName("recipe-details")
+        self.details.document().setDocumentMargin(10)
         self.apply_button = QtWidgets.QPushButton(self)
+        self.apply_button.setProperty("primary", True)
         self.apply_button.clicked.connect(lambda: self.apply_selected())
         self.more_button = QtWidgets.QPushButton(self)
         self.more_button.clicked.connect(lambda: self.apply_selected(choose=True))
         buttons = QtWidgets.QHBoxLayout()
+        buttons.setContentsMargins(8, 6, 8, 8)
+        buttons.setSpacing(8)
         buttons.addWidget(self.apply_button)
         buttons.addWidget(self.more_button)
         splitter = QtWidgets.QSplitter(QtCore.Qt.Orientation.Vertical, self)
         splitter.addWidget(self.list)
         splitter.addWidget(self.details)
-        splitter.setSizes([200, 200])
+        splitter.setSizes([200, 220])
         layout = QtWidgets.QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(splitter)
+        layout.setSpacing(0)
+        layout.addWidget(splitter, 1)
         layout.addLayout(buttons)
         self._texts: dict[QtGui.QAction, object] = {}
 

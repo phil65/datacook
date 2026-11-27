@@ -8,6 +8,8 @@ from typing import TYPE_CHECKING
 
 from prettyqt.qt import QtCore, QtWidgets
 
+from datacook.app import style
+
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Sequence
@@ -18,18 +20,16 @@ class Overlay(QtWidgets.QFrame):
         super().__init__(parent)
         self.setObjectName("overlay")
         self.setAutoFillBackground(False)
-        self.setStyleSheet(
-            "#overlay { background: rgba(127, 127, 127, 40); }"
-            " #overlay-panel { background: palette(window); border: 1px solid palette(mid);"
-            " border-radius: 6px; }"
-        )
         self.panel = QtWidgets.QFrame(self)
         self.panel.setObjectName("overlay-panel")
+        self.panel.setMinimumWidth(260)
+        self.panel.setMaximumWidth(440)
         self.title = QtWidgets.QLabel(self.panel)
         self.title.setObjectName("overlay-title")
         font = self.title.font()
         font.setBold(True)
         self.title.setFont(font)
+        self.title.setWordWrap(True)
         self.title.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.detail = QtWidgets.QLabel(self.panel)
         self.detail.setObjectName("overlay-detail")
@@ -37,9 +37,12 @@ class Overlay(QtWidgets.QFrame):
         self.detail.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.detail.setTextInteractionFlags(QtCore.Qt.TextInteractionFlag.TextSelectableByMouse)
         self._buttons = QtWidgets.QHBoxLayout()
+        self._buttons.setSpacing(8)
         self._buttons.addStretch()
         self._buttons.addStretch()
         panel_layout = QtWidgets.QVBoxLayout(self.panel)
+        panel_layout.setContentsMargins(24, 20, 24, 20)
+        panel_layout.setSpacing(8)
         panel_layout.addWidget(self.title)
         panel_layout.addWidget(self.detail)
         panel_layout.addLayout(self._buttons)
@@ -60,7 +63,12 @@ class Overlay(QtWidgets.QFrame):
         title: str,
         detail: str = "",
         buttons: Sequence[tuple[str, Callable[[], object]]] = (),
+        *,
+        kind: str = "info",
     ) -> None:
+        self.panel.setProperty("kind", kind)
+        style.repolish(self.panel)
+        style.repolish(self.title)
         self.title.setText(title)
         self.detail.setText(detail)
         self.detail.setVisible(bool(detail))
