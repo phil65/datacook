@@ -96,10 +96,82 @@ jobs:
       - name: Run engine tests
         run: .venv/bin/python -m pytest -p no:cacheprovider tests
 
+  build-binaries:
+    name: Build binary (${{ matrix.asset_name }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/')
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            asset_name: datacook-linux-x86_64
+            bin_name: pyapp
+          - os: macos-latest
+            asset_name: datacook-macos-arm64
+            bin_name: pyapp
+          - os: windows-latest
+            asset_name: datacook-windows-x86_64.exe
+            bin_name: pyapp.exe
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.4.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
+
+      - name: Build wheel
+        run: uv build --wheel --out-dir dist
+
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build standalone binary with PyApp
+        shell: bash
+        env:
+          PYAPP_VERSION: v0.31.0
+          PYAPP_PROJECT_FEATURES: excel
+          PYAPP_EXEC_SPEC: datacook.app:main
+          PYAPP_PYTHON_VERSION: "3.14"
+          PYAPP_IS_GUI: "1"
+          PYAPP_UV_ENABLED: "1"
+          PYAPP_EXPOSE_PYTHON: "1"
+        run: |
+          WHEEL=$(python -c "import glob, pathlib; print(pathlib.Path(glob.glob('dist/datacook_app-*.whl')[0]).resolve())")
+          export PYAPP_PROJECT_PATH="$WHEEL"
+          curl -fsSL "https://github.com/ofek/pyapp/releases/download/${PYAPP_VERSION}/source.tar.gz" -o pyapp.tar.gz
+          mkdir -p pyapp-src
+          tar -xzf pyapp.tar.gz -C pyapp-src --strip-components=1
+          (cd pyapp-src && cargo build --release)
+          mkdir -p binaries
+          cp "pyapp-src/target/release/${{ matrix.bin_name }}" "binaries/${{ matrix.asset_name }}"
+          chmod +x "binaries/${{ matrix.asset_name }}" || true
+
+      - name: Smoke-test binary bootstrap
+        shell: bash
+        run: |
+          "./binaries/${{ matrix.asset_name }}" self restore
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.asset_name }}
+          path: binaries/${{ matrix.asset_name }}
+
   release:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    needs: test
+    needs: [test, build-binaries]
     if: startsWith(github.ref, 'refs/tags/')
     permissions:
       # this permission is mandatory for trusted publishing
@@ -126,6 +198,13 @@ jobs:
       - name: Build package
         run: uv build
 
+      - name: Download standalone binaries
+        uses: actions/download-artifact@v4
+        with:
+          pattern: binary-*
+          path: release-binaries
+          merge-multiple: true
+
       - name: Generate release notes
         # From the Conventional Commits since the previous tag (cliff.toml)
         run: uvx git-cliff --latest --strip header --output release-notes.md
@@ -137,5 +216,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           bodyFile: release-notes.md
-          artifacts: dist/*.whl,dist/*.tar.gz
+          artifacts: dist/*.whl,dist/*.tar.gz,release-binaries/*
           token: ${{ secrets.GITHUB_TOKEN }}

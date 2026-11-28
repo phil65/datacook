@@ -10,13 +10,52 @@ exported as a Python script (and the script can be edited and read back).
 > records and parsed back. The op catalogue is a starter set (24 ops, basic readers and
 > writers); porting the rest of the old catalogue in [`legacy/`](legacy/README.md) is next.
 
+## Installation
+
+### Option 1: Standalone executable (no Python required)
+
+Download the binary for your platform from the
+[latest GitHub Release](https://github.com/phil65/datacook/releases/latest):
+
+| Platform | File |
+|---|---|
+| Windows (x86_64) | `datacook-windows-x86_64.exe` |
+| macOS (Apple Silicon) | `datacook-macos-arm64` |
+| Linux (x86_64) | `datacook-linux-x86_64` |
+
+On first launch, the executable automatically sets up an isolated Python 3.14 environment
+with all dependencies (including Excel support) using `uv`. Built-in management commands:
+
+```bash
+datacook self update   # update to the latest PyPI release
+datacook self remove   # remove the managed runtime environment
+```
+
+*(macOS / Linux: make the downloaded file executable with `chmod +x datacook-*`. Because
+binaries are not yet code-signed, Windows SmartScreen or macOS Gatekeeper may ask for
+confirmation on first run.)*
+
+### Option 2: With `uv` or `pip` (Python ≥ 3.14)
+
+```bash
+# Install as an isolated desktop tool (recommended)
+uv tool install "datacook-app[excel]"
+datacook
+
+# Or run directly without installing
+uvx --from "datacook-app[excel]" datacook
+
+# Or with pip
+pip install "datacook-app[excel]"
+datacook
+```
+
 ## The app
 
 ```bash
-uv sync --all-extras
-uv run datacook                       # or: uv run python -m datacook.app
-uv run datacook project.datacook      # open a project
-uv run datacook data.csv              # open a data file (reader dialog)
+datacook                              # start with an empty project
+datacook project.datacook             # open a project
+datacook data.csv                     # open a data file (reader dialog)
 uv run python tools/demo_data.py demo # sample data + a demo project in ./demo
 ```
 
