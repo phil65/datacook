@@ -137,10 +137,50 @@ def _is_span(selection: QtWidgets.QTextEdit.ExtraSelection) -> bool:
     return bool(selection.format.property(_SPAN_PROPERTY))
 
 
+class _CodeEditor(custom_widgets.CodeEditor):
+    """`CodeEditor` whose line-number gutter follows the active light/dark palette."""
+
+    def line_area_paintevent(self, event: QtGui.QPaintEvent) -> None:
+        pal = self.palette()
+        painter = QtGui.QPainter(self.line_area)
+        try:
+            painter.fillRect(event.rect(), pal.color(QtGui.QPalette.ColorRole.Window))
+            width = self.line_area.width()
+            painter.setPen(pal.color(QtGui.QPalette.ColorRole.Midlight))
+            painter.drawLine(width - 1, event.rect().top(), width - 1, event.rect().bottom())
+            block = self.firstVisibleBlock()
+            block_number = block.blockNumber()
+            top = self.blockBoundingGeometry(block).translated(self.contentOffset()).top()
+            bottom = top + self.blockBoundingRect(block).height()
+            height = self.fontMetrics().height()
+            text_color = pal.color(QtGui.QPalette.ColorRole.PlaceholderText)
+            while block.isValid() and top <= event.rect().bottom():
+                if block.isVisible() and bottom >= event.rect().top():
+                    if color := self._marker_color(block_number + 1, 160):
+                        painter.fillRect(
+                            QtCore.QRectF(0, top, width - 1, bottom - top).toRect(), color
+                        )
+                    painter.setPen(text_color)
+                    painter.drawText(
+                        0,
+                        int(top),
+                        width - 5,
+                        height,
+                        QtCore.Qt.AlignmentFlag.AlignRight,
+                        str(block_number + 1),
+                    )
+                block = block.next()
+                top = bottom
+                bottom = top + self.blockBoundingRect(block).height()
+                block_number += 1
+        finally:
+            painter.end()
+
+
 class CodePane(QtWidgets.QWidget):
     def __init__(self, app: AppController, parent: QtWidgets.QWidget | None = None):
         super().__init__(parent)
-        self.editor = custom_widgets.CodeEditor(parent=self)
+        self.editor: custom_widgets.CodeEditor = _CodeEditor(parent=self)
         self.editor.setObjectName("code-editor")
         self.editor.set_font(style.mono_font(10))
         self.editor.update_line_area_width(0)

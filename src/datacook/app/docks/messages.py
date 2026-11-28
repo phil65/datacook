@@ -43,12 +43,24 @@ LEVEL_TITLES = {
     "warning": _("Warning"),
     "error": _("Error"),
 }
-LEVEL_COLORS = {
-    "debug": "#868e96",
-    "info": "#268bd2",
-    "warning": "#c67c00",
+LEVEL_COLORS_LIGHT = {
+    "debug": "#6c757d",
+    "info": "#1d70b8",
+    "warning": "#b4690e",
     "error": "#c92a2a",
 }
+LEVEL_COLORS_DARK = {
+    "debug": "#9aa0a6",
+    "info": "#58a6ff",
+    "warning": "#e3a008",
+    "error": "#f87171",
+}
+
+
+def _level_color(level: str) -> str | None:
+    pal = QtGui.QGuiApplication.palette()
+    dark = pal.color(QtGui.QPalette.ColorRole.Base).lightness() < 128  # noqa: PLR2004
+    return (LEVEL_COLORS_DARK if dark else LEVEL_COLORS_LIGHT).get(level)
 
 
 @dataclass(frozen=True, slots=True)
@@ -144,10 +156,12 @@ class MessageModel(QtCore.QAbstractTableModel):
         if role == QtCore.Qt.ItemDataRole.DisplayRole:
             return self._display(entry, index.column())
         if role == QtCore.Qt.ItemDataRole.ForegroundRole:
-            if index.column() == 1 and (color := LEVEL_COLORS.get(entry.level)):
+            if index.column() == 1 and (color := _level_color(entry.level)):
                 return QtGui.QBrush(QtGui.QColor(color))
             if index.column() == 0:
-                return QtGui.QBrush(QtGui.QColor("#767e86"))
+                return QtGui.QGuiApplication.palette().brush(
+                    QtGui.QPalette.ColorRole.PlaceholderText
+                )
         if role == QtCore.Qt.ItemDataRole.FontRole and index.column() == 1:
             font = QtGui.QFont()
             font.setBold(entry.level in ("warning", "error"))

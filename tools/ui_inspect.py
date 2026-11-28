@@ -40,12 +40,46 @@ ALL_SCENARIOS = (
     "demo",
     "edit",
     "edit-filter",
+    "column-map",
+    "custom-code",
+    "ml",
     "schema",
+    "schema-numeric",
     "recipes",
     "messages",
+    "sort",
     "palette",
     "reader",
 )
+
+
+def _apply_dark_palette(qapp: QtWidgets.QApplication) -> None:
+    """Apply a standard dark Fusion palette to test dark-mode contrast."""
+    from prettyqt.qt import QtGui
+
+    qapp.setStyle("Fusion")
+    pal = QtGui.QPalette()
+    cr = QtGui.QPalette.ColorRole
+    cg = QtGui.QPalette.ColorGroup
+    pal.setColor(cr.Window, QtGui.QColor(43, 45, 48))
+    pal.setColor(cr.WindowText, QtGui.QColor(225, 227, 230))
+    pal.setColor(cr.Base, QtGui.QColor(30, 31, 34))
+    pal.setColor(cr.AlternateBase, QtGui.QColor(38, 40, 44))
+    pal.setColor(cr.ToolTipBase, QtGui.QColor(43, 45, 48))
+    pal.setColor(cr.ToolTipText, QtGui.QColor(225, 227, 230))
+    pal.setColor(cr.Text, QtGui.QColor(225, 227, 230))
+    pal.setColor(cr.PlaceholderText, QtGui.QColor(145, 150, 160))
+    pal.setColor(cr.Button, QtGui.QColor(53, 56, 61))
+    pal.setColor(cr.ButtonText, QtGui.QColor(225, 227, 230))
+    pal.setColor(cr.Mid, QtGui.QColor(78, 82, 90))
+    pal.setColor(cr.Midlight, QtGui.QColor(60, 63, 69))
+    pal.setColor(cr.Dark, QtGui.QColor(28, 30, 33))
+    pal.setColor(cr.Highlight, QtGui.QColor(53, 116, 240))
+    pal.setColor(cr.HighlightedText, QtGui.QColor(255, 255, 255))
+    pal.setColor(cg.Disabled, cr.WindowText, QtGui.QColor(120, 125, 134))
+    pal.setColor(cg.Disabled, cr.Text, QtGui.QColor(120, 125, 134))
+    pal.setColor(cg.Disabled, cr.ButtonText, QtGui.QColor(120, 125, 134))
+    qapp.setPalette(pal)
 
 
 def _parse_size(spec: str) -> tuple[int, int]:
@@ -228,12 +262,54 @@ def _run_scenario(
                 _raise_dock(window, "params")
                 wait_settled(qapp, window, expect_preview=True)
 
+            elif scenario == "column-map":
+                if (nid := _find_node(window, "With stores")) is not None:
+                    window.app.state.current = nid
+                    wait_settled(qapp, window)
+                if (ops := window.findChild(OpActions, "op-actions")) is not None:
+                    ops.start("rename_columns")
+                _raise_dock(window, "params")
+                wait_settled(qapp, window, expect_preview=True)
+
+            elif scenario == "custom-code":
+                if (nid := _find_node(window, "With stores")) is not None:
+                    window.app.state.current = nid
+                    wait_settled(qapp, window)
+                if (ops := window.findChild(OpActions, "op-actions")) is not None:
+                    ops.start("custom_code")
+                _raise_dock(window, "params")
+                wait_settled(qapp, window, expect_preview=True)
+
+            elif scenario == "ml":
+                if (nid := _find_node(window, "With stores")) is not None:
+                    window.app.state.current = nid
+                    wait_settled(qapp, window)
+                if (ops := window.findChild(OpActions, "op-actions")) is not None:
+                    ops.start("cluster")
+                _raise_dock(window, "params")
+                wait_settled(qapp, window, expect_preview=True)
+
             elif scenario == "schema":
                 if (nid := _find_node(window, "With stores")) is not None:
                     window.app.state.current = nid
                     wait_settled(qapp, window)
                 _raise_dock(window, "schema")
                 window.app.state.column = "category"
+                wait_settled(qapp, window)
+
+            elif scenario == "schema-numeric":
+                if (nid := _find_node(window, "With stores")) is not None:
+                    window.app.state.current = nid
+                    wait_settled(qapp, window)
+                _raise_dock(window, "schema")
+                window.app.state.column = "unit_price"
+                wait_settled(qapp, window)
+
+            elif scenario == "sort":
+                if (nid := _find_node(window, "With stores")) is not None:
+                    window.app.state.current = nid
+                    wait_settled(qapp, window)
+                window.app.state.sort = SortSpec("unit_price", descending=True)
                 wait_settled(qapp, window)
 
             elif scenario == "recipes":
@@ -378,6 +454,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--size", type=_parse_size, default=_parse_size(DEFAULT_SIZE), help="WxH")
     parser.add_argument("--lang", default="en", choices=["en", "de"], help="UI language.")
     parser.add_argument(
+        "--theme", default="light", choices=["light", "dark"], help="Palette theme."
+    )
+    parser.add_argument(
         "--target",
         default="window",
         help="Comma-separated targets: window, all-docks, dock id, or widget objectName.",
@@ -405,6 +484,8 @@ def main(argv: list[str] | None = None) -> int:
     if not isinstance(qapp, QtWidgets.QApplication):
         qapp = QtWidgets.QApplication(["datacook-ui-inspect"])
     qapp.setApplicationName("DataCook")
+    if args.theme == "dark":
+        _apply_dark_palette(qapp)
 
     targets = [t.strip() for t in args.target.split(",") if t.strip()]
     scenarios = list(ALL_SCENARIOS) if args.scenario == "all" else [args.scenario]

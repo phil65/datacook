@@ -76,6 +76,7 @@ class ParamsPanel(QtWidgets.QWidget):
         self.scroll_area = QtWidgets.QScrollArea()
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.scroll_area.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self._bottom_divider = QtWidgets.QFrame()
         self._bottom_divider.setObjectName("params-divider")
         self._bottom_divider.setFrameShape(QtWidgets.QFrame.Shape.HLine)
@@ -206,6 +207,7 @@ class ParamsPanel(QtWidgets.QWidget):
             form_layout.setContentsMargins(0, 4, 2, 4)
             form_layout.setVerticalSpacing(8)
             form_layout.setHorizontalSpacing(10)
+            form_layout.setRowWrapPolicy(QtWidgets.QFormLayout.RowWrapPolicy.WrapLongRows)
             form_layout.setFieldGrowthPolicy(
                 QtWidgets.QFormLayout.FieldGrowthPolicy.ExpandingFieldsGrow
             )

@@ -168,7 +168,7 @@ QLabel#overlay-title {
     font-weight: 600;
 }
 QFrame#overlay-panel[kind="error"] QLabel#overlay-title {
-    color: #c92a2a;
+    color: #e05252;
 }
 QLabel#overlay-detail {
     color: palette(placeholder-text);
@@ -187,7 +187,7 @@ QLabel#column-profile-hint {
 }
 QLabel#params-status[error="true"],
 QLabel#reader-status[error="true"] {
-    color: #c92a2a;
+    color: #e05252;
 }
 QFrame#params-divider {
     color: palette(midlight);
@@ -222,7 +222,7 @@ QToolButton#memory-indicator::menu-indicator {
     width: 8px;
 }
 QToolButton#memory-indicator[overBudget="true"] {
-    color: #c92a2a;
+    color: #e05252;
     font-weight: 600;
 }
 

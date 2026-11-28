@@ -83,6 +83,7 @@ class ColumnsChooser(QtWidgets.QListWidget):
         self.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.InternalMove)
         self.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.setAlternatingRowColors(True)
+        self.setMinimumWidth(120)
         self.setFixedHeight(150)
         self.setSizePolicy(
             QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed

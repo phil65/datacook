@@ -77,6 +77,7 @@ class OpActions(QtCore.QObject):
         self.palette = custom_widgets.CommandPalette()
         self.palette.setObjectName("op-palette")
         self.palette.install_to(window)
+        self.palette.set_match_color("#e59900")
         if (pal_layout := self.palette.layout()) is not None:
             pal_layout.setContentsMargins(10, 10, 10, 10)
             pal_layout.setSpacing(8)
