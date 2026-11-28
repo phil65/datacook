@@ -1,4 +1,4 @@
-r"""Playwright-style Qt UI inspection and screenshot harness for DataCook.
+r"""DataCook UI inspection and screenshot harness built on `prettyqt.debugging.UIInspector`.
 
 Captures deterministic screenshots of the full app, individual docks, named widgets or
 dialogs at arbitrary window sizes, languages and UI states, and optionally dumps a widget
@@ -17,17 +17,17 @@ Examples:
 """
 
 import argparse
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
+import gc
 import json
-import os
 import pathlib
 import sys
 import tempfile
-import time
 from typing import TYPE_CHECKING
 
 
 if TYPE_CHECKING:
+    from prettyqt.debugging import CaptureInfo, LayoutWarning
     from prettyqt.qt import QtWidgets
 
     from datacook.app.mainwindow import MainWindow
@@ -35,22 +35,17 @@ if TYPE_CHECKING:
 
 DEFAULT_SIZE = "1400x900"
 SETTLE_TIMEOUT_MS = 10_000
-
-
-@dataclass(frozen=True, slots=True)
-class CaptureInfo:
-    scenario: str
-    target: str
-    path: str
-    width: int
-    height: int
-
-
-@dataclass(frozen=True, slots=True)
-class LayoutWarning:
-    widget: str
-    kind: str
-    detail: str
+ALL_SCENARIOS = (
+    "empty",
+    "demo",
+    "edit",
+    "edit-filter",
+    "schema",
+    "recipes",
+    "messages",
+    "palette",
+    "reader",
+)
 
 
 def _parse_size(spec: str) -> tuple[int, int]:
@@ -61,21 +56,6 @@ def _parse_size(spec: str) -> tuple[int, int]:
     return int(w_str), int(h_str)
 
 
-def _ensure_offscreen(*, gui: bool) -> None:
-    if not gui and "QT_QPA_PLATFORM" not in os.environ:
-        os.environ["QT_QPA_PLATFORM"] = "offscreen"
-
-
-def _pump(qapp: QtWidgets.QApplication, ms: int = 40) -> None:
-    from prettyqt.qt import QtCore
-
-    deadline = time.monotonic() + ms / 1000.0
-    while time.monotonic() < deadline:
-        qapp.processEvents(QtCore.QEventLoop.ProcessEventsFlag.AllEvents, 10)
-        time.sleep(0.005)
-    qapp.processEvents(QtCore.QEventLoop.ProcessEventsFlag.AllEvents)
-
-
 def wait_settled(
     qapp: QtWidgets.QApplication,
     window: MainWindow,
@@ -84,30 +64,26 @@ def wait_settled(
     timeout_ms: int = SETTLE_TIMEOUT_MS,
 ) -> None:
     """Process Qt events until async compute/preview/view jobs finish and layouts settle."""
-    from prettyqt.qt import QtCore
+    from prettyqt.debugging import pump, wait_until
 
     from datacook.app.slots import SlotState
 
     app = window.app
-    deadline = time.monotonic() + timeout_ms / 1000.0
     busy = (SlotState.LOADING, SlotState.STALE)
-    while time.monotonic() < deadline:
-        qapp.processEvents(QtCore.QEventLoop.ProcessEventsFlag.AllEvents, 20)
+
+    def idle() -> bool:
         node_busy = app.nodes.slot.state in busy
         preview_busy = expect_preview and app.preview.slot.state in busy
-        jobs_busy = bool(app.jobs.running_ids())
-        if not node_busy and not preview_busy and not jobs_busy:
-            break
-        time.sleep(0.01)
-    # Give pending zero-ms timers (code render, prefetch, resize polish) a turn to run.
-    _pump(qapp, 80)
+        return not node_busy and not preview_busy and not app.jobs.running_ids()
+
+    wait_until(idle, timeout_ms=timeout_ms, app=qapp)
+    pump(qapp, 80)
     window.repaint()
-    qapp.processEvents(QtCore.QEventLoop.ProcessEventsFlag.AllEvents)
+    pump(qapp, 20)
 
 
 def _build_demo_workspace(tmp_dir: pathlib.Path, rows: int = 2_000) -> pathlib.Path:
     """Write a fast demo dataset + project into `tmp_dir` and return the project path."""
-    # Reuse tools/demo_data.py directly so screenshots match the real demo project.
     tools_dir = str(pathlib.Path(__file__).resolve().parent)
     if tools_dir not in sys.path:
         sys.path.insert(0, tools_dir)
@@ -143,116 +119,6 @@ def _raise_dock(window: MainWindow, dock_id: str) -> None:
     if dock is not None:
         dock.show()
         dock.raise_()
-
-
-def _resolve_target(window: MainWindow, target: str) -> QtWidgets.QWidget | None:
-    from prettyqt.qt import QtWidgets
-
-    if target == "window":
-        return window
-    if target in window.docks:
-        return window.docks[target]
-    if target in window.widgets:
-        return window.widgets[target]
-    return window.findChild(QtWidgets.QWidget, target)
-
-
-def _capture_widget(
-    widget: QtWidgets.QWidget,
-    out_path: pathlib.Path,
-    scenario: str,
-    target: str,
-) -> CaptureInfo:
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    pixmap = widget.grab()
-    pixmap.save(str(out_path))
-    return CaptureInfo(
-        scenario=scenario,
-        target=target,
-        path=str(out_path),
-        width=pixmap.width(),
-        height=pixmap.height(),
-    )
-
-
-def inspect_tree(
-    root: QtWidgets.QWidget,
-    *,
-    max_depth: int = 8,
-) -> tuple[list[str], list[LayoutWarning]]:
-    """Return an indented widget tree and basic layout diagnostics (clipping, tiny widgets)."""
-    from prettyqt.qt import QtWidgets
-
-    lines: list[str] = []
-    warnings: list[LayoutWarning] = []
-
-    def label_for(w: QtWidgets.QWidget) -> str:
-        name = w.objectName()
-        cls = type(w).__name__
-        return f"{cls}#{name}" if name else cls
-
-    def visit(widget: QtWidgets.QWidget, depth: int) -> None:
-        if depth > max_depth or not widget.isVisible():
-            return
-        geo = widget.geometry()
-        extra = ""
-        if isinstance(widget, QtWidgets.QLabel):
-            text = widget.text().replace("\n", " ")[:48]
-            if text:
-                extra = f' text="{text}"'
-            if (
-                text
-                and not widget.wordWrap()
-                and widget.width() > 0
-                and widget.fontMetrics().horizontalAdvance(widget.text()) > widget.width() + 4
-            ):
-                warnings.append(
-                    LayoutWarning(
-                        label_for(widget),
-                        "clipped-label",
-                        f'"{text}" needs {widget.fontMetrics().horizontalAdvance(widget.text())}px,'
-                        f" has {widget.width()}px",
-                    )
-                )
-        elif isinstance(widget, QtWidgets.QAbstractButton):
-            text = widget.text().replace("&", "")[:40]
-            if text:
-                extra = f' text="{text}"'
-                needed = widget.sizeHint().width()
-                if 0 < widget.width() < needed - 4:
-                    warnings.append(
-                        LayoutWarning(
-                            label_for(widget),
-                            "cramped-button",
-                            f'"{text}" sizeHint={needed}px, width={widget.width()}px',
-                        )
-                    )
-        elif isinstance(widget, QtWidgets.QDockWidget):
-            extra = f' title="{widget.windowTitle()}"'
-
-        if (
-            (widget.width() == 0 or widget.height() == 0)
-            and type(widget).__name__ not in ("TrackingSpacer", "HeaderView")
-            and widget.objectName() != "qt_scrollarea_viewport"
-        ):
-            warnings.append(
-                LayoutWarning(
-                    label_for(widget),
-                    "zero-size",
-                    f"visible widget has geometry {geo.width()}x{geo.height()}",
-                )
-            )
-
-        indent = "  " * depth
-        lines.append(
-            f"{indent}{label_for(widget)} [{geo.x()},{geo.y()} {geo.width()}x{geo.height()}]{extra}"
-        )
-        for child in widget.children():
-            if isinstance(child, QtWidgets.QWidget):
-                visit(child, depth + 1)
-
-    visit(root, 0)
-    return lines, warnings
 
 
 def _make_window(
@@ -304,7 +170,8 @@ def _run_scenario(
     palette_query: str | None = None,
     dump_tree: bool = False,
 ) -> tuple[list[CaptureInfo], list[LayoutWarning]]:
-    from prettyqt.qt import QtCore
+    from prettyqt.debugging import UIInspector, capture, inspect_tree, pump, wait_until
+    from prettyqt.qt import QtCore, QtWidgets
 
     from datacook.app.actions import OpActions
     from datacook.app.controllers.project import ProjectController
@@ -323,6 +190,7 @@ def _run_scenario(
             language=language,
             recipe_dir=pathlib.Path(recipe_tmp),
         )
+        inspector = UIInspector(window, out_dir=out_dir, app=qapp)
         try:
             wait_settled(qapp, window)
 
@@ -335,7 +203,6 @@ def _run_scenario(
                 if (nid := _find_node(window, "With stores")) is not None:
                     window.app.state.current = nid
                     wait_settled(qapp, window)
-                # Also materialize a couple nodes so the tree shows varied status dots.
                 for name in ("Best first", "First 1000"):
                     if (nid := _find_node(window, name)) is not None:
                         window.app.session.materialize(nid)
@@ -347,8 +214,7 @@ def _run_scenario(
                 if (nid := _find_node(window, "Units per region")) is not None:
                     window.app.state.current = nid
                     wait_settled(qapp, window)
-                ops = window.findChild(OpActions, "op-actions")
-                if ops is not None:
+                if (ops := window.findChild(OpActions, "op-actions")) is not None:
                     ops.edit_current()
                 _raise_dock(window, "params")
                 wait_settled(qapp, window, expect_preview=True)
@@ -357,8 +223,7 @@ def _run_scenario(
                 if (nid := _find_node(window, "Without returns")) is not None:
                     window.app.state.current = nid
                     wait_settled(qapp, window)
-                ops = window.findChild(OpActions, "op-actions")
-                if ops is not None:
+                if (ops := window.findChild(OpActions, "op-actions")) is not None:
                     ops.edit_current()
                 _raise_dock(window, "params")
                 wait_settled(qapp, window, expect_preview=True)
@@ -409,34 +274,30 @@ def _run_scenario(
                 if (nid := _find_node(window, "With stores")) is not None:
                     window.app.state.current = nid
                     wait_settled(qapp, window)
-                ops = window.findChild(OpActions, "op-actions")
-                if ops is not None:
+                if (ops := window.findChild(OpActions, "op-actions")) is not None:
                     ops.show_palette()
-                    _pump(qapp, 60)
-                    line_edit = ops.palette.findChild(
-                        type(window.findChild(object)),
-                    )
-                    del line_edit
-                    from prettyqt.qt import QtWidgets
-
-                    edits = ops.palette.findChildren(QtWidgets.QLineEdit)
-                    if edits:
+                    pump(qapp, 60)
+                    if edits := ops.palette.findChildren(QtWidgets.QLineEdit):
                         edits[0].setText(palette_query if palette_query is not None else "sort")
-                _pump(qapp, 80)
+                pump(qapp, 80)
 
             elif scenario == "reader":
                 op = window.app.session.registry.get("read_csv")
                 dialog = ReaderDialog(window.app, op, str(demo_dir / "stores.csv"), window)
                 dialog.show()
-                deadline = time.monotonic() + SETTLE_TIMEOUT_MS / 1000.0
-                while time.monotonic() < deadline:
-                    qapp.processEvents(QtCore.QEventLoop.ProcessEventsFlag.AllEvents, 20)
-                    if dialog.viewer.holder.df is not None:
-                        break
-                    time.sleep(0.01)
-                _pump(qapp, 80)
+                wait_until(
+                    lambda: dialog.viewer.holder.df is not None,
+                    timeout_ms=SETTLE_TIMEOUT_MS,
+                    app=qapp,
+                )
+                pump(qapp, 80)
                 captures.append(
-                    _capture_widget(dialog, out_dir / f"{scenario}_dialog.png", scenario, "dialog")
+                    capture(
+                        dialog,
+                        out_dir / f"{scenario}_dialog.png",
+                        scenario=scenario,
+                        target="dialog",
+                    )
                 )
                 if dump_tree:
                     lines, warnings = inspect_tree(dialog)
@@ -448,7 +309,7 @@ def _run_scenario(
                 dialog.deleteLater()
                 return captures, all_warnings
 
-            # Optional ad-hoc overrides (Playwright-style driving flags)
+            # Optional ad-hoc overrides
             if select_step is not None and (nid := _find_node(window, select_step)) is not None:
                 window.app.state.current = nid
                 wait_settled(qapp, window)
@@ -459,26 +320,23 @@ def _run_scenario(
             if sort_spec is not None:
                 col, sep, order = sort_spec.partition(":")
                 window.app.state.sort = SortSpec(col, sep != "" and order.lower().startswith("d"))
-            if trigger_edit:
-                ops = window.findChild(OpActions, "op-actions")
-                if ops is not None:
-                    ops.edit_current()
-            if add_op is not None:
-                ops = window.findChild(OpActions, "op-actions")
-                if ops is not None:
-                    ops.start(add_op)
-            if palette_query is not None and scenario != "palette":
-                ops = window.findChild(OpActions, "op-actions")
-                if ops is not None:
-                    ops.show_palette()
-                    from prettyqt.qt import QtWidgets
-
-                    edits = ops.palette.findChildren(QtWidgets.QLineEdit)
-                    if edits:
-                        edits[0].setText(palette_query)
+            if trigger_edit and (ops := window.findChild(OpActions, "op-actions")) is not None:
+                ops.edit_current()
+            if (
+                add_op is not None
+                and (ops := window.findChild(OpActions, "op-actions")) is not None
+            ):
+                ops.start(add_op)
+            if (
+                palette_query is not None
+                and scenario != "palette"
+                and (ops := window.findChild(OpActions, "op-actions")) is not None
+            ):
+                ops.show_palette()
+                if edits := ops.palette.findChildren(QtWidgets.QLineEdit):
+                    edits[0].setText(palette_query)
             wait_settled(qapp, window, expect_preview=trigger_edit or add_op is not None)
 
-            # Resolve capture targets
             resolved_targets: list[str] = []
             for t in targets:
                 if t == "all-docks":
@@ -490,39 +348,22 @@ def _run_scenario(
                 else:
                     resolved_targets.append(t)
 
-            for target in dict.fromkeys(resolved_targets):
-                widget = _resolve_target(window, target)
-                if widget is None:
-                    print(f"warning: target {target!r} not found", file=sys.stderr)
-                    continue
-                fname = (
-                    f"{scenario}_{target}.png" if len(resolved_targets) > 1 else f"{scenario}.png"
-                )
-                captures.append(_capture_widget(widget, out_dir / fname, scenario, target))
+            captures.extend(inspector.capture_targets(resolved_targets, scenario=scenario))
 
             if dump_tree:
-                lines, warnings = inspect_tree(window)
+                lines, warnings = inspector.tree()
                 print(f"\n=== Widget tree: {scenario} ({width}x{height}, lang={language}) ===")
                 print("\n".join(lines))
                 all_warnings.extend(warnings)
         finally:
             window.close()
-            _pump(qapp, 30)
+            window.deleteLater()
+            del inspector, window
+            QtCore.QCoreApplication.sendPostedEvents(None, QtCore.QEvent.Type.DeferredDelete)
+            pump(qapp, 30)
+            gc.collect()
 
     return captures, all_warnings
-
-
-ALL_SCENARIOS = (
-    "empty",
-    "demo",
-    "edit",
-    "edit-filter",
-    "schema",
-    "recipes",
-    "messages",
-    "palette",
-    "reader",
-)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -553,7 +394,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--gui", action="store_true", help="Use native display (not offscreen).")
     args = parser.parse_args(argv)
 
-    _ensure_offscreen(gui=args.gui)
+    if not args.gui:
+        from prettyqt.debugging import ensure_offscreen
+
+        ensure_offscreen()
 
     from prettyqt.qt import QtWidgets
 
@@ -602,8 +446,7 @@ def main(argv: list[str] | None = None) -> int:
         "captures": [asdict(c) for c in all_captures],
         "warnings": [asdict(w) for w in all_warnings],
     }
-    manifest_path = args.out / "manifest.json"
-    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    (args.out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(f"Captured {len(all_captures)} screenshot(s) -> {args.out}")
     if all_warnings:
         print(f"Layout warnings ({len(all_warnings)}):")

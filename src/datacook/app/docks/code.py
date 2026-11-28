@@ -137,18 +137,10 @@ def _is_span(selection: QtWidgets.QTextEdit.ExtraSelection) -> bool:
     return bool(selection.format.property(_SPAN_PROPERTY))
 
 
-class _PaddedCodeEditor(custom_widgets.CodeEditor):
-    """`CodeEditor` with slightly roomier line-number gutter padding."""
-
-    def line_area_width(self) -> int:
-        digits = max(2, len(str(self.blockCount())))
-        return 12 + self.fontMetrics().horizontalAdvance("9") * digits
-
-
 class CodePane(QtWidgets.QWidget):
     def __init__(self, app: AppController, parent: QtWidgets.QWidget | None = None):
         super().__init__(parent)
-        self.editor: custom_widgets.CodeEditor = _PaddedCodeEditor(parent=self)
+        self.editor = custom_widgets.CodeEditor(parent=self)
         self.editor.setObjectName("code-editor")
         self.editor.set_font(style.mono_font(10))
         self.editor.update_line_area_width(0)

@@ -40,7 +40,7 @@ dependencies = [
   "numpy",
   "pandas",
   "platformdirs",
-  "prettyqt>=1.63.1",
+  "prettyqt>=1.65.0",
   "psutil>=7.2.2",
   "pyarrow>=26.0.1",
   "pydantic",

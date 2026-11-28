@@ -76,25 +76,14 @@ class OpActions(QtCore.QObject):
             self.actions[op.id] = self._make_action(op)
         self.palette = custom_widgets.CommandPalette()
         self.palette.setObjectName("op-palette")
-        self.palette.setParent(window, QtCore.Qt.WindowType.SubWindow)
-        self.palette.setAttribute(QtCore.Qt.WidgetAttribute.WA_StyledBackground, True)
-        self.palette.setMinimumWidth(420)
+        self.palette.install_to(window)
         if (pal_layout := self.palette.layout()) is not None:
             pal_layout.setContentsMargins(10, 10, 10, 10)
             pal_layout.setSpacing(8)
         table = self.palette._table
-        table.horizontalHeader().hide()
-        table.verticalHeader().hide()
+        table.setColumnHidden(2, True)  # ops don't have per-op shortcuts
         table.verticalHeader().setDefaultSectionSize(24)
         table.setAlternatingRowColors(True)
-        for col in range(2, table.model().columnCount()):
-            table.setColumnHidden(col, True)
-        header = table.horizontalHeader()
-        header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.Interactive)
-        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.Stretch)
-        table.setColumnWidth(0, 220)
-        table.pressed.connect(lambda _idx: self.palette.hide())
-        self.palette.hide()
         self.palette.set_actions(self.actions.values())
         self.palette_action = QtGui.QAction(window)
         self.palette_action.setObjectName("action-palette")
@@ -187,19 +176,7 @@ class OpActions(QtCore.QObject):
 
     # --- behaviour ---------------------------------------------------------------------
     def show_palette(self) -> None:
-        self.palette._line.setText("")
-        parent = self.parent_widget()
-        if parent is not None:
-            width = min(680, max(420, parent.width() - 80))
-            height = min(380, max(240, parent.height() - 120))
-            x = max(12, (parent.width() - width) // 2)
-            y = max(36, int(parent.height() * 0.12))
-            self.palette.setGeometry(x, y, width, height)
-        else:
-            self.palette.resize(640, 340)
-        QtWidgets.QWidget.show(self.palette)
-        self.palette.raise_()
-        self.palette._line.setFocus()
+        self.palette.show()
 
     def start(self, op_id: str) -> bool:  # noqa: PLR0911
         """Open a params preview for a new `op_id` step; False if it cannot start."""
